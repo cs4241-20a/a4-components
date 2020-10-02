@@ -21,3 +21,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+*.DS_Store
+node_modules/
+package-lock.json
+stats.csv
+serverRequests.log
