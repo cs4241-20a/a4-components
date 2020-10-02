@@ -1,0 +1,7 @@
+@import "bulma.min.css";
+
+.csv_button {
+    display: block;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}

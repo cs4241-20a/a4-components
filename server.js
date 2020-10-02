@@ -8,7 +8,7 @@ const fs   = require("fs"),
       passport = require("passport"),
       bodyParser = require("body-parser"),
       morganLogger = require("morgan"),
-      port = process.env.PORT || 3000;
+      port = process.env.ServerPort || 5000;
 
 app.listen(port);
 
@@ -299,7 +299,7 @@ const convertDataToNum = function(request, response, next){
  */
 const checkForAccount = function(request, response, next){
     if(!username){
-        response.statusCode = 400;
+        response.statusCode = 455;
         response.end("Requester is not signed into a valid account");
     }else {
         next();

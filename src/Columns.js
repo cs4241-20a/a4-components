@@ -4,6 +4,8 @@ import "./Columns.css";
 import Form from "./Form";
 import StatTable from "./StatTable";
 import RunningStatTable from "./RunningStatTable";
+import CSVButton from "./CSVButton";
+import ClearButton from "./ClearButton";
 
 class Columns extends React.Component {
     render(){
@@ -17,6 +19,8 @@ class Columns extends React.Component {
               </div>
               <div className="column is-one-fifth">
                   <RunningStatTable />
+                  <CSVButton />
+                  <ClearButton />
               </div>
           </div>
       )
