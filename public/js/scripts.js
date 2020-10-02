@@ -5,6 +5,7 @@
  * results_list tables in app.html.
  */
 function handle_add(){
+    console.log("in handle add!!!");
     //The following source showed me how to extract values from a
     //form: https://www.w3schools.com/jsref/coll_form_elements.asp
     const input = document.getElementById("add"),
