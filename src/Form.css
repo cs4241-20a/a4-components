@@ -1,0 +1,17 @@
+@import "bulma.min.css";
+
+label {
+    display: inline;
+}
+
+input {
+    display: block;
+}
+
+hr {
+    border-top: 1px solid black;
+}
+
+form {
+    width: fit-content;
+}

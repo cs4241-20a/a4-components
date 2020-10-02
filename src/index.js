@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import Columns from "./Columns"
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <h1 className="title has-text-centered">FPS Stat Calculator</h1>
+    <Columns />
   </React.StrictMode>,
   document.getElementById('root')
 );
