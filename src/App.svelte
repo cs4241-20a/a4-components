@@ -2,6 +2,7 @@
   import Navbar from "./Navbar.svelte";
   import Canvas from "./Canvas.svelte";
   import Hud from "./Hud.svelte";
+  import Modal from "./Modal.svelte";
 
   import { onMount } from "svelte";
 
@@ -50,3 +51,4 @@
 {#if user.loggedIn}
   <Canvas {matchSize} />
 {/if}
+<Modal />

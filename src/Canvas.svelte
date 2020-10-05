@@ -1,13 +1,13 @@
 <script>
   import { onMount } from "svelte";
 
-  import { throttle, steering, fps, time, lap } from "./stores.js";
+  import { throttle, steering, fps, time, lap, resultModal } from "./stores.js";
 
   import * as THREE from "three";
 
   import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
-  import * as CANNON from "cannon";
+  import * as CANNON from "cannon-es";
 
   import { setIntervalX, clsStopwatch, formatTime } from "./helpers.js";
 
@@ -84,6 +84,7 @@
       stopWatch.reset();
       lastSector = 0;
       $lap = 1;
+      $time = "00:00.00";
       lights.forEach((material) => {
         material.emissive.set(0x000000);
       });
@@ -132,7 +133,6 @@
 
       $throttle = "0";
       $steering = "0";
-      $time = "00:00.00";
     }
 
     if (carGroup) {
@@ -186,7 +186,6 @@
     world = new CANNON.World();
     world.broadphase = new CANNON.SAPBroadphase(world);
     world.gravity.set(0, -9.8, 0);
-    //world.defaultContactMaterial.friction = 0;
 
     let colliderBody = new CANNON.Body({
       static: true,
@@ -257,11 +256,8 @@
               } else {
                 stopWatch.stop();
                 raceStarted = false;
-                const formattedTime = formatTime(stopWatch.time());
-                stopWatchText.textContent = formattedTime;
-                resultTime.textContent = formattedTime;
-                lastLap = formattedTime;
-                submitResult.classList.add("is-active");
+                $time = formatTime(stopWatch.time());
+                $resultModal = true;
               }
             }
             lastSector = i;
