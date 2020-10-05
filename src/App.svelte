@@ -42,8 +42,8 @@
     </div>
   {/if}
   {#if !user.loggedIn}
-    <div class="full-height d-flex align-items-center flex-row justify-content-center">
-      <h1>Please Log In</h1>
+    <div class="full-height d-flex align-items-center justify-content-center bg-dark">
+      <h1 class="text-light">Please Log In</h1>
     </div>
   {/if}
 </div>
