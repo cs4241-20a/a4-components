@@ -9,31 +9,13 @@
     Button,
   } from "sveltestrap";
 
-  import { onMount } from "svelte";
-
   let isOpen = false;
 
-  let user = {
-    loggedIn: false,
-    username: "",
-  };
+  export let user;
 
   function handleUpdate(e) {
     isOpen = e.detail.isOpen;
   }
-
-  onMount(async () => {
-    const res = await fetch("/auth/user");
-    const results = await res.json();
-    console.log(results);
-    if (!results.failed) {
-      user.loggedIn = true;
-      user.username = results.username;
-    } else {
-      user.loggedIn = false;
-      user.username = "";
-    }
-  });
 </script>
 
 <Navbar color="dark" dark="false" light="true" expand="md">
