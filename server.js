@@ -53,11 +53,21 @@ app.get('/auth/github/callback', passport.authenticate('github'),
 
 let newUser = false;//used to indicate whether or not to alert client of new account
 app.get("/app", function(request, response){
+    fs.readFile("./public/app.html", {}, function(err, data){
+        if(err){
+            console.log("error occurred: " +err);
+        }else{
+            console.log(data.toString("utf-8"));
+        }
+    });
+
     //The "new" header will tell the client whether or not they need to
     //display a new message to the user that a new account was created.
     response.sendFile("./public/app.html", {root: "./", headers:{"new": newUser}}, function(error){
         if(error){
             console.log("Error occurred sending app.html: " +error);
+        }else{
+            console.log("app.html sent");
         }
         newUser = false;
     });
