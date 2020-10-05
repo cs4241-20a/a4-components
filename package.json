@@ -1,0 +1,42 @@
+{
+  "name": "a4-component",
+  "description": "Assignment 4 - Components ===",
+  "author": "",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-react-app": "^3.1.2",
+    "body-parser": "^1.19.0",
+    "bulma": "^0.9.0",
+    "cookie-session": "^1.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^4.1.1",
+    "mime": "^2.4.4",
+    "mongodb": "^3.6.2",
+    "normalize.css": "^8.0.1",
+    "passport": "^0.4.1",
+    "passport-github2": "^0.1.12",
+    "passport-local": "^1.0.0",
+    "path": "^0.12.7",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "serve-favicon": "^2.5.0"
+  },
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jdang4/a4-components.git"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jdang4/a4-components/issues"
+  },
+  "homepage": "https://github.com/jdang4/a4-components#readme"
+}
