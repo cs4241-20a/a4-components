@@ -5,7 +5,7 @@
 // getListings() - load listings from the server to the website
 // updateListing() - update a specific listing by listing ID
 
-console.log("Welcome to assignment 3!")
+console.log("Welcome to assignment 4!")
 
 const login = function (e) {
 
