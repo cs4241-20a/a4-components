@@ -40,6 +40,7 @@ class App extends React.Component {
           window.location.href = "/views/index.html";
         } else {
           alert("This account does not exist. Please create account or enter valid credentials.")
+          return false
         }
       })
 
