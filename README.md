@@ -1,30 +1,26 @@
 Assignment 4 - Components
 ===
 
-Due: October 9th, by 11:59 PM.
+## Classic Car Wishlist
 
-For this assignment you will re-implement the client side portion of A3 using either React or Svelte components.
+https://a4-maria-medina-martinez.herokuapp.com/
 
-This project can be implemented on any hosting service (Glitch, DigitalOcean, Heroku etc.), however, you must include all files in your GitHub repo so that the course staff can view them; these files are not available for viewing in many hosting systems.
+### Project Description
 
-Deliverables
----
+This application allows a user to save the details of cars they are interested in purchasing in the future. The user can add, delete, and modify the car entries that belong to their profile. Along with using a simple login functionality, the app also provides the user the ability to log in using Github OAuth.  
 
-Do the following to complete this assignment:
+### Changes
 
-1. Implement your project with the above requirements.
-3. Test your project to make sure that when someone goes to your main page on Glitch/Heroku/etc., it displays correctly.
-4. Ensure that your project has the proper naming scheme `a4-firstname-lastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below. Be sure to add *all* project files.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a4-firstname-lastname`.
+All the changes to my application were made within my HTML and JS files. I utilized React for these changes.
 
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
+- HTML
+    - Login/Home: Holds a div container for the React components
+- JS
+    - Login: 
+        - Modified to use React components
+    - Home: 
+        - Modified to use React components
+        - Changed the manner I updated my table - this was highly simplified by using React
 
-## Your Web Application Title
-
-your hosting link e.g. http://a4-charlieroberts.glitch.me
-
-Include a very brief summary of your project here and what you changed / added to assignment #3. Briefly (3–4 sentences) answer the following question: did the new technology improve or hinder the development experience?
-
-Unlike previous assignments, this assignment will be solely graded on whether or not you successfully complete it. Partial credit will be generously given.
+### Reflection
+Due to the fact that I refactored the way my table updated, I felt that for at least this assignment it hindered my development experience. However, I believe that going forward the React components would definitely help speed up my development process. I thought the components were fairly intuitive to use compared to how I had previously been orchastrating the UI changes of my application.
