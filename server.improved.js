@@ -11,7 +11,7 @@ const express = require('express'),
 let currUserId = null
 
 const MongoClient = mongodb.MongoClient;
-const uri = process.env.MONGOURI
+const uri = "mongodb+srv://testuser:abcd1234@cluster0.6usct.gcp.mongodb.net/testdatabase?retryWrites=true&w=majorityretryWrites=true&w=majority"//process.env.MONGOURI
 const client = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 let collection = null
 let loginCollection = null
@@ -41,9 +41,12 @@ var submitFunc = function(request, response, next) {
 var GitHubStrategy = require('passport-github').Strategy;
 
 passport.use(new GitHubStrategy({
-        clientID: process.env.GHCLIENTID,
-        clientSecret: process.env.GHCLIENTSECRET,
-        callbackURL: "https://a4-maria-medina-martinez.herokuapp.com/auth/github/callback"
+        // clientID: process.env.GHCLIENTID,
+        // clientSecret: process.env.GHCLIENTSECRET,
+        // callbackURL: "https://a4-maria-medina-martinez.herokuapp.com/auth/github/callback"
+        clientID: "1f05e056a1c1042f08e9",
+        clientSecret: "2534ac2dada36fecea2bd4a2e233241f8877237a",
+        callbackURL: "http://localhost:3000/auth/github/callback"
     },
     async function(accessToken, refreshToken, profile, cb) {
         let dbresponse = await loginCollection.findOne({ username: profile.id })

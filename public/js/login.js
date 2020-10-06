@@ -1,90 +1,116 @@
-console.log("Welcome to assignment 3!")
+console.log("Welcome to assignment 4!")
+class App extends React.Component {
+  constructor(props) {
+    super(props);
 
-const login = function (e) {
-  // prevent default form action from being carried out
-  e.preventDefault()
-
-  const uname = document.querySelector('#Username')
-  const pw = document.querySelector('#Password')
-
-  if (uname.value.toString().trim() === '' || pw.value.toString().trim() === '') {
-    alert("Empty fields.")
-    return false
-  }
-
-  const json = {
-    username: uname.value,
-    password: pw.value
-  }
-
-  const body = JSON.stringify(json)
-  fetch('/login', {
-    method: 'POST',
-    body,
-    headers: {
-      "Content-Type": "application/json"
+    this.state = {
+      uname: '',
+      pw: '',
     }
-  })
-    .then(response => response.json())
-    .then(json => {
-      if (json != null) {
-        alert("Logging in.")
-        window.location.href = "/views/index.html";
-      } else {
-        alert("This account does not exist. Please create account or enter valid credentials.")
+
+    this.login = this.login.bind(this);
+    this.create = this.create.bind(this);
+  }
+
+  login(e) {
+    e.preventDefault()
+
+    if (this.state.uname.toString().trim() === '' || this.state.pw.toString().trim() === '') {
+      alert("Empty fields.")
+      return false
+    }
+
+    const json = {
+      username: this.state.uname,
+      password: this.state.pw
+    }
+
+    const body = JSON.stringify(json)
+    fetch('/login', {
+      method: 'POST',
+      body,
+      headers: {
+        "Content-Type": "application/json"
       }
     })
-  document.getElementById('Username').value = ""
-  document.getElementById('Password').value = ""
+      .then(response => response.json())
+      .then(json => {
+        if (json != null) {
+          alert("Logging in.")
+          window.location.href = "/views/index.html";
+        } else {
+          alert("This account does not exist. Please create account or enter valid credentials.")
+        }
+      })
 
-  return false
-}
+    this.setState({ uname: '' })
+    this.setState({ pw: '' })
 
-const create = function (e) {
-  // prevent default form action from being carried out
-  e.preventDefault()
-
-  const uname = document.querySelector('#Username')
-  const pw = document.querySelector('#Password')
-  let userID = null
-
-  if (uname.value.toString().trim() === '' || pw.value.toString().trim() === '') {
-    alert("Empty fields.")
     return false
   }
 
-  const json = {
-    username: uname.value,
-    password: pw.value
+  create(e) {
+    // prevent default form action from being carried out
+    e.preventDefault()
+
+    if (this.state.uname.toString().trim() === '' || this.state.pw.toString().trim() === '') {
+      alert("Empty fields.")
+      return false
+    }
+
+    const json = {
+      username: this.state.uname,
+      password: this.state.pw
+    }
+
+    const body = JSON.stringify(json)
+    fetch('/create', {
+      method: 'POST',
+      body,
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(json => {
+        alert("Created account.")
+      })
+
+    this.setState({ uname: "" })
+    this.setState({ pw: "" })
+
+    window.location.href = "/views/index.html";
+
+    return false
   }
 
-  const body = JSON.stringify(json)
-  fetch('/create', {
-    method: 'POST',
-    body,
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-    .then(response => response.json())
-    .then(json => {
-      alert("Created account.")
-    })
 
+  render() {
 
-  document.getElementById('Username').value = ""
-  document.getElementById('Password').value = ""
+    return (
+      <div>
+        <h1 className="box header">Welcome</h1>
 
-  window.location.href = "/views/index.html";
-
-  return false
+        <div className="box sidebar">
+          <h3>Please log in to continue</h3>
+          <hr></hr>
+          <div className="data-form">
+            <form id="form">
+              <p><input type='text' id='Username' placeholder="Username" onChange={val => { this.setState({ uname: val.target.value }) }}></input></p>
+              <p><input type='password' id='Password' placeholder="Password" onChange={val => { this.setState({ pw: val.target.value }) }}></input></p>
+              <p><button id="login-btn" onClick={this.login}>Login</button></p>
+              <p><button id="create-btn" onClick={this.create}>Create</button></p>
+              <p><a href="/auth/github" className="button">Github Login</a>
+              </p>
+            </form>
+          </div>
+        </div>
+        <hr></hr>
+        <em>Please do not enter sensitive information.</em>
+      </div>
+    );
+  }
 }
 
-
-window.onload = function () {
-  const loginBtn = document.querySelector('#login-btn')
-  const createBtn = document.querySelector('#create-btn')
-
-  loginBtn.onclick = login
-  createBtn.onclick = create
-}
+const domContainer = document.getElementById("react-container");
+ReactDOM.render(<App />, domContainer);
