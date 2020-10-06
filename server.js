@@ -4,7 +4,6 @@ const path = require("path"),
   express = require("express"),
   bodyParser = require("body-parser"),
   cookie = require("cookie-session"),
-  favicon = require("serve-favicon"),
   passport = require("passport"),
   compression = require("compression"),
   mongo = require("mongodb"),
@@ -19,8 +18,6 @@ const mongoConfig = {
 };
 
 const app = express();
-
-app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 
 app.set("trust proxy", 1); // trust first proxy
 
