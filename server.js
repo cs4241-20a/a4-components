@@ -59,9 +59,9 @@ passport.use(
     {
       clientID: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
-      callbackURL:
-      "https://3000-e922c9a0-d53d-40c7-bace-986bd3944394.ws-us02.gitpod.io/callback/github",
-      //callbackURL: "https://a3-rmanky.herokuapp.com/callback/github",
+      //callbackURL:
+      //"https://3000-e922c9a0-d53d-40c7-bace-986bd3944394.ws-us02.gitpod.io/callback/github",
+      callbackURL: "https://a4-rmanky.herokuapp.com/callback/github",
     },
     async (_accessToken, _refreshToken, profile, callback) => {
       const mongoClient = new MongoClient(mongoURI, mongoConfig);
@@ -136,18 +136,7 @@ app.post("/submit", async (req, res) => {
 
   console.log(req.user.username + " requested submission of " + object._id);
 
-  const raceResults = await raceCollection
-    .find()
-    .sort({ laptime: 1 })
-    .toArray();
-
-  await mongoClient.close();
-
-  raceResults.forEach((entry) => {
-    appendDateAndMine(entry, req.user);
-  });
-
-  return res.json({ failed: false, results: raceResults });
+  return res.json({ failed: false });
 });
 
 app.get("/results", async (req, res) => {
@@ -203,18 +192,7 @@ app.post("/update", async (req, res) => {
 
   console.log(req.user.username + " requested update of " + object.id);
 
-  const raceResults = await raceCollection
-    .find()
-    .sort({ laptime: 1 })
-    .toArray();
-
-  await mongoClient.close();
-
-  raceResults.forEach((entry) => {
-    appendDateAndMine(entry, req.user);
-  });
-
-  return res.json({ failed: false, results: raceResults });
+  return res.json({ failed: false });
 });
 
 app.post("/delete", async (req, res) => {
@@ -230,22 +208,11 @@ app.post("/delete", async (req, res) => {
 
   const raceCollection = mongoClient.db("simcar").collection("races");
 
-  await raceCollection.deleteOne({ _id: new mongo.ObjectID(object.lapID) });
+  await raceCollection.deleteOne({ _id: new mongo.ObjectID(object.id) });
 
-  console.log(req.user.username + " requested removal of " + object.lapID);
+  console.log(req.user.username + " requested removal of " + object.id);
 
-  const raceResults = await raceCollection
-    .find()
-    .sort({ laptime: 1 })
-    .toArray();
-
-  await mongoClient.close();
-
-  raceResults.forEach((entry) => {
-    appendDateAndMine(entry, req.user);
-  });
-
-  return res.json({ failed: false, results: raceResults });
+  return res.json({ failed: false });
 });
 
 app.get("/", (_, response) => {

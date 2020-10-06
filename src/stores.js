@@ -7,3 +7,4 @@ export const time = writable("00:00.00");
 export const lap = writable("1");
 
 export const resultModal = writable(false);
+export const editModal = writable(false);

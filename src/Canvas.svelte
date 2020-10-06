@@ -44,6 +44,11 @@
     0xffffff,
   ];
 
+  let carMaterial = new THREE.MeshPhysicalMaterial({
+    color: randomColors[Math.floor(Math.random() * randomColors.length)],
+    clearcoat: 0.8,
+  });
+
   let forwardAxis = 0.0,
     backwardAxis = 0.0,
     leftAxis = 0.0,
@@ -53,6 +58,8 @@
   const maxForce = 500;
 
   let loaded = 0;
+
+  let boopSound;
 
   let scene, camera, cameraRig, cameraTar, renderer;
 
@@ -78,23 +85,29 @@
     }
   }
 
-  window.restartRace = function() {
+  window.restartRace = function () {
     if (renderer) {
       raceStarted = false;
       stopWatch.reset();
       lastSector = 0;
       $lap = 1;
       $time = "00:00.00";
-      lights.forEach((material) => {
-        material.emissive.set(0x000000);
+      lights.forEach((light) => {
+        light.lightMat.emissive.set(0x000000);
+        if (light.sound.isPlaying) {
+          light.sound.stop();
+        }
       });
       chassisBody.position.set(-0.6, 2, 35);
       chassisBody.quaternion.set(0.5, 0.5, -0.5, 0.5);
       chassisBody.velocity.set(0, 0, 0);
       chassisBody.angularVelocity.set(0, 0, 0);
+      carMaterial.color.setHex(
+        randomColors[Math.floor(Math.random() * randomColors.length)]
+      );
       raceStart();
     }
-  }
+  };
 
   function animate() {
     requestAnimationFrame(animate);
@@ -160,20 +173,25 @@
 
   function raceStart() {
     let i = 0;
-    if(prevInterval) {
+    if (prevInterval) {
       window.clearInterval(prevInterval);
     }
     prevInterval = setIntervalX(
       () => {
         if (i < 5) {
-          lights[i].emissive.set(0xff0000);
+          lights[i].lightMat.emissive.set(0xff0000);
+          lights[i].sound.play();
           i++;
         } else {
           raceStarted = true;
           stopWatch.start();
+          boopSound.play();
           console.log("It's lights out and away we go!");
-          lights.forEach((material) => {
-            material.emissive.set(0x000000);
+          lights.forEach((light) => {
+            light.lightMat.emissive.set(0x000000);
+            if (light.sound.isPlaying) {
+              light.sound.stop();
+            }
           });
         }
       },
@@ -368,6 +386,18 @@
     camera.position.set(10, 10, 10);
     camera.lookAt(0.0, 0.25, 0.0);
 
+    var listener = new THREE.AudioListener();
+    camera.add(listener);
+
+    boopSound = new THREE.Audio(listener);
+
+    // load a sound and set it as the PositionalAudio object's buffer
+    var boopLoader = new THREE.AudioLoader();
+    boopLoader.load("assets/beep.wav", function (buffer) {
+      boopSound.setBuffer(buffer);
+      boopSound.setVolume(0.5);
+    });
+
     renderer = new THREE.WebGLRenderer({
       alpha: true,
       antialias: true,
@@ -378,14 +408,6 @@
     renderer.outputEncoding = THREE.sRGBEncoding;
 
     let gltfLoaderCar = new GLTFLoader().setPath("assets/");
-
-    const randomColor =
-      randomColors[Math.floor(Math.random() * randomColors.length)];
-
-    let carMaterial = new THREE.MeshPhysicalMaterial({
-      color: randomColor,
-      clearcoat: 0.8,
-    });
 
     gltfLoaderCar.load("car.glb", function (gltf) {
       carGroup = new THREE.Group();
@@ -414,43 +436,58 @@
 
     let gltfLoaderTrack = new GLTFLoader().setPath("assets/");
 
-    gltfLoaderTrack.load("track.glb", function (gltf) {
-      gltf.scene.position.set(0, 2, 0);
+    // load a sound and set it as the PositionalAudio object's buffer
+    var audioLoader = new THREE.AudioLoader();
+    audioLoader.load("assets/boop.wav", function (buffer) {
+      gltfLoaderTrack.load("track.glb", function (gltf) {
+        gltf.scene.position.set(0, 2, 0);
 
-      gltf.scene.traverse((o) => {
-        if (o.isMesh) {
-          if (o.name.includes("collider")) {
-            let bbox = new CANNON.Box(
-              new CANNON.Vec3(o.scale.x, o.scale.y / 8, o.scale.z / 4)
-            );
-            let bbody = new CANNON.Body({
-              static: true,
-            });
-            bbody.addShape(bbox);
-            bbody.position.copy(o.position);
-            bbody.quaternion.copy(o.quaternion);
-            //bbody.addShape(bbox);
-            world.addBody(bbody);
+        gltf.scene.traverse((o) => {
+          if (o.isMesh) {
+            if (o.name.includes("collider")) {
+              let bbox = new CANNON.Box(
+                new CANNON.Vec3(o.scale.x, o.scale.y / 8, o.scale.z / 4)
+              );
+              let bbody = new CANNON.Body({
+                static: true,
+              });
+              bbody.addShape(bbox);
+              bbody.position.copy(o.position);
+              bbody.quaternion.copy(o.quaternion);
+              //bbody.addShape(bbox);
+              world.addBody(bbody);
 
-            o.visible = false;
-          } else if (
-            o.name.includes("light") &&
-            o.material.name.includes("emit")
-          ) {
-            let lightMat = new THREE.MeshStandardMaterial({
-              color: 0x111111,
-              emissive: 0x000000,
-            });
-            o.material = lightMat;
-            let match = o.name.match(/(\d+)/);
-            lights[parseInt(match[0]) - 1] = lightMat;
+              o.visible = false;
+            } else if (
+              o.name.includes("light") &&
+              o.material.name.includes("emit")
+            ) {
+              let lightMat = new THREE.MeshStandardMaterial({
+                color: 0x111111,
+                emissive: 0x000000,
+              });
+
+              var sound = new THREE.PositionalAudio(listener);
+              sound.setBuffer(buffer);
+              sound.setVolume(0.5);
+              sound.setRefDistance(20);
+
+              o.material = lightMat;
+              let match = o.name.match(/(\d+)/);
+              lights[parseInt(match[0]) - 1] = {
+                lightMat: lightMat,
+                sound: sound,
+              };
+
+              o.add(sound);
+            }
           }
-        }
+        });
+
+        scene.add(gltf.scene);
+
+        increaseLoad();
       });
-
-      scene.add(gltf.scene);
-
-      increaseLoad();
     });
 
     let gltfTire = new GLTFLoader().setPath("assets/");

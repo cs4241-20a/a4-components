@@ -1,8 +1,6 @@
 <script>
   import { fade as fadeTransition } from "svelte/transition";
 
-  import { time, resultModal } from "./stores.js";
-
   import {
     Button,
     Modal,
@@ -15,56 +13,48 @@
     Input,
   } from "sveltestrap";
 
-  let fullname = "";
-  let teamname = "";
+  import { editModal } from "./stores.js";
+
+  export let fullname;
+  export let teamname;
+  export let id;
 
   export let updateData;
 
-  let toggle = () => ($resultModal = !$resultModal);
+  let toggle = () => ($editModal = !$editModal);
 
-  function submitResult() {
-    const lapData = JSON.stringify({
-      laptime: $time,
+  function submitUpdate() {
+    const lapObject = JSON.stringify({
+      id: id,
       fullname: fullname,
       teamname: teamname,
     });
 
-    fetch("/submit", {
+    fetch("/update", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: lapData,
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        toggle();
-        updateData();
-      });
-  }
-
-  function localRestart() {
-    window.restartRace();
-    toggle();
+      body: lapObject,
+    }).then((_) => {
+      toggle();
+      updateData();
+    });
   }
 </script>
 
 <div>
-  <Modal isOpen={$resultModal} transitionOptions={fadeTransition}>
+  <Modal isOpen={$editModal} transitionOptions={fadeTransition}>
     <ModalHeader>Submit Result</ModalHeader>
     <ModalBody>
       <Form>
-        <FormGroup>
-          <Label>Your lap time was <b>{$time}</b></Label>
-        </FormGroup>
         <FormGroup>
           <Label>Full Name</Label>
           <Input
             type="text"
             bind:value={fullname}
             invalid={fullname.length <= 0}
-            readonly={false}
-            placeholder="Gompei" />
+            readonly={false} />
         </FormGroup>
         <FormGroup>
           <Label>Team Name</Label>
@@ -72,8 +62,7 @@
             type="text"
             bind:value={teamname}
             invalid={teamname.length <= 0}
-            readonly={false}
-            placeholder="WPI Racing" />
+            readonly={false} />
         </FormGroup>
       </Form>
     </ModalBody>
@@ -81,10 +70,10 @@
       <Button
         color="success"
         disabled={teamname.length <= 0 || fullname.length <= 0}
-        on:click={() => submitResult()}>
+        on:click={() => submitUpdate()}>
         Submit
       </Button>
-      <Button color="danger" on:click={() => localRestart()}>Retry</Button>
+      <Button color="danger" on:click={() => toggle()}>Cancel</Button>
     </ModalFooter>
   </Modal>
 </div>
