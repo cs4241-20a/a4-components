@@ -1,16 +1,6 @@
 class NewListingForm extends React.Component {
     constructor(props) {
       super(props);
-      this.state = {
-        cameramake: "",
-        cameramodel: "",
-        cameraformat: "",
-        price: 0,
-        condition: "",
-        delete: false,
-        id: null
-      }
-        
       this.cameramake = React.createRef();
       this.cameramodel = React.createRef();
       this.cameraformat = React.createRef();
@@ -22,11 +12,19 @@ class NewListingForm extends React.Component {
 
     handleSubmit(event) {
       event.preventDefault();
-      console.log(this.state)
-      let cameraData = this.state.cameraData
+    //   console.log(this.state)
+      let cameraData = {
+          "cameramake": this.cameramake.current.value,
+          "cameramodel": this.cameramodel.current.value,
+          "cameraformat": this.cameraformat.current.value,
+          "price": this.price.current.value,
+          "condition": this.condition.current.value,
+          "delete": false,
+          "id": null
+      }
       console.log( cameraData )
 
-      let body = JSON.stringify( user )
+      let body = JSON.stringify( cameraData )
     
       console.log(body)
       fetch('/submit', {
@@ -50,19 +48,19 @@ class NewListingForm extends React.Component {
             Make:
             <input 
             defaultValue="Camera Make"
-            ref={this.make} />
+            ref={this.cameramake} />
           </label>
           <label>
             Model:
             <input 
             defaultValue="Camera Model"
-            ref={this.model} />
+            ref={this.cameramodel} />
           </label>
           <label>
             Format:
             <input 
             defaultValue="Camera Format"
-            ref={this.format} />
+            ref={this.cameraformat} />
           </label>
           <label>
               Price:
