@@ -1,30 +1,16 @@
-Assignment 4 - Components
-===
+# Gabe's Coursework TODO List: React Edition
+- https://a4-gabriel-aponte.herokuapp.com/
+- This website is a nice and simple way for us to keep track of class assignments and project deadlines!
+- The goal of this version of the website was to redo the client side by using the React library.
+- To Use this app  you first must login. Logging in for the first time creates a new account, then you will need the same password to login to that username again.  
+- To Add tasks: Simply input the Course Name, the Assignment/Task, its Due Date, and the Effort to complete it (1=least - 5=most).
+- To Update or Delete tasks: use the correlating buttons in each row of the tasks table.
+- The priority field will be automatically assigned based on the Due Date and the Effort of the assignment.
 
-Due: October 9th, by 11:59 PM.
+## Changes Since A3
+- If a user attempts to make changes to their account data after they have signed out, they will be given a Permission Denied alert and returned to the login screen.
+- If a user signs into another account and still has an older account screen in another window, that old window will update to the latest account login upon interaction.
+- The client side has been refactored to use the React library
 
-For this assignment you will re-implement the client side portion of A3 using either React or Svelte components.
-
-This project can be implemented on any hosting service (Glitch, DigitalOcean, Heroku etc.), however, you must include all files in your GitHub repo so that the course staff can view them; these files are not available for viewing in many hosting systems.
-
-Deliverables
----
-
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements.
-3. Test your project to make sure that when someone goes to your main page on Glitch/Heroku/etc., it displays correctly.
-4. Ensure that your project has the proper naming scheme `a4-firstname-lastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below. Be sure to add *all* project files.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a4-firstname-lastname`.
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your hosting link e.g. http://a4-charlieroberts.glitch.me
-
-Include a very brief summary of your project here and what you changed / added to assignment #3. Briefly (3–4 sentences) answer the following question: did the new technology improve or hinder the development experience?
-
-Unlike previous assignments, this assignment will be solely graded on whether or not you successfully complete it. Partial credit will be generously given.
+## React's Impact on my Development
+I found React to be extremely useful in terms of creating clarity in my client side code. By utilizing the state component, I was able to easily update UI fields and grab input data without needing to explicitly add listeners or use the query selector. In addition, React made adding onClick listeners for my buttons much simpler by being able to apply them straight on the button in html rather than inside of the Window.onLoad function. However, I found the render function to be a pain. The syntax is just different enough from normal html that it took me quite a bit of time to fix all the little things inside my A3 html code that React had problems with. In addition, I utilized Babel to compile my client. This causes the website to be slightly slower since it uses the browser version of Babel. This version is typically used for prototyping rather than production website. After a bit of research, I found it would have required a lot of extra work to compile my scripts in the server before deployment, so I opted to take the slower speeds of the Babel browser compiler. All in all, it seems like React is great for bigger projects and production level websites, but is not super necessary for smaller project. I very much enjoyed learning about React for the first time!
