@@ -37,6 +37,9 @@ class App extends React.Component {
       .then(json => {
         if (json != null) {
           alert("Logging in.")
+          this.setState({ uname: '' })
+          this.setState({ pw: '' })
+
           window.location.href = "/views/index.html";
         } else {
           alert("This account does not exist. Please create account or enter valid credentials.")
@@ -44,9 +47,7 @@ class App extends React.Component {
         }
       })
 
-    this.setState({ uname: '' })
-    this.setState({ pw: '' })
-
+    
     return false
   }
 
