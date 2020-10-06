@@ -91,7 +91,7 @@
       stopWatch.reset();
       lastSector = 0;
       $lap = 1;
-      $time = "00:00.00";
+      $time = "00:00.000";
       lights.forEach((light) => {
         light.lightMat.emissive.set(0x000000);
         if (light.sound.isPlaying) {
