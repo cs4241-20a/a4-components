@@ -1,30 +1,11 @@
-Assignment 4 - Components
-===
+# Assignment 4 - Components
 
-Due: October 9th, by 11:59 PM.
+## Food Tracker V2: Now with Svelte
 
-For this assignment you will re-implement the client side portion of A3 using either React or Svelte components.
+Jordan Gold  
 
-This project can be implemented on any hosting service (Glitch, DigitalOcean, Heroku etc.), however, you must include all files in your GitHub repo so that the course staff can view them; these files are not available for viewing in many hosting systems.
+Website Link: http://a4-jordan-gold.heroku.com  
 
-Deliverables
----
+The project is the same as A3 except the front end has been re-written to use Svelte instead of plain JavaScript. As before it is a tracker that allows you to enter meals you have eaten and update or delete them. Users must log in and only see the foods for their account. The big change comes in the form of the front-end experience, that while not looking different, has been entirely rewritten into Svelte.  
 
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements.
-3. Test your project to make sure that when someone goes to your main page on Glitch/Heroku/etc., it displays correctly.
-4. Ensure that your project has the proper naming scheme `a4-firstname-lastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below. Be sure to add *all* project files.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a4-firstname-lastname`.
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your hosting link e.g. http://a4-charlieroberts.glitch.me
-
-Include a very brief summary of your project here and what you changed / added to assignment #3. Briefly (3–4 sentences) answer the following question: did the new technology improve or hinder the development experience?
-
-Unlike previous assignments, this assignment will be solely graded on whether or not you successfully complete it. Partial credit will be generously given.
+This new technology did improve the development experience a great amount once I got used to it and learned how it worked. A thing I am a big fan of in Svelte is the functionality it provides while not hindering a simple approach. Sometimes these complicated frameworks force you to write code as they want where as with Svelte you could use a very standard setup of javascript, css, and html but you can always expand it as you see fit with Svelte components and functionality. The biggest speed improvement I saw was the ability to construct tables on the fly from arrays using the $each keyword in Svelte. This meant that all the complicated aspects of making sure each new entry is added to the table correctly is wiped away as all you have to do is append the new value to the array and Svelte will take care of internally updating the table easily and simply.
