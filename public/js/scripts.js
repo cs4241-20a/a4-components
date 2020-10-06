@@ -1,177 +1,207 @@
-console.log("Welcome to assignment 3!")
+console.log("Welcome to assignment 4!")
 
-const submit = function (e) {
-  // prevent default form action from being carried out
-  e.preventDefault()
+class App extends React.Component {
 
-  const make = document.querySelector('#Make')
-  const model = document.querySelector('#Model')
-  const year = document.querySelector('#Year')
-  const price = document.querySelector('#Price')
+  constructor(props) {
+    super(props);
 
-  if (make.value.toString().trim() === '' || model.value.toString().trim() === '' || year.value.toString().trim() === '' || price.value.toString().trim() === '') {
-    alert("Empty fields.")
+    this.state = {
+      uname: '',
+      make: '',
+      model: '',
+      year: '',
+      priority: '',
+      cars: []
+    }
+
+    this.submit = this.submit.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
+    this.saveItem = this.saveItem.bind(this);
+    this.logout = this.logout.bind(this);
+  }
+
+  componentDidMount() {
+    fetch('/data')
+      .then(response => response.json())
+      .then(json => {
+        this.setState({ cars: json })
+      })
+  }
+
+  submit(e) {
+    e.preventDefault()
+
+    if (this.state.make.toString().trim() === '' || this.state.model.toString().trim() === '' || this.state.year.toString().trim() === '' || this.state.price.toString().trim() === '') {
+      alert("Empty fields.")
+      return false
+    }
+
+    const json = {
+      make: this.state.make,
+      model: this.state.model,
+      year: this.state.year,
+      price: this.state.price
+    }
+    const body = JSON.stringify(json)
+
+    fetch('/submit', {
+      method: 'POST',
+      body,
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then(response => response.json())
+
+     fetch('/data')
+      .then(response => response.json())
+      .then(json => {
+        this.setState({ cars: json })
+      })
+
+    this.setState({ make: '' })
+    this.setState({ model: '' })
+    this.setState({ year: '' })
+    this.setState({ price: '' })
+
     return false
   }
 
-  const json = {
-    make: make.value,
-    model: model.value,
-    year: year.value,
-    price: price.value
-  }
+  deleteItem(e, id) {
+    const json = { id: id }
+    const body = JSON.stringify(json)
 
-  const body = JSON.stringify(json)
+    fetch('/delete', {
+      method: 'DELETE',
+      body,
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then(response => response.json())
 
-  fetch('/submit', {
-    method: 'POST',
-    body,
-    headers:{
-      "Content-Type":"application/json"
-    }
-  })
+    fetch('/data')
     .then(response => response.json())
     .then(json => {
-      updateTable(json)
+      this.setState({ cars: json })
     })
-
-  document.getElementById('Make').value = ""
-  document.getElementById('Model').value = ""
-  document.getElementById('Year').value = ""
-  document.getElementById('Price').value = ""
-
-  return false
-}
-
-const updateTable = function (json) {
-  let dataTable = document.getElementById('data-table')
-
-  for (var idx in json) {
-    createEntry(dataTable, json[idx])
+    alert("Deleted entry.")
   }
-}
 
-const createEntry = function (dataTable, json, rowPos = -1) {
-  let row = dataTable.insertRow(rowPos)
-
-  let make = row.insertCell(0)
-  let model = row.insertCell(1)
-  let year = row.insertCell(2)
-  let price = row.insertCell(3)
-  let priority = row.insertCell(4)
-  let del = row.insertCell(5)
-  let save = row.insertCell(6)
-
-  make.contentEditable = "true"
-  model.contentEditable = "true"
-  year.contentEditable = "true"
-  price.contentEditable = "true"
-  priority.contentEditable = "true"
-
-  // make buttons
-  var delBtn = document.createElement("button")
-  delBtn.innerHTML = "Delete"
-  delBtn.addEventListener("click", deleteItem)
-  delBtn.className = 'del-btn'
-  delBtn.id = json._id
-
-  var saveBtn = document.createElement("button")
-  saveBtn.innerHTML = "Save"
-  saveBtn.addEventListener("click", saveItem)
-  saveBtn.className = 'save-btn'
-  saveBtn.id = json._id
-
-  // data displayed
-  make.innerHTML = json.make
-  model.innerHTML = json.model
-  year.innerHTML = json.year
-  price.innerHTML = json.price
-  priority.innerHTML = json.priority
-  del.appendChild(delBtn)
-  save.appendChild(saveBtn)
-}
-
-const deleteItem = function () {
-  const json = { id: this.id }
-  const body = JSON.stringify(json)
-
-  fetch('/delete', {
-    method: 'DELETE',
-    body,
-    headers:{
-      "Content-Type":"application/json"
+  saveItem(e, id) {
+    const json = {
+      make: document.getElementById(`make-${id}`).innerHTML,
+      model: document.getElementById(`model-${id}`).innerHTML,
+      year:document.getElementById(`year-${id}`).innerHTML,
+      price: document.getElementById(`price-${id}`).innerHTML,
+      priority: document.getElementById(`priority-${id}`).innerHTML,
+      id: id
     }
-  })
 
-  // delete selected row from table 
-  var i = this.parentNode.parentNode.rowIndex;
-  document.getElementById("data-table").deleteRow(i);
+    const body = JSON.stringify(json)
 
-  alert("Deleted entry.")
-}
+    fetch('/put', {
+      method: 'PUT',
+      body,
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then(response => response.json())
+    .then(json => {
+      console.log(json)
+    })
+    
+    fetch('/data')
+      .then(response => response.json())
+      .then(json => {
+        console.log(json)
+        this.setState({ cars: json })
+      })
 
-const saveItem = function () {
-  // get modified row
-  let datatable = document.getElementById("data-table")
-  var i = this.parentNode.parentNode.rowIndex;
-  var row = datatable.rows[i]
-
-  // get changes
-  const json = {
-    make: row.cells[0].innerHTML,
-    model: row.cells[1].innerHTML,
-    year: row.cells[2].innerHTML,
-    price: row.cells[3].innerHTML,
-    priority: row.cells[4].innerHTML,
-    id: this.id
+    alert("Saved entry.")
   }
-  const body = JSON.stringify(json)
 
-  fetch('/put', {
-    method: 'PUT',
-    body,
-    headers:{
-      "Content-Type":"application/json"
-    }
-  }).then(response => response.json())
+  logout(e) {
+    // prevent default form action from being carried out
+    e.preventDefault()
 
-  // delete selected row from table 
-  document.getElementById("data-table").deleteRow(i);
-
-  // create a new row at specified position
-  createEntry(document.getElementById('data-table'), json, i)
-  alert("Saved entry.")
-}
-
-const logout = function (e) {
-  // prevent default form action from being carried out
-  e.preventDefault()
-
-  fetch('/logout',{
-    method: 'POST',
-    headers:{
-      "Content-Type":"application/json"
-    }
-  })
-    .then(response => {
-        if(response.status == 200)
+    fetch('/logout', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => {
+        if (response.status == 200)
           console.log("Logged out.")
-    })
+      })
 
-  window.location.href = "/views/login.html";
-  return false
+    window.location.href = "/views/login.html";
+    return false
+  }
+
+  render() {
+
+    return (
+      <div>
+        <p><button id="logout-btn" onClick={this.logout}>Log out</button></p>
+        <h1 className="box header">Classic Cars Wishlist</h1>
+
+        <div className="box sidebar">
+          <h3>Keep track of the cars you'd like to purchase!</h3>
+          <hr></hr>
+          <p>Based on the car year and price, a priority will be calculated. </p>
+          <p> Priority 1 is the highest and means you should get the car right away!</p>
+
+          <div className="data-form">
+            <form id="form">
+              <p><input type='text' id='Make' placeholder="Make" value={this.state.make}  onChange={val => { this.setState({ make: val.target.value }) }}></input></p>
+              <p><input type='text' id='Model' placeholder="Model" value={this.state.model}  onChange={val => { this.setState({ model: val.target.value }) }}></input></p>
+              <p><input type='number' id='Year' placeholder="Year" value={this.state.year} onChange={val => { this.setState({ year: val.target.value }) }}></input></p>
+              <p><input type='number' id='Price' placeholder="Price" value={this.state.price} onChange={val => { this.setState({ price: val.target.value }) }}></input></p>
+
+              <p><button id="submit-btn" onClick={this.submit}>Submit</button></p>
+            </form>
+          </div>
+        </div>
+
+        <hr></hr>
+
+        <div className="box content">
+          <table id="data-table">
+            <thead>
+              <tr>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Year</th>
+                <th>Price</th>
+                <th>Priority</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.cars.map((car) =>
+                <tr key={car._id}>
+                  <td contentEditable="true" suppressContentEditableWarning="true" id={`make-${car._id}`} onInput={ val => { this.setState({ make: val.target.value })}}>{car.make}</td>
+                  <td contentEditable="true" suppressContentEditableWarning="true" id={`model-${car._id}`} onChange={val => { this.setState({ model: val.target.value })}} >{car.model}</td>
+                  <td contentEditable="true" suppressContentEditableWarning="true" id={`year-${car._id}`} onChange={val => { this.setState({ year: val.target.value })}}>{car.year}</td>
+                  <td contentEditable="true" suppressContentEditableWarning="true" id={`price-${car._id}`} onChange={val => { this.setState({ price: val.target.value })}}>{car.price}</td>
+                  <td contentEditable="true" suppressContentEditableWarning="true" id={`priority-${car._id}`} onChange={val => { this.setState({ priority: val.target.value })}}>{car.priority}</td>
+                  <td>
+                    <button className="del-btn" onClick={(e) => this.deleteItem(e, car._id)}>Delete</button>
+                  </td>
+                  <td>
+                    <button className="save-btn" onClick={(e) => this.saveItem(e, car._id)}>Save</button>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
 }
 
-window.onload = function () {
-  const submitBtn = document.querySelector('#submit-btn')
-  submitBtn.onclick = submit
-
-  const logoutBtn = document.querySelector('#logout-btn')
-  logoutBtn.onclick = logout
-
-  fetch('/data')
-    .then(response => response.json())
-    .then(json => {
-      updateTable(json)
-    })
-}
+const domContainer = document.getElementById("react-container");
+ReactDOM.render(<App />, domContainer);
