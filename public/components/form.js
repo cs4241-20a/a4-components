@@ -56,4 +56,9 @@ class Form extends React.Component {
             </div>
         );
     }
+
+    componentDidMount() {
+        const button = document.querySelector( '#addGuestButton' );
+        button.onclick = submit;
+    }
 }

@@ -109,8 +109,6 @@ const deleteElement = function (e){
 };
 
 window.onload = function() {
-    const button = document.querySelector( '#addGuestButton' );
-    button.onclick = submit;
     fetch("/load", {
         method:'POST'
     }).then(function (response){
