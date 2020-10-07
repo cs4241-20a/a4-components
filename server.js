@@ -37,6 +37,7 @@ passport.use("github", new GitHubStrategy({
         callbackURL: process.env.callbackURL
     },
     function(accessToken, refreshToken, profile, cb) {
+        console.log("profile: " +profile);
         cb(null, profile);
     }
 ));
@@ -46,31 +47,26 @@ let username = null;
 app.get('/auth/github', passport.authenticate('github'));
 app.get('/auth/github/callback', passport.authenticate('github'),
     function(request, response) {
+        console.log("in callback");
         username = request.user.username;
         handleUser(username, true, "", response);
     }
 );
 
-let newUser = false;//used to indicate whether or not to alert client of new account
-app.get("/app", function(request, response){
-    fs.readFile("./public/app.html", {}, function(err, data){
-        if(err){
-            console.log("error occurred: " +err);
-        }else{
-            console.log(data.toString("utf-8"));
-        }
-    });
-
+//let newUser = false;//used to indicate whether or not to alert client of new account
+app.post("/app", function(request, response){
+    response.status(200);
     //The "new" header will tell the client whether or not they need to
     //display a new message to the user that a new account was created.
-    response.sendFile("./public/app.html", {root: "./", headers:{"new": newUser}}, function(error){
+    //response.redirect('/app');
+    /*response.sendFile("./public/app.html", {root: "./", headers:{"new": newUser}}, function(error){
         if(error){
             console.log("Error occurred sending app.html: " +error);
         }else{
             console.log("app.html sent");
         }
         newUser = false;
-    });
+    });*/
 });
 
 //Route for signing into the application with a username and password
@@ -99,7 +95,6 @@ app.post("/signin", bodyParser.json(), function(request, response){
  *     operation one complete.
  */
 const handleUser = function(username, isGithub, password, response){
-    //this.username = username;
     let users = client.db("FPS_Stats").collection("users");
     let user = {
         username: username,
@@ -115,13 +110,14 @@ const handleUser = function(username, isGithub, password, response){
             if(result.length === 1) {//User exists
                 getUserDbInfo(user.username).then(function(result){
                     console.log("User: " + username + " has signed in.");
-                    response.redirect("/app");
+                    response.statusCode = 200;
+                    response.redirect(process.env.ServerRedirectURL);
                 });
             }else{//User does not exist
-                console.log("new user: " +username +" signing in.");
+                console.log("New user: " +username +" signing in.");
                 addNewDbUser(user).then(function(results){
-                    newUser = true;
-                    response.redirect("/app");
+                    //newUser = true;
+                    response.redirect(process.env.ServerRedirectURL);
                     response.statusCode = 201;
                 });
             }

@@ -2,22 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import {BrowserRouter} from "react-router-dom";
+import {BrowserRouter, Switch} from "react-router-dom";
 import {Route} from "react-router";
 import App from "./App";
 import LoginButton from "./LoginButton";
 
 ReactDOM.render(
   <React.StrictMode>
-      <h1 className="title has-text-centered">Login</h1>
       <BrowserRouter>
-          <switch>
+          <Switch>
               <Route exact path="/app" component={App}/>
               <Route exact path="/" component={LoginButton}/>
-          </switch>
+          </Switch>
       </BrowserRouter>
   </React.StrictMode>,
-  document.getElementById('login_root')
+  document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
