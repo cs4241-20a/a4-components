@@ -1,0 +1,49 @@
+{
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-react-app": "^3.1.2",
+    "body-parser": "^1.19.0",
+    "bootstrap": "^4.5.2",
+    "connect-timeout": "^1.9.0",
+    "cookie-session": "^1.4.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "favicon": "0.0.2",
+    "fs": "0.0.1-security",
+    "mongodb": "^3.6.2",
+    "morgan": "^1.10.0",
+    "node-statsd": "^0.1.1",
+    "passport": "^0.4.1",
+    "passport-github": "^1.1.0",
+    "path": "^0.12.7",
+    "react": "^16.13.1",
+    "react-bootstrap": "^1.3.0",
+    "react-dom": "^16.13.1",
+    "response-time": "^2.3.2",
+    "statsd": "^0.9.0",
+    "timeout": "^0.2.1"
+  },
+  "engines": {
+    "node": "12.x"
+  },
+  "name": "a4-components",
+  "description": "Assignment 4 - Components ===",
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clay-ol/a4-components.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/clay-ol/a4-components/issues"
+  },
+  "homepage": "https://github.com/clay-ol/a4-components#readme"
+}

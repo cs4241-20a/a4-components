@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>CS4241 Assignment 4</title>
+  <meta charset="utf-8">
+  <link href="css/style.css" rel="stylesheet">
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+  <link rel="icon" href="data:,">
+</head>
+
+<body>
+  <div class="jumbotron text-center">
+    <h1>Camera List Boi Reloaded</h1>
+    <div id="logout"></div>
+  </div>
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-sm-6">
+        <div class="card-body">
+          <h2 class="card-title">Add Listing</h2>
+          <div id="addListing"></div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card-body">
+          <h2 class="card-title">Update Listing</h2>
+          <div id="updateListing"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card-body">
+          <h2 class="card-title">Delete Listing</h2>
+          <div id="deleteListing"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card-body">
+          <h2 class="card-title">Current Listings</h2>
+          <div id="currentListings"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<script src="https://unpkg.com/react/umd/react.production.min.js" crossorigin></script>
+
+<script
+  src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"
+  crossorigin></script>
+
+<script
+  src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js"
+  crossorigin></script>
+  <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+  <script type="text/babel" src="js/addForm.js"></script>
+  <script type="text/babel" src="js/updateForm.js"></script>
+  <script type="text/babel" src="js/deleteForm.js"></script>
+  <script type="text/babel" src="js/ListingsForm.js"></script>
+  <script type="text/babel" src="js/LogoutForm.js"></script>
+</body>
+
+</html>
