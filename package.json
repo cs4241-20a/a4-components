@@ -7,6 +7,8 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-react-app": "^3.1.2",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
     "express": "^4.17.1",
@@ -14,9 +16,22 @@
     "mime": "^2.4.4",
     "morgan": "^1.10.0",
     "passport": "^0.4.1",
-    "passport-github": "^1.1.0"
+    "passport-github": "^1.1.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   },
   "devDependencies": {
     "mongodb": "^3.6.2"
-  }
+  },
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cjburri/a4-components.git"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cjburri/a4-components/issues"
+  },
+  "homepage": "https://github.com/cjburri/a4-components#readme"
 }
