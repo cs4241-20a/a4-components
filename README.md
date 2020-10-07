@@ -1,30 +1,28 @@
-Assignment 4 - Components
-===
+## sveltecar
 
-Due: October 9th, by 11:59 PM.
+https://a4-rmanky.herokuapp.com/
 
-For this assignment you will re-implement the client side portion of A3 using either React or Svelte components.
+The [*Svelte*](https://svelte.dev/) version of [simcar 2](http://a3-rmanky.herokuapp.com/)!
 
-This project can be implemented on any hosting service (Glitch, DigitalOcean, Heroku etc.), however, you must include all files in your GitHub repo so that the course staff can view them; these files are not available for viewing in many hosting systems.
+## Summary
 
-Deliverables
----
+Since I had already flexed my creative-coding muscles when creating the first and second simcar,
+I decided to instead learn Svelte and re-create **simcar 2** from the ground up. To be honest I'm 
+regretting not creating the original version with Svelte, because it is very helpful. From the creation of
+seperate components in different files that can be "plugged into" a central app, to `if()` statements appearing
+directly in the `html`, Svelte (and I'm assuming React) provides more abstractions that I thought were possible.
 
-Do the following to complete this assignment:
+Using rollup was weird, and getting Heroku to not uninstall my dependencies because I had placed them in devDependencies
+by mistake, while entirely my fault, was frustrating. 
+It makes sense though, why keep npm packages around if they aren't needed?
 
-1. Implement your project with the above requirements.
-3. Test your project to make sure that when someone goes to your main page on Glitch/Heroku/etc., it displays correctly.
-4. Ensure that your project has the proper naming scheme `a4-firstname-lastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below. Be sure to add *all* project files.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a4-firstname-lastname`.
+If I could go back and do **simcar 2** over again though, I would 100% do it with Svelte.
 
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
+## Other Changes
+- Bootstrap instead of Bulma, with [Sveltestrap](http://sveltestrap.js.org/)
+- Audio queues for the race starting (was going to add engine noises, but they just sounded bad)
+- Removed the dynamic resolution, it was kinda jank but performance may take a hit
+    - As before, here is a video of playing/editing/removing just in case: https://youtu.be/MaLs8j6vnOI
+- Various stylistic changes
 
-## Your Web Application Title
 
-your hosting link e.g. http://a4-charlieroberts.glitch.me
-
-Include a very brief summary of your project here and what you changed / added to assignment #3. Briefly (3–4 sentences) answer the following question: did the new technology improve or hinder the development experience?
-
-Unlike previous assignments, this assignment will be solely graded on whether or not you successfully complete it. Partial credit will be generously given.
