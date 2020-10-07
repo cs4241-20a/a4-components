@@ -1,12 +1,11 @@
 Assignment 4 - Components
 ===
 
-
 ## Your Web Application Title Camera List Boi Reloaded Mark II
 
 Clay Oshiro-Leavitt
 
-your hosting link e.g. http://a4-charlieroberts.glitch.me
+your hosting link e.g. https://cs4241a4.herokuapp.com
 
 Include a very brief summary of your project here and what you changed / added to assignment #3. Briefly (3–4 sentences) answer the following question: did the new technology improve or hinder the development experience?
 
