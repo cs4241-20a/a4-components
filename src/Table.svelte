@@ -3,7 +3,7 @@
 
   import Edit from "./Edit.svelte";
 
-  import { editModal } from "./stores.js";
+  import { editModal, id, fullname, teamname } from "./stores.js";
 
   let data = [];
 
@@ -23,10 +23,6 @@
 
   updateData();
 
-  let id;
-  let fullname;
-  let teamname;
-
   let table;
 
   export function scrollToTable() {
@@ -34,9 +30,9 @@
   }
 
   function editEntry(_id, _fullname, _teamname) {
-    id = _id;
-    fullname = _fullname;
-    teamname = _teamname;
+    $id = _id;
+    $fullname = _fullname;
+    $teamname = _teamname;
     $editModal = true;
   }
 

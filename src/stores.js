@@ -7,4 +7,8 @@ export const time = writable("00:00.000");
 export const lap = writable("1");
 
 export const resultModal = writable(false);
+
+export const id = writable("");
+export const fullname = writable("");
+export const teamname = writable("");
 export const editModal = writable(false);
