@@ -17,7 +17,12 @@ class ListingForm extends React.Component {
         this.renderData()
       })
   }
-
+  renderHeader() {
+    let header = ["Make", "Model", "Format", "Price", "Condition", "ID"]
+    return header.map((key, index) => {
+       return <th key={index}>{key.toUpperCase()}</th>
+    })
+ }
   renderData() {
     return this.listings.map((listing, index) => {
       const { cameramake, cameramodel, cameraformat, price, condition, id } = listing
@@ -42,8 +47,9 @@ class ListingForm extends React.Component {
           Listings
 </button>
         <div>
-          <table>
+          <table id='listings'>
             <tbody>
+            <tr>{this.renderHeader()}</tr>
               {this.renderData()}
             </tbody>
           </table>

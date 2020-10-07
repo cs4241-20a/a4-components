@@ -9,3 +9,27 @@ li {
 input[type=text] {
     border: 5px solid lightgray;
 }
+
+#listings {
+    text-align: center;
+    border-collapse: collapse;
+    border: 3px solid #ddd;
+    width: 100%;
+  }
+  
+  #listings td, #listings th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #listings tr:nth-child(even){background-color: lightblue;}
+  
+  #listings tr:hover {background-color: #ddd;}
+  
+  #listings th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: teal;
+    color:white;
+  }
