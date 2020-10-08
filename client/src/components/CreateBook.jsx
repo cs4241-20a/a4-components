@@ -8,7 +8,6 @@ export default class CreateBook extends Component {
 
         this.onChange = this.onChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
-
         this.state = {
             title: '',
             author: '',
@@ -16,9 +15,23 @@ export default class CreateBook extends Component {
             hasCopy: '',
             owner: '',
             reviews: '',
+            users: [],
             error: '',
             message: ''
         } 
+    }
+
+    componentDidMount() {
+        Axios.get('http://localhost:5000/users/users')
+        .then(res => {
+            if(res.data.length > 0) {
+                this.setState({
+                    users: res.data.map(user => user.name),
+                    owner: res.data[0].name
+                })
+            }
+        })
+        .catch(e => console.log(e))
     }
 
     
@@ -35,10 +48,13 @@ export default class CreateBook extends Component {
             author: this.state.author,
             isbn: this.state.isbn,
             hasCopy: this.state.hasCopy,
-            reviews: this.state.reviews
+            reviews: this.state.reviews,
+            owner: this.state.owner
         }
+        console.log(book)
         Axios.post('http://localhost:5000/add', book)
         .then(res => {
+            console.log(res.data)
             if(!res.data.msg){
                 this.setState({
                     message: 'Book added successfully!'
@@ -64,6 +80,28 @@ export default class CreateBook extends Component {
                 }
                 <h3>Add a new Book</h3>
                 <form onSubmit={this.handleSubmit}>
+                    <div className="form-group"> 
+                        <label>Name: </label>
+                        <select 
+                        ref="userInput"
+                        required
+                        className="form-control"
+                        name="firstUser"
+                        value={this.state.owner}
+                        onChange={this.onChange}
+                        >
+                            {
+                            this.state.users.map(function(user) {
+                                return <option 
+                                    key={user}
+                                    value={user}
+                                    >
+                                        {user}
+                                    </option>
+                                    })
+                            }
+                        </select>
+                    </div>
                     <div className="form-group">
                        <label htmlFor="title">Title</label>
                        <input 

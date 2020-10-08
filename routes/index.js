@@ -1,9 +1,7 @@
 const express = require('express')
 const Book = require('../models/Book')
 const router = express.Router()
-const { ensureAuthenticated, forwardAuthenticated} = require('../config/auth')
-const passport = require('passport')
-const { restart } = require('nodemon')
+
 
 router.get('/books', (req, res) => {
   Book.find()
@@ -12,7 +10,7 @@ router.get('/books', (req, res) => {
 })
 
 router.post('/add', async (req, res) => {
-    const { title, author, isbn, hasCopy, reviews } = req.body
+    const { title, author, isbn, hasCopy, reviews, owner } = req.body
 
     const book = await Book.find({ isbn: req.body.isbn })
     if(book.length > 0) {
@@ -24,7 +22,8 @@ router.post('/add', async (req, res) => {
         author,
         isbn,
         hasCopy,
-        reviews
+        reviews,
+        owner
     })
   
     newBook.save()

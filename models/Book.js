@@ -22,8 +22,8 @@ const bookSchema = new mongoose.Schema({
         required: true
     },
     owner: {
-        type: mongoose.Schema.Types.ObjectId,
-        res: 'User'
+        type: String,
+        required: true
     },
     reviews: {
         type: String,
