@@ -2,32 +2,37 @@ const express = require('express')
 const Book = require('../models/Book')
 const router = express.Router()
 const { ensureAuthenticated, forwardAuthenticated} = require('../config/auth')
+const passport = require('passport')
+const { restart } = require('nodemon')
 
-router.get('/', forwardAuthenticated, (req, res) => {
-  res.send('Welcome')
+router.get('/books', (req, res) => {
+  Book.find()
+  .then(books => res.send(books))
+  .catch(e => console.log(e))
 })
 
-router.get('/books', ensureAuthenticated, (req, res) => {
-  console.log(req.user)
-})
-
-router.route('/add').post((req, res) => {
+router.post('/add', async (req, res) => {
     const { title, author, isbn, hasCopy, reviews } = req.body
-    const owner = req.user._id
-  
-    const newBook = new Book({
+
+    const book = await Book.find({ isbn: req.body.isbn })
+    if(book.length > 0) {
+      return res.send({ msg: 'Book already exists' })
+    }
+    else {
+      const newBook = new Book({
         title,
         author,
         isbn,
-        owner,
         hasCopy,
         reviews
-    });
+    })
   
     newBook.save()
-    .then(() => res.json('New book added!'))
-    .catch(err => res.status(400).json('Error: ' + err));
-  })
+    .then(() => res.send({ message: 'New book added!' }))
+    .catch(err => res.send({ msg: `Error: ${err}` }))
+    }
+
+})
 
 router.route('/:id').get((req, res) => {
     Book.findById(req.params.id)

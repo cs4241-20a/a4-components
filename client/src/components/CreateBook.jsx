@@ -1,3 +1,4 @@
+import Axios from 'axios'
 import React, { Component } from 'react'
 import { Alert } from 'react-bootstrap'
 
@@ -13,11 +14,13 @@ export default class CreateBook extends Component {
             author: '',
             isbn: '',
             hasCopy: '',
+            owner: '',
             reviews: '',
             error: '',
             message: ''
         } 
     }
+
     
     onChange(e) {
         this.setState({
@@ -34,7 +37,19 @@ export default class CreateBook extends Component {
             hasCopy: this.state.hasCopy,
             reviews: this.state.reviews
         }
-        console.log(book)
+        Axios.post('http://localhost:5000/add', book)
+        .then(res => {
+            if(!res.data.msg){
+                this.setState({
+                    message: 'Book added successfully!'
+                })
+            }
+            else {
+                this.setState({
+                    msg: res.data.msg
+                })
+            }
+        })
     }
     render() {
         return (
@@ -93,13 +108,13 @@ export default class CreateBook extends Component {
                    </div>
                    <div className="form-group">
                        <label className="pr-2">I have a copy of this book. </label>
-                       <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="hasCopy" value="Yes" onChange={this.onChange}/>
-                            <label class="form-check-label" for="inlineRadio2">Yes</label>
+                       <div className="form-check form-check-inline">
+                            <input className="form-check-input" type="radio" name="hasCopy" value="Yes" onChange={this.onChange}/>
+                            <label className="form-check-label" htmlFor="inlineRadio2">Yes</label>
                        </div>
-                       <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="hasCopy" value="No" onChange={this.onChange} />
-                            <label class="form-check-label" for="inlineRadio2">No</label>
+                       <div className="form-check form-check-inline">
+                            <input className="form-check-input" type="radio" name="hasCopy" value="No" onChange={this.onChange} />
+                            <label className="form-check-label" htmlFor="inlineRadio2">No</label>
                         </div>
                    </div>
                    <button type="submit">Submit</button>

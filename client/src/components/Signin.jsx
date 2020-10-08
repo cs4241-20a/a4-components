@@ -30,13 +30,11 @@ export default class Signin extends Component {
             name: this.state.name, 
             password: this.state.password
         }
-        console.log(user)
         Axios.post('http://localhost:5000/users/signin', user)
         .then(res => {
-            console.log(res)
-            if(!res.data){
+            if(!res.data.msg){
                 this.setState({
-                    message: 'You have signed in succesfully.'
+                    message: res.data.message
                 })
             }
             else {

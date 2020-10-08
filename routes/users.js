@@ -19,11 +19,23 @@ router.post('/register', async (req, res) => {
 
 })
 
-router.post('/signin', (req, res, next) => {
-    passport.authenticate('local', {
-      successRedirect: '/books'
-    })(req, res, next)
+// router.post('/signin', (req, res, next) => {
+//     passport.authenticate('local', {
+//       successRedirect: '/'
+//     })(req, res, next)
+// })
+
+router.post('/signin', passport.authenticate('local'), (req, res) => {
+    const username = req.user.name
+    res.send({ message: `User ${username} has signed in.` })
 })
+
+router.get('/users', (req, res) => {
+    User.find()
+    .then(users => res.send(users))
+    .catch(e => console.log(e))
+})
+
 
 
 router.get('/login/github', passport.authenticate('github'))

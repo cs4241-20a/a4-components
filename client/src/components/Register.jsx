@@ -43,9 +43,9 @@ export default class Register extends Component {
             }
             Axios.post('http://localhost:5000/users/register', user)
             .then(res => {
-                if(!res.data){
+                if(!res.data.msg){
                     this.setState({
-                        message: 'You have registered succesfully.'
+                        message: 'You have registered successfully!'
                     })
                 }
                 else {
