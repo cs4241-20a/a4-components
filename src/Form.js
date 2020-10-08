@@ -116,9 +116,6 @@ class Form extends React.Component {
      * results_list tables in app.html.
      */
     handle_add() {
-        console.log("kills: " +this.state.addKills);
-        console.log("assists: " +this.state.addAssists);
-        console.log("deaths: " +this.state.addDeaths);
         //The following source showed me how to extract values from a
         //form: https://www.w3schools.com/jsref/coll_form_elements.asp
         const json = {
@@ -132,14 +129,14 @@ class Form extends React.Component {
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body
-        }).then(function (response) {
-            if (response.status === 200) {
-                console.log("response status 200 for add");
-                //updateResults(response);
-            }
+        }).then(response => {
+              if (response.status === 200) {
+                  response.json().then(results => {
+                      this.props.onDataChange(results);
+                  });
+              }
         });
     }
-
 
     /**
      * Send a /modify API HTTP request to modifies a game's stats by
@@ -155,7 +152,7 @@ class Form extends React.Component {
             "assists": this.state.modifyAssists,
             "deaths": this.state.modifyDeaths
         }
-        /*
+
         let table = document.getElementById("results_list").getElementsByTagName("tbody")[0];
         for(let i = 0; i < table.rows.length; i++){
             let rowItems = table.rows[i].childNodes;
@@ -169,7 +166,7 @@ class Form extends React.Component {
                 });
             }
         }
-        */
+
         let body = json;//JSON.stringify(json);
         fetch('/modify', {
             method: 'POST',

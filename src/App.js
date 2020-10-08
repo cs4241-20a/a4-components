@@ -14,9 +14,9 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        fetch( '/results', {
+        /*fetch( '/results', {
             method:'GET'
-        }).then(response => this.updateResults(response));
+        }).then(response => this.updateResults(response));*/
     }
 
     /**
