@@ -1,0 +1,27 @@
+[
+    {
+        "type": "email",
+        "id": "emailaddress",
+        "name":"Email Address"
+    },
+    {
+    	"type":"text",
+    	"id":"username",
+    	"name":"User Name"
+    },
+    {
+    	"type":"password",
+    	"id":"password",
+    	"name": "Password"
+    },
+    {
+    	"type":"password",
+    	"id":"confirmpassword",
+    	"name":"Confirm Password"
+    },
+    {
+        "type":"checkbox",
+        "id":"newsletter",
+        "name": "Newsletter"
+    }
+]

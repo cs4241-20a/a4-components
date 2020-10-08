@@ -1,0 +1,56 @@
+[
+    {
+        "id": "name",
+        "name": "Name",
+        "content": "The name of the card is simply the name given to it. Like usernames, cards have unique names. The name can be found at the top left of the card.",
+        "list": [],
+        "content2": "",
+        "imgsrc": "/img/lightning-strike-name.png",
+        "imgalt": "MTG Card with the card name circled in yellow in the top left. Name is Lightning Strike."
+    },
+    {
+        "id": "manacost",
+        "name": "Mana Cost",
+        "content": "This indicates how much it costs to use the card. The number represents the number of any kind of mana to pay for it, while each of the color symbols represents how much of a specific color mana is required to pay for it. In the image to the right, it has a mana cost of 1 and a red, so it costs 2 mana to play it. The mana cost is found on the top right of the card, next to the name.",
+        "list": [],
+        "content2": "",
+        "imgsrc": "/img/lightning-strike-manacost.png",
+        "imgalt": "MTG Card with the mana cost circled in yellow in the top right. Mana cost is 1R."
+    },
+    {
+        "id": "cardtype", 
+        "name": "Card Type",
+        "content": "This indicates the type of card it is. In MTG, the following card types exist:",
+        "list": ["Creature", "Instant", "Sorcery", "Land", "Planeswalker", "Artifact", "Enchantment"],
+        "content2": "In addition, there are some subtypes, and cards can have multiple types (for example, many cards are both an artifact and a creature). The card type is found right below the card's art, around the middle left of it.",
+        "imgsrc": "/img/lightning-strike-cardtype.png",
+        "imgalt": "MTG Card with the card type circled in yellow in the middle left. The card type is Instant."
+    },
+    {
+        "id": "abilities", 
+        "name": "Abilities",
+        "content": "This indicates what the card does exactly. The abilities can include a wide range of information. The abilities are found in the center of the card, right below the card type.",
+        "list": [],
+        "content2": "",
+        "imgsrc": "/img/lightning-strike-abilities.png",
+        "imgalt": "MTG Card with the abilities circled in yellow in the center of the card, right below the card type. The abilty is: Lightning Strike deals 3 damage to target creature or player."
+    },
+    {
+        "id": "flavortext", 
+        "name": "Flavor Text",
+        "content": "This is an optional part of a card. Flavor text does not add anything to the game mechanically, but it adds to the story and is recommended when crafting cards that tell a story.",
+        "list": [],
+        "content2": "",
+        "imgsrc": "/img/lightning-strike-flavortext.png",
+        "imgalt": "MTG Card with the flavor text circled in yellow in the bottom middle. The flavor text is 'Storm on the horizon, cap`n!' -Grick Doobin, last words."
+    },
+    {
+        "id": "rarity", 
+        "name": "Rarity",
+        "content": "The rarity is used to indicate how common the card is when opening it up in a pack of random cards. It does not change how the card works, but it is needed when making a set of cards. The more common the card is, the simpler it should be. Below are the four rarities in the game:",
+        "list": ["Common (indicated with black text)", "Uncommon (indicated with silver text)", "Rare (indicated with gold text)", "Mythic (indicated with red text)"],
+        "content2": "Rarity is found to the right of the card type.",
+        "imgsrc": "/img/lightning-strike-rarity.png",
+        "imgalt": "MTG Card with the rarity circled in yellow in the middle right. The rarity is uncommon."
+    }
+]
