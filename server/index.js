@@ -63,6 +63,35 @@ app.post('/deletecard', bodyParser.json(), (req,res)=> {
     }))
 })
 
+const cookieSession = require('cookie-session')
+const passport = require('passport');
+require('./passport')
+//cookies as middlewear
+app.use(cookieSession({
+  name: 'github-auth-session',
+  keys: ['key1', 'key2']
+}))
+app.use(passport.initialize());
+app.use(passport.session());
+app.get('/auth/user',(req,res)=>{
+  console.log(req.user._json.login)
+  res.send({username:req.user._json.login})
+  
+})
+app.get('/auth/error', (req, res) => res.send('Unknown Error'))
+//passport as middlewear
+app.get('/auth/github',passport.authenticate('github',{ scope: [ 'user:email' ] }));
+app.get('/auth/github/callback',passport.authenticate('github', { failureRedirect: '/auth/error' }),
+function(req, res) {
+  console.log('test')
+  res.redirect('/data');
+});
+app.get('/logout', (req, res) => {
+  req.session = null;
+  req.logout();
+  res.redirect('/');
+})
+
 app.get('*', (req, res)=>{
     res.status(200).sendFile(path.join(__dirname, "..", "build", "index.html"))
 })

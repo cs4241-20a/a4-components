@@ -156,7 +156,7 @@ logIn(e) {
                         <input type="password" className="loginFields" id="passwordlogin" name="passwordlogin" onBlur={this.passWordLogin}/><br/><br/>
                         <button type="button" className="btn btn-lg btn-primary" id="login" onClick={this.logIn}>Sign In</button><br/><br/>
                     </form>
-                    <a role="button" aria-pressed="true" className="btn btn-lg btn-primary" href="https://github.com/login/oauth/authorize?client_id=bb174328d123ef3f1aa0&scope=gist">Sign In using Github</a><br/>
+                    <a role="button" aria-pressed="true" className="btn btn-lg btn-primary" href="https://github.com/login/oauth/authorize?client_id=d9ecdb15a78dba77d66c&scope=gist">Sign In using Github</a><br/>
                     <form>
                     </form>
                 </div>
@@ -164,4 +164,4 @@ logIn(e) {
         </div>
         )
     }
-}//<p class='info'>8 or more characters, at least 1 capital, lowercase, and number</p>
+}

@@ -42,11 +42,28 @@ export default class Data extends React.Component {
 
     }
     componentDidMount() {
-        const username = window.localStorage.username;
-        axios.post('/load', {username})
-        .then(res=> {
-            this.setState({listOfCards: res.data})
+        if(localStorage.getItem('username') == null) {
+          console.log('good?')
+          axios.get('/auth/user')
+        .then(res=>{
+            console.log(res)
+            console.log(res.data)
+          localStorage.setItem('username', res.data.username)
+            const username = window.localStorage.username;
+          axios.post('/load', {username})
+          .then(res=> {
+              this.setState({listOfCards: res.data})
+          })
         })
+        } else {
+          
+          const username = window.localStorage.username;
+          axios.post('/load', {username})
+          .then(res=> {
+              this.setState({listOfCards: res.data})
+          })
+        }
+        
       }
     render() {
         const username = window.localStorage.username;
