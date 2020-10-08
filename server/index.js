@@ -10,8 +10,8 @@ const client = new MongoClient(uri, { useNewUrlParser: true })
 let collection = null;
 let cardCollection = null;
 client.connect(err => {
-    collection = client.db("data").collection("test") 
-    cardCollection = client.db("data").collection("cardtest")
+    collection = client.db("data").collection("accounts") 
+    cardCollection = client.db("data").collection("cards")
 })
 
 app.use( (req,res,next) => {
