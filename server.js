@@ -40,7 +40,7 @@ app.use(passport.session())
 const bookRouter = require('./routes/index')
 const userRouter = require('./routes/users')
 
-app.use('/', bookRouter)
+app.use('/books', bookRouter)
 app.use('/users', userRouter)
 
 app.listen(port, () => {

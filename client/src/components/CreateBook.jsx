@@ -52,9 +52,8 @@ export default class CreateBook extends Component {
             owner: this.state.owner
         }
         console.log(book)
-        Axios.post('http://localhost:5000/add', book)
+        Axios.post('http://localhost:5000/books/add', book)
         .then(res => {
-            console.log(res.data)
             if(!res.data.msg){
                 this.setState({
                     message: 'Book added successfully!'
@@ -62,7 +61,7 @@ export default class CreateBook extends Component {
             }
             else {
                 this.setState({
-                    msg: res.data.msg
+                    error: res.data.msg
                 })
             }
         })
