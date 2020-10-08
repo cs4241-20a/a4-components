@@ -7,7 +7,7 @@ const Login = () => (
         Sign in with Github
       </h1>
       <div className="container-md">
-        <a href="/auth/github" type="button" class="btn btn-secondary btn-md btn-block"> Sign in</a>
+        <a href="/main" type="button" className="btn btn-secondary btn-md btn-block"> Sign in</a>
       </div>
     </div>
 );

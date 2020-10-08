@@ -1,4 +1,4 @@
-    
+   
 
 var nameTaskArr = ["go grocery shopping", "finish math homework"]
   var taskPriorArr = ["medium", "high"]
@@ -23,6 +23,8 @@ function addToTable(nameTaskArr, taskPriorArr, taskDeadlineArr) {
   console.log(nameTaskArr);
   console.log(taskPriorArr);
   console.log(taskDeadlineArr);
+  
+  var x;
  
   for (x = 0; x < length; x++) {
    
@@ -81,7 +83,7 @@ const submit = function( e ) {
     })
     .then( function( response ) {
       // do something with the reponse
-      
+      var data;
       data = response.json();
       
 
@@ -94,7 +96,7 @@ const submit = function( e ) {
       taskPriorArr = []
       taskDeadlineArr = [] 
       
-      dataLength = data.test.length
+      var dataLength = data.test.length
       
       for(let i = 0; i < dataLength; i++) {
        
