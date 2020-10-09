@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+
+{{#if user}}
+
+<head>
+  <title>CS4241 Assignment 4</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://unpkg.com/wingcss" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+  <section id="header_section"></section>
+  <section id="posts_section"></section>
+  <section id="userposts_section"></section>
+  <section id="leavecomment_section">
+    <b>Leave comment</b>
+    <form>
+      <ul class="flex-outer">
+        <li>
+          <label for="username">Username</label>
+          <input type="text" id="username" value="{{user.username}}" readonly />
+        </li>
+        <li>
+          <label for="title">Title</label>
+          <input type="text" id="title" placeholder="Title" />
+        </li>
+        <li>
+          <label for="message">Message</label>
+          <textarea rows="5" id="message" placeholder="Message"></textarea>
+        </li>
+
+        <li>
+          <p>Categories</p>
+          <ul class="flex-inner">
+            <li>
+              <input type="checkbox" id="spoiler" />
+              <label for="spoiler">Spoiler</label>
+            </li>
+            <li>
+              <input type="checkbox" id="bug" />
+              <label for="bug">Bug</label>
+            </li>
+            <li>
+              <input type="checkbox" id="fluff" />
+              <label for="fluff">Fluff</label>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <button id="create-post">Submit</button>
+        </li>
+      </ul>
+    </form>
+  </section>
+  <section id="editComment_section"></section>
+  <section id="deleteComment_section"></section>
+  <script type="text/javascript" src="js/header.js"></script>
+  <script type="text/javascript" src="js/editComment.js"></script>
+  <script type="text/javascript" src="js/allPosts.js"></script>
+  <script type="text/javascript" src="js/deleteComment.js"></script>
+  <script type="text/javascript" src="js/userPosts.js"></script>
+  <script type="text/javascript" src="js/scripts.js"></script>
+
+
+</body>
+
+{{else}}
+
+<head>
+  <title>CS4241 Assignment 4</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://unpkg.com/wingcss" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+  <section id="login_react"></section>
+  <script type="text/javascript" src="js/login.js"></script>
+</body>
+{{/if}}
+
+</html>
