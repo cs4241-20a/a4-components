@@ -152,8 +152,12 @@ app.post('/add', bodyParser.json(), (request, response) => {
   userinfo.push(request.body)
   collection.insertOne(request.body)
   .then(dbresponse => {
-    //console.log(dbresponse)
-    response.json(dbresponse.ops[0])
+    console.log(dbresponse)
+    //response.json(dbresponse.ops[0])
+    collection.find({username: request.cookies['Current User:']}).toArray()
+      .then(docs => {
+      response.json(docs)
+    })
   })
 })
 
