@@ -16,13 +16,9 @@ function launch() {
 	const app = express()
 	const port = process.env.PORT || 2020
 
-	// configure pug as view engine for html pages
-	app.set('view engine', 'pug')
-	app.set('views', './views')
-
 	app.use(body_parser.urlencoded({ extended: true }))
 	app.use(body_parser.json())
-	app.use(cors({origin: 'http://localhost:3000', optionsSuccessStatus: 200, credentials: true}))
+	app.use(cors())
 	app.use(session({
 		store: new MongoStore({ mongooseConnection: mongoose.connection }),
 		secret: process.env.SESSION_SECRET,
@@ -34,22 +30,11 @@ function launch() {
 	})
 	)
 
-  
-	// automatically append session to res.render
-	app.use( function( req, res, next ) {
-		// grab reference of render
-		var _render = res.render
-		// override logic
-		res.render = function( view, options, fn ) {
-			options = Object.assign({session: req.session, user: req.user}, options)
-			// continue with original render
-			_render.call( this, view, options, fn )
-		}
-		next()
-	} )
-  
 	app.use(routes)
-	app.use('/', express.static(path.resolve('public')))
+	app.use(express.static(path.join(__dirname, 'build')))
+	app.get('/', function(req, res) {
+		res.sendFile(path.join(__dirname, 'build', 'index.html'))
+	})
 	app.use('/files', express.static(global.upload_path))
 
 	app.listen(port, () =>

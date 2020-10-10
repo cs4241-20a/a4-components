@@ -88,8 +88,7 @@ class FileView extends React.Component {
 			return null
 		}
 		let {download_path, title, uploader, mime_type, file_name} = this.state.data
-		download_path = API.base_url + download_path
-
+		// download_path = API.base_url + download_path
 
 		const tbl_columns = {'title': 'Post Title', 'uploader': 'Uploader Name', 'id': 'Id', 'file_name': 'File Name', 'mime_type': 'Mimetype', 'size_formatted': 'Size', 'created_at': 'Upload Timestamp'}
 		const tbl_data = {}

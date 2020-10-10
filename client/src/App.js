@@ -2,7 +2,7 @@ import React from 'react'
 import { Nav, Navbar } from 'react-bootstrap'
 import { createBrowserHistory } from 'history'
 import {
-	Router,
+	HashRouter as Router,
 	Switch,
 	Route,
 	NavLink,
