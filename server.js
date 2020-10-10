@@ -175,7 +175,7 @@ app.post('/edit', bodyParser.json(), (request, response, time) => {
       //response.json( result )
       collection.find({username: request.cookies['Current User:']}).toArray()
         .then(docs => {
-          console.log("Printing from server! " + docs)
+          //console.log("Printing from server! " + docs)
           response.json(docs)
       })
   })
@@ -186,7 +186,12 @@ app.post('/delete', bodyParser.json(), (request, response) => {
   collection
     .deleteOne({ _id:mongodb.ObjectID( request.body.id ) })
     .then( result => {
-      response.json( result )
+      //response.json( result )
+      collection.find({username: request.cookies['Current User:']}).toArray()
+        .then(docs => {
+          //console.log("Printing from server! " + docs)
+          response.json(docs)
+      })
   })
 })
 

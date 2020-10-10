@@ -93,6 +93,22 @@
     .then( response => response.json() )
   }
 
+  function deleteTask(e) {
+    e.preventDefault()
+
+    const todoForm = document.querySelector("form")
+    var tdi = ids[ids.length-1]
+
+    promise = fetch( '/delete', {
+           method:'POST',
+           body: JSON.stringify({id: tdi._id}),
+           headers: {
+            "Content-type": "application/json"
+          }
+    })
+    .then( response => response.json() )
+  }
+
   function setFields(todoItem) {
     const todoForm = document.querySelector("form")
     todoForm.elements.task.value = todoItem.task
@@ -154,7 +170,7 @@
     <div class="form-group mb-2 mr-sm-2" align="center">
       <button type="submit" class="btn btn-large btn-primary" id="add" align="center" on:click={addTask}>Add</button>
       <button type="submit" class="btn btn-large btn-primary" id="edit" align="center" on:click={editTask}>Edit</button>
-      <button type="submit" class="btn btn-large btn-primary" id="delete" align="center">Delete</button>
+      <button type="submit" class="btn btn-large btn-primary" id="delete" align="center" on:click={deleteTask}>Delete</button>
     </div>
   </form>
   </div>
