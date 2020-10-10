@@ -1,30 +1,25 @@
-Assignment 4 - Components
-===
+# Assignment 4 - Components
+## Drive++ *with* ***React***
+Bryce Corbitt
 
-Due: October 9th, by 11:59 PM.
+http://mbsr.wpi.edu:2021
 
-For this assignment you will re-implement the client side portion of A3 using either React or Svelte components.
+**Drive++ *with React*** is a remaster of my previous project, [**Drive++**](https://github.com/brycecorbitt/a3-persistence). This iteration's frontend is built entirely with the React framework. Additionally, this version uses Bootstrap v4 (v3 was used prior). The endpoints on the server that used to render HTML pages now respond with JSON data that is fetched using axios. Additionally, file feeds now use *pagination*, so they're ACTUAL feeds now that fetch more entries as you scroll :D.
 
-This project can be implemented on any hosting service (Glitch, DigitalOcean, Heroku etc.), however, you must include all files in your GitHub repo so that the course staff can view them; these files are not available for viewing in many hosting systems.
+I think this is the most visually appealing web app I've ever created. Now I don't think that's entirely because of React or Bootstrap V4, but I think I definitely put a lot more effort into it because I was motivated to learn React. This was my first exposure to client-sided rendering, so I was able to learn a lot of new concepts. I also got to try Generator functions in JavaScript for the first time (used in API pagination), which was really cool. My biggest challenge was trying to get the API communication working during development. I was running `react develop` so the app was running on a different origin than the node.js server and I ran into a bunch of CORS errors. Thankfully specifying the `proxy` field in my `package.json` to the address of the node.js temporarily did the trick!
 
-Deliverables
----
+### Usage:
+**Logging in**
+![Login](https://i.imgur.com/rk0g5wl.gif)
 
-Do the following to complete this assignment:
+**Uploading a File**
+![File Upload](https://i.imgur.com/H9DZlen.gif)
 
-1. Implement your project with the above requirements.
-3. Test your project to make sure that when someone goes to your main page on Glitch/Heroku/etc., it displays correctly.
-4. Ensure that your project has the proper naming scheme `a4-firstname-lastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below. Be sure to add *all* project files.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a4-firstname-lastname`.
+**Editing File Entry**
+![File Edit](https://i.imgur.com/iJVbHzh.gif)
 
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
+**Deleting File Entry**
+![File Delete](https://i.imgur.com/PI174mv.gif)
 
-## Your Web Application Title
-
-your hosting link e.g. http://a4-charlieroberts.glitch.me
-
-Include a very brief summary of your project here and what you changed / added to assignment #3. Briefly (3–4 sentences) answer the following question: did the new technology improve or hinder the development experience?
-
-Unlike previous assignments, this assignment will be solely graded on whether or not you successfully complete it. Partial credit will be generously given.
+**Browsing & Downloading All Files (No Auth Required)**
+![File Browse](https://i.imgur.com/xXbWTpz.gif)
