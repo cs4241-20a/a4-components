@@ -61,3 +61,10 @@
 </div>
 <p id="errorText" align="center">
 </p>
+
+<style>
+  #errorText {
+    color: red;
+    margin-top: 20px;
+  }
+</style>

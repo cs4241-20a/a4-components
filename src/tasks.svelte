@@ -200,3 +200,7 @@
   <div align="center">
   <button type="button" class="btn btn-primary" id="signout" on:click={signOut}>Sign Out</button>
 </div>
+
+<style>
+  tr:hover{background-color:#EEE}
+</style>
