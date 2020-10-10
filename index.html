@@ -11,7 +11,7 @@
     <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+    
 </head>
 
 <body>
@@ -151,28 +151,83 @@
       render() {
         return (
           <div>
-            
-            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-                <a class="navbar-brand" href="#">To-do List</a>
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+              <a className="navbar-brand" href="#">
+                🎟️ Ticket Mania - Secure Edition - Reactified ⚛️
+              </a>
+              <button
+                className="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                <span className="navbar-toggler-icon"></span>
+              </button>
 
-                <ul class="navbar-nav mr-auto"></ul>
-                <div class="form-inline my-2 my-lg-0" id="profile" style="display: none">
-                    <button class="btn btn-light disabled my-2 my-sm-0">
-                        Hello <span id="l-username"></span>
+              <div
+                className="collapse navbar-collapse"
+                id="navbarSupportedContent"
+              >
+                <ul className="navbar-nav mr-auto"></ul>
+                {!this.state.username && (
+                  <div className="form-inline my-2 my-lg-0" id="login">
+                    <input
+                      className="form-control mr-sm-2"
+                      id="username"
+                      placeholder="Username"
+                      value={this.state.usernameInput}
+                      onChange={(e) =>
+                        this.setState({ usernameInput: e.target.value })
+                      }
+                    />
+                    <input
+                      className="form-control mr-sm-2"
+                      placeholder="Password"
+                      type="password"
+                      value={this.state.passwordInput}
+                      onChange={(e) =>
+                        this.setState({ passwordInput: e.target.value })
+                      }
+                    />
+                    <button
+                      className="btn btn-outline-success my-2 my-sm-0"
+                      onClick={this.login}
+                    >
+                      Login / Signup
                     </button>
-                    <button class="btn btn-danger my-2 my-sm-0 ml-2" id="logoutButton">
-                        Logout
+                    <a
+                      className="btn btn-dark my-2 my-sm-0 ml-2"
+                      href="/auth/github"
+                    >
+                      🐱 Login With Github
+                    </a>
+                  </div>
+                )}
+                {this.state.username && (
+                  <div className="form-inline my-2 my-lg-0" id="profile">
+                    <button className="btn btn-info disabled my-2 my-sm-0">
+                      Logged in as{" "}
+                      <span id="l-username">{this.state.username}</span>
                     </button>
-                </div>
-
+                    <button
+                      className="btn btn-danger my-2 my-sm-0 ml-2"
+                      onClick={this.logout}
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
             </nav>
 
-            
             <div className="container-fluid">
               {!this.state.username && (
                 <div id="loginGate">
                   <div className="alert alert-danger mt-1" role="alert">
-                    <h1>Log in.</h1>
+                    <h1>🔒 Please login to access tickets.</h1>
                     <h3>
                       An account will be created if you do not already have one
                     </h3>
@@ -189,7 +244,8 @@
                         <div className="card-body">
                           <h5 className="card-title">Add New Ticket</h5>
                           <h6 className="card-subtitle mb-2 text-muted">
-                            Only you can see your to-do items
+                            Only you can see your tickets unless we get hacked
+                            lol
                           </h6>
                           <hr />
                           <div className="form-group">
@@ -364,5 +420,6 @@
 
     ReactDOM.render(<App />, document.getElementById("app"));
   </script>
+
 
 </html>
