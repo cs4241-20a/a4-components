@@ -151,26 +151,10 @@
       render() {
         return (
           <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-              <a className="navbar-brand" href="#">
-                🎟️ Ticket Mania - Secure Edition - Reactified ⚛️
-              </a>
-              <button
-                className="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-              >
-                <span className="navbar-toggler-icon"></span>
-              </button>
+            <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+              <a className="navbar-brand" href="#">To-do List 2.0</a>
 
-              <div
-                className="collapse navbar-collapse"
-                id="navbarSupportedContent"
-              >
+              <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto"></ul>
                 {!this.state.username && (
                   <div className="form-inline my-2 my-lg-0" id="login">
@@ -202,38 +186,32 @@
                       className="btn btn-dark my-2 my-sm-0 ml-2"
                       href="/auth/github"
                     >
-                      🐱 Login With Github
+                      Login Using Github
                     </a>
                   </div>
                 )}
                 {this.state.username && (
                   <div className="form-inline my-2 my-lg-0" id="profile">
-                    <button className="btn btn-info disabled my-2 my-sm-0">
-                      Logged in as{" "}
-                      <span id="l-username">{this.state.username}</span>
-                    </button>
-                    <button
-                      className="btn btn-danger my-2 my-sm-0 ml-2"
-                      onClick={this.logout}
-                    >
-                      Logout
-                    </button>
+                    <button className="btn btn-light disabled my-2 my-sm-0">Hello {" "}<span id="l-username">{this.state.username}</span></button>
+                    <button className="btn btn-danger my-2 my-sm-0 ml-2" onClick={this.logout}>Logout</button>
                   </div>
                 )}
               </div>
             </nav>
 
-            <div className="container-fluid">
+            <div className="container" style="min-width: 500px; max-width: 800px;">
               {!this.state.username && (
                 <div id="loginGate">
                   <div className="alert alert-danger mt-1" role="alert">
-                    <h1>🔒 Please login to access tickets.</h1>
-                    <h3>
-                      An account will be created if you do not already have one
-                    </h3>
+                    <h1>Login or create a new account.</h1>
+                    
+                        
+
                   </div>
                 </div>
               )}
+
+
 
               {this.state.username && (
                 <div className="pages" id="pages">
@@ -242,10 +220,9 @@
                     <div className="col-md-4 pr-1">
                       <div className="card">
                         <div className="card-body">
-                          <h5 className="card-title">Add New Ticket</h5>
+                          <h3 className="card-title">Create To-do</h3>
                           <h6 className="card-subtitle mb-2 text-muted">
-                            Only you can see your tickets unless we get hacked
-                            lol
+                            Input the field below and click "Create" to add a task
                           </h6>
                           <hr />
                           <div className="form-group">
@@ -257,7 +234,7 @@
                               onChange={(e) =>
                                 this.setState({ taskInput: e.target.value })
                               }
-                              placeholder="I want to rule the world."
+                              placeholder="Do a kick flip"
                             />
                           </div>
                           <div className="form-group">
@@ -278,10 +255,7 @@
                           <a
                             className="btn btn-primary"
                             id="submitTicket"
-                            onClick={this.submit}
-                          >
-                            Submit Ticket
-                          </a>
+                            onClick={this.submit}>Create</a>
                         </div>
                       </div>
                     </div>
@@ -289,16 +263,15 @@
                     <div className="col-md-8 pl-1">
                       <div className="card">
                         <div className="card-body">
-                          <h5 className="card-title">Your Tickets</h5>
+                          <h5 className="card-title">To-do List</h5>
                           <h6 className="card-subtitle mb-2 text-muted">
-                            You can edit any of these fields by clicking on them
-                            directly.
+                            View and edit all To-dos in the list below
                           </h6>
                           <table className="table">
                             <thead>
                               <tr>
                                 <th></th>
-                                <th>Task</th>
+                                <th>Description</th>
                                 <th>Priorty</th>
                                 <th>Due Date</th>
                                 <th>Operations</th>
