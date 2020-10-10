@@ -68,12 +68,6 @@ export default class Signin extends Component {
                     && (<Alert key='success' variant='success'>{this.state.message}</Alert>)
                 }
                 <h3>Sign In</h3>
-                <button 
-                style={buttonStyle} 
-                onClick={() => Axios.get('http://localhost:5000/users/login/github')}
-                >
-                    <i class="fab fa-github-square fa-lg"></i>  Sign in with Github
-                </button>
                <form onSubmit={this.handleSubmit}>
                    <div className="form-group">
                        <label htmlFor="name">Name</label>
@@ -95,7 +89,7 @@ export default class Signin extends Component {
                        value={this.state.password}
                        onChange={this.onChange} />
                    </div>
-                   <button type="submit">Sign in</button>
+                   <button type="submit" className="btn btn-dark btn-block">Sign in</button>
                </form>
             </div>
         )

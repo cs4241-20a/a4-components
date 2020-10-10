@@ -104,7 +104,7 @@ export default class Register extends Component {
                        value={this.state.password2}
                        onChange={this.onChange} />
                    </div>
-                   <button type="submit">Submit</button>
+                   <button type="submit" className="btn btn-dark btn-block">Submit</button>
                </form>
             </div>
         )

@@ -132,18 +132,6 @@ export default class CreateBook extends Component {
                        onChange={this.onChange} />
                    </div>
                    <div className="form-group">
-                       <label for="reviews">Brief Reviews</label>
-                        <textarea 
-                        rows="3"
-                        id="reviews"
-                        name="reviews"
-                        className="form-control"
-                        placeholder="How do you feel about this book?"
-                        value={this.state.value}
-                        onChange={this.onChange}
-                        ></textarea>
-                   </div>
-                   <div className="form-group">
                        <label className="pr-2">I have a copy of this book. </label>
                        <div className="form-check form-check-inline">
                             <input className="form-check-input" type="radio" name="hasCopy" value="Yes" onChange={this.onChange}/>
@@ -154,7 +142,7 @@ export default class CreateBook extends Component {
                             <label className="form-check-label" htmlFor="inlineRadio2">No</label>
                         </div>
                    </div>
-                   <button type="submit">Submit</button>
+                   <button type="submit" className="btn btn-dark btn-block">Submit</button>
                 </form>
             </div>
         )
