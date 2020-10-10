@@ -36,11 +36,13 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 
-const bookRouter = require('./routes/index')
+const bookRouter = require('./routes/books')
 const userRouter = require('./routes/users')
+const indexRouter = require('./routes/index')
 
 app.use('/books', bookRouter)
 app.use('/users', userRouter)
+app.use('/', indexRouter)
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`)
