@@ -14,7 +14,7 @@ function App() {
     <Router>
       <Navbar />
       <br />
-      <Route path="/"exact component={BookList} />
+      <Route path="https://a4-xiaoyue-lyu.herokuapp.com/"exact component={BookList} />
       <Route path="/edit/:id" component={EditBook} />
       <Route path="/create" component={CreateBook} />
       <Route path="/sign-up" component={Register} />
