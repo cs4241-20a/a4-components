@@ -10,16 +10,16 @@ I think this is the most visually appealing web app I've ever created. Now I don
 
 ### Usage:
 **Logging in**
-![Login](https://i.imgur.com/rk0g5wl.gif)
+<img src="demo_recordings/login.gif?raw=true">
 
 **Uploading a File**
-![File Upload](https://i.imgur.com/H9DZlen.gif)
+<img src="demo_recordings/upload.gif?raw=true">
 
 **Editing File Entry**
-![File Edit](https://i.imgur.com/iJVbHzh.gif)
+<img src="demo_recordings/edit.gif?raw=true">
 
 **Deleting File Entry**
-![File Delete](https://i.imgur.com/PI174mv.gif)
+<img src="demo_recordings/delete.gif?raw=true">
 
 **Browsing & Downloading All Files (No Auth Required)**
-![File Browse](https://i.imgur.com/xXbWTpz.gif)
+<img src="demo_recordings/browse.gif?raw=true">
