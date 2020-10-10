@@ -1,6 +1,7 @@
 <script>
   const user1 = null;
   var count = 0;
+  const ids = [];
 
   const getUser = function() {
     const u = fetch('/userpage', {
@@ -69,7 +70,35 @@
         }
     })
     .then( response => response.json() )
+  }
 
+  function editTask(e) {
+    e.preventDefault()
+
+    const todoForm = document.querySelector("form")
+    var tdi = ids[ids.length-1]
+    console.log("TDI: ", tdi)
+    tdi.task = todoForm.elements.task.value
+    tdi.duedate = todoForm.elements.duedate.value
+    tdi.priority = todoForm.elements.priority.value
+    console.log("Modified: ", tdi)
+
+    promise = fetch( '/edit', {
+           method:'POST',
+           body: JSON.stringify(tdi),
+           headers: {
+            "Content-type": "application/json"
+          }
+    })
+    .then( response => response.json() )
+  }
+
+  function setFields(todoItem) {
+    const todoForm = document.querySelector("form")
+    todoForm.elements.task.value = todoItem.task
+    todoForm.elements.duedate.value = todoItem.duedate
+    todoForm.elements.priority.value = todoItem.priority
+    ids.push(todoItem)
   }
 
   let promise = getUser()
@@ -91,7 +120,7 @@
     {#await promise then tasks}
     <tbody>
       {#each tasks as task}
-      <tr>
+      <tr on:click={setFields(task)}>
         <td type="task">{task.task}</td>
         <td type="duedate">{task.duedate}</td>
         <td type="priority">{task.priority}</td>
@@ -124,7 +153,7 @@
       </div>
     <div class="form-group mb-2 mr-sm-2" align="center">
       <button type="submit" class="btn btn-large btn-primary" id="add" align="center" on:click={addTask}>Add</button>
-      <button type="submit" class="btn btn-large btn-primary" id="edit" align="center">Edit</button>
+      <button type="submit" class="btn btn-large btn-primary" id="edit" align="center" on:click={editTask}>Edit</button>
       <button type="submit" class="btn btn-large btn-primary" id="delete" align="center">Delete</button>
     </div>
   </form>

@@ -171,8 +171,13 @@ app.post('/edit', bodyParser.json(), (request, response, time) => {
       }
     )
     .then( result => {
-      //console.log(result)
-      response.json( result )
+      console.log(result)
+      //response.json( result )
+      collection.find({username: request.cookies['Current User:']}).toArray()
+        .then(docs => {
+          console.log("Printing from server! " + docs)
+          response.json(docs)
+      })
   })
 })
 
