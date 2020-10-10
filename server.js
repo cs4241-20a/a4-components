@@ -18,7 +18,7 @@ const mongoConfig = {
   useUnifiedTopology: true,
 };
 
-app.set("trust proxy", 1); // trust first proxy
+app.set("trust proxy", 1);
 app.use(
   session({
     secret: process.env.A4_SECRET,
@@ -49,8 +49,8 @@ passport.use(
   new GitHubStrategy(
     {
       clientID: process.env.GITHUB_CLIENTID,
-      clientSecret: process.env.GITHUB_CLIENTSECRET, 
-      callbackURL: process.env.GITHUB_CALLBACKURL, 
+      clientSecret: process.env.GITHUB_CLIENTSECRET,
+      callbackURL: process.env.GITHUB_CALLBACKURL,
     },
     async (accessToken, refreshToken, profile, cb) => {
       const client = new MongoClient(mongoURI, mongoConfig);
@@ -121,7 +121,7 @@ passport.use(
 app.get("/auth/github", passport.authenticate("github"));
 
 app.get(
-  "/user/signin/callback", 
+  "/user/signin/callback",
   passport.authenticate("github", { failureRedirect: "/" }),
   function (req, res) {
     console.log(req.user);
