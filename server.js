@@ -22,7 +22,6 @@ connection.once('open', () => {
 
 // Passport config
 require('./config/passportLocal.js')(passport)
-require('./config/passportGithub')(passport)
 
 // Express session
 app.use(
