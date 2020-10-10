@@ -1,6 +1,8 @@
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
+const favicon = require('serve-favicon')
+const path = require('path')
 const session = require('express-session')
 const passport = require('passport')
 
@@ -8,6 +10,8 @@ require('dotenv').config()
 
 const app = express()
 const port = process.env.PORT ||  5000
+
+app.use(favicon(path.join(__dirname, 'favicon.ico')))
 
 app.use(cors())
 app.use(express.json())
