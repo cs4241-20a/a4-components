@@ -21,7 +21,8 @@
       if(json.value == true) {
         console.log("Sending to new page!")
         userName = document.getElementById("user").value
-        window.location = '/signin'
+        console.log(userName)
+        location.reload()
       }
       else if (json.value == false) {
         var display = document.getElementById("errorText")
@@ -32,6 +33,11 @@
         display.innerHTML = "User does not exist. Make a new account!"
       }
     })
+  }
+
+  function sendToTasks(signedIn) {
+    if(signedIn == true)
+      window.location = '/signin'
   }
 </script>
 

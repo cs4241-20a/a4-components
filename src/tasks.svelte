@@ -1,4 +1,6 @@
 <script>
+  export let signedOut = false;
+
   const user1 = null;
   var count = 0;
   const ids = [];
@@ -17,10 +19,10 @@
       console.log(json)
       const header = document.getElementById("welcome")
       console.log(header)
-      const user1 = json
-      var message = "Hello " + json + "!"
+      const user1 = json.user
+      var message = "Hello " + json.user + "!"
       header.appendChild(document.createTextNode(message))
-      return json
+      return json.user
     })
     .then(function(jso) {
       return getTasks(jso)
@@ -117,6 +119,27 @@
     ids.push(todoItem)
   }
 
+  function signOut(e) {
+    e.preventDefault()
+
+    console.log('Going to Sign Out')
+
+    fetch('/signout', {
+     method: 'GET',
+     headers: {
+       "Content-type": "application/json"
+     }
+    })
+    .then( function(response) {
+       return response.text();
+    })
+    .then(function(json) {
+     console.log("Bye!")
+     signedOut = true
+     location.reload()
+    })
+  }
+
   let promise = getUser()
 </script>
 
@@ -175,5 +198,5 @@
   </form>
   </div>
   <div align="center">
-  <button type="button" class="btn btn-primary" id="signout">Sign Out</button>
+  <button type="button" class="btn btn-primary" id="signout" on:click={signOut}>Sign Out</button>
 </div>

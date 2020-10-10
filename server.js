@@ -124,13 +124,14 @@ function openNewPage(response) {
 
 app.get('/signin', (request, response) => {
   response.sendFile(__dirname + '/public/newpage.html')
+  //response.sendFile(__dirname + '/src/tasks.svelte')
 })
 
 app.get('/userpage', bodyParser.json(), (request, response) => {
   //response.send({username: login[login.length-1], })
   var user = request.cookies['Current User:']
-  console.log(user)
-  response.json(user)
+  console.log("This is our user: " + user)
+  response.json({user: user})
 })
 
 app.get('/tableData', bodyParser.json(), (request, response) => {
