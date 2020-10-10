@@ -34,7 +34,7 @@ app.use(responseTime(function(request, response, time) {
 const mongodb = require('mongodb')
 const MongoClient = mongodb.MongoClient;
 
-const uri = `mongodb+srv://nchintada:${process.env.DBPASSWORD}@cluster0.impei.mongodb.net/<dbname>?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://nchintada:Shockwave1@cluster0.impei.mongodb.net/<dbname>?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true });
 
 let collection = null

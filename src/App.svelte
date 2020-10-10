@@ -1,8 +1,13 @@
 <script>
 	import login from './login.svelte'
 	import tasks from './tasks.svelte'
+
+	let userName;
+	let showTasks = false;
+
 </script>
 
+<!-- <svelte:component this={login} /> -->
 <svelte:component this={tasks} />
 
 <style>
