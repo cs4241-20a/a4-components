@@ -1,6 +1,7 @@
-let mongoose = require('mongoose')
+const mongoose = require('mongoose')
+const mongoosePaginate = require('mongoose-paginate-v2')
 
-let uploadSchema = mongoose.Schema({
+const uploadSchema = mongoose.Schema({
 	uploader_id: {
 		type: mongoose.Schema.Types.ObjectId,
 		required: true
@@ -59,5 +60,6 @@ uploadSchema.virtual('quota_percentage').get(function(){
 	return `${((this.size / 200000000.0) * 100).toFixed(3)}%` // 200MB max (soft limit) storage
 })
 
+mongoose.plugin(mongoosePaginate)
 
 module.exports = mongoose.model('Upload', uploadSchema)

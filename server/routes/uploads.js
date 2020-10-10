@@ -18,23 +18,28 @@ const upload = multer({ storage: storage })
 
 // File Submission Form
 router.post('/', upload.single('file'), function (req, res) {
-	console.log(req.file, req.body)
-	const id = req.user._id
-	const params = {uploader_id: id, uploader: req.body.uploader, title: req.body.key }
-	params.file_name = req.file.originalname
-	params.upload_path = req.file.path
-	params.upload_name = req.file.filename
-	params.mime_type = req.file.mimetype
-	params.size = req.file.size
-	new Upload(params).save().then(() => {
-		res.redirect('/uploads')
-	}).catch(err => {
+	try {
+		const id = req.session.user._id
+		const params = {uploader_id: id, uploader: req.body.uploader, title: req.body.title }
+		params.file_name = req.file.originalname
+		params.upload_path = req.file.path
+		params.upload_name = req.file.filename
+		params.mime_type = req.file.mimetype
+		params.size = req.file.size
+		new Upload(params).save().then((u) => {
+			const result = u.toJSON({virtuals: true})
+			res.status(201).json(result)
+		})
+	}
+	catch(err) {
+		console.err(err)
+		if(req.file) {
+			fs.unlinkSync(req.file.path)
+		}
 		res.send('Error: ' + err)
-		fs.unlinkSync(params.upload_path)
-	})
+	}
 })
 
-// POST form to delete files
 router.delete('/:id', async function (req, res) {
 	const id = req.params.id
 	let file
@@ -46,7 +51,7 @@ router.delete('/:id', async function (req, res) {
 		return
 	}
 
-	if (req.user._id != file.uploader_id){
+	if (req.session.user._id != file.uploader_id){
 		res.status(403).send('You do not have permission to delete this file')
 		return
 	}
@@ -61,40 +66,67 @@ router.delete('/:id', async function (req, res) {
 })
 
 router.get('/', function (req, res) {
-	Upload.find({}).sort({updatedAt: 'desc'}).exec().then((results) => {
+	let {page, limit} = req.query
+	if(page === undefined || limit === undefined) {
+		res.status(400).send('Missing one or both of the following query parameters: page, limit.')
+		return
+	}
+	page = parseInt(page)
+	limit = parseInt(limit)
+	if(isNaN(page) || isNaN(limit)){
+		res.status(400).send('One or both of the following query parameters are invalid: page, limit.')
+		return
+	}
+
+	Upload.paginate(undefined, {page: page, limit: limit, sort: {updatedAt: 'desc'}}).then((page) => {
 		const entries = []
+		const results = page.docs
 		results.forEach(result => {
 			const entry = result.toJSON({virtuals: true})
-			entry.created_at = new Date(Date.parse(entry.createdAt + ' UTC'))
-			entry.updated_at = new Date(Date.parse(entry.updatedAt + ' UTC'))
+			entry.created_at = entry.createdAt
+			entry.updated_at = entry.updatedAt
 			delete entry.createdAt
 			delete entry.updatedAt
 			entries.push(entry)
 		})
-		res.render('uploads', { entries: entries, title: 'Uploads - Drive++' })
+		res.json(entries)
 	}).catch(err => {
 		res.send('Error: ' + err)
 	})
 })
 
-router.get('/user', function(req, res){
-	Upload.find({uploader_id: req.user._id}).sort({updatedAt: 'desc'}).exec().then((results) => {
+router.get('/user', function (req, res) {
+	let {page, limit} = req.query
+	let {_id} = req.session.user
+	if(page === undefined || limit === undefined) {
+		res.status(400).send('Missing one or both of the following query parameters: page, limit.')
+		return
+	}
+	page = parseInt(page)
+	limit = parseInt(limit)
+	if(isNaN(page) || isNaN(limit)){
+		res.status(400).send('One or both of the following query parameters are invalid: page, limit.')
+		return
+	}
+
+	Upload.paginate({uploader_id: _id}, {page: page, limit: limit, sort: {updatedAt: 'desc'}}).then((page) => {
 		const entries = []
+		const results = page.docs
 		results.forEach(result => {
 			const entry = result.toJSON({virtuals: true})
-			entry.created_at = new Date(Date.parse(entry.createdAt + ' UTC'))
-			entry.updated_at = new Date(Date.parse(entry.updatedAt + ' UTC'))
+			entry.created_at = entry.createdAt
+			entry.updated_at = entry.updatedAt
 			delete entry.createdAt
 			delete entry.updatedAt
 			entries.push(entry)
 		})
-		res.render('uploads', { entries: entries, title: 'Uploads - Glitch Drive' })
+		res.json(entries)
 	}).catch(err => {
 		res.send('Error: ' + err)
 	})
 })
 
-router.put('/file/:id', async function(req, res){
+router.put('/:id', async function(req, res){
 	let file
 	let id = req.params.id
 	let {title, uploader} = req.body
@@ -105,15 +137,20 @@ router.put('/file/:id', async function(req, res){
 		return
 	}
 
-	if (req.user._id != file.uploader_id){
-		res.status(403).send('You do not have permission to delete this file')
+	if (req.session.user._id != file.uploader_id){
+		res.status(403).send('You do not have permission to update this file')
 		return
 	}
 
 	file.title = title
 	file.uploader = uploader
 	file.save().then(() => {
-		res.status(200).send()
+		const data = file.toJSON({virtuals: true})
+		data.created_at = data.createdAt
+		data.updated_at = data.updatedAt
+		delete data.createdAt
+		delete data.updatedAt
+		res.status(200).json(data)
 	}).catch((err) => {
 		res.status(500).send(err._message)
 	})

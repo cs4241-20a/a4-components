@@ -1,69 +1,45 @@
 const router = require('express').Router()
-const passport = require('passport')
+const axios = require('axios')
 const User = require('../user')
-const GoogleStrategy = require('passport-google-oauth20').Strategy
 
-const CLIENT_ID = process.env.GOOGLE_OAUTH_ID
-const CLIENT_SECRET = process.env.GOOGLE_OAUTH_SECRET
-const port = process.env.HOSTED_PORT? ':' + process.env.HOSTED_PORT : ''
-// const callback_url = `http://${process.env.HOST}${port}${process.env.PREFIX || ''}/auth/callback`
-const callback_url = '/auth/callback'
-passport.serializeUser(function(user, done) {
-	done(null, user)
+// const CLIENT_ID = process.env.GOOGLE_OAUTH_ID
+// const CLIENT_SECRET = process.env.GOOGLE_OAUTH_SECRET
+// const port = process.env.HOSTED_PORT? ':' + process.env.HOSTED_PORT : ''
+// // const callback_url = `http://${process.env.HOST}${port}${process.env.PREFIX || ''}/auth/callback`
+// const callback_url = '/auth/callback'
+
+
+router.get('/check', function(req, res){
+	if(req.session.authenticated) {
+		const response = Object.assign({authenticated: true}, req.session.user)
+		res.json(response)
+	}
+	else {
+		res.json({authenticated: false})
+	}
 })
 
-passport.deserializeUser(function(user, done) {
-	done(null, user)
+router.get('/callback', async function(req, res){
+	const {auth_token} = req.query
+	if (auth_token == undefined) {
+		res.status(400).send({error: 'OAuth token parameter required'})
+		return
+	}
+	const profile_response = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo?access_token=' + auth_token).catch((err) => {res.status(403).json({error: err}); return})
+	const ginfo = profile_response.data
+	let user = await User.findOne({google_id: ginfo.sub})
+	if(user == null) {
+		user = new User({google_id: ginfo.sub, email: ginfo.email, name: (ginfo.name || 'Unnamed User')})
+		await user.save().catch((err) => {console.error(err); res.status(500).json({error: err}); return})
+	}
+	req.session.user = user
+	req.session.authenticated = true
+	res.json(user.toJSON())
 })
-
-
-passport.use(new GoogleStrategy({
-	clientID:     CLIENT_ID,
-	clientSecret: CLIENT_SECRET,
-	callbackURL: callback_url,
-	passReqToCallback   : true
-},
-async function(request, accessToken, refreshToken, params, profile, cb) {
-	User.findOne({google_id: profile.id}).then(result => {
-		if(result == null) {
-			const user = new User({google_id: profile.id, email: profile.emails[0].value, name: (profile.displayName || 'Unnamed User')})
-			user.save().then(result => {
-				return cb(null, result)
-			}).catch(err => {return cb(err)})
-		}
-		else {
-			return cb(null, result)}
-	}).catch(err => {return cb(err)})
-}))
-
-router.get('/', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'profile', 'email']}))
-router.get('/callback', passport.authenticate('google', {
-	successRedirect: '/',
-	failureRedirect: '/auth/fail'
-}))
 
 router.get('/signout', function(req, res){
 	req.session.destroy()
-	res.redirect('/')
-})
-
-// router.get('/callback', function(req, res){
-// 	passport.authenticate('google', function(err, user){
-// 		if(err){
-// 			res.redirect('fail')
-// 			return
-// 		}
-// 		req.session.cooki
-// 		res.cookie('connect.sid', req.session.id, {'path': `${process.env.HOST}${port}${process.env.PREFIX || ''}/`})
-// 	})
-// })
-
-router.get('/success', function(req, res){
-	res.render('result', {title: 'Success!', message: 'Authenticated with Google Successfully!'})
-})
-
-router.get('/fail', function(req, res){
-	res.render('result', {title: 'Error', message: 'Failed to autenticate with Google :('})
+	res.status(200).send()
 })
 
 router.get('/user', function(req, res) {

@@ -11,7 +11,6 @@ global.upload_path = path.join(__dirname, 'uploads')
 const MongoStore = require('connect-mongo')(session)
 const mongoose_connection = require('./db')
 const routes = require('./routes')
-const passport = require( 'passport' )
 
 function launch() {
 	const app = express()
@@ -23,7 +22,7 @@ function launch() {
 
 	app.use(body_parser.urlencoded({ extended: true }))
 	app.use(body_parser.json())
-	app.use(cors({origin: 'http://localhost:3000', credentials: true}))
+	app.use(cors({origin: 'http://localhost:3000', optionsSuccessStatus: 200, credentials: true}))
 	app.use(session({
 		store: new MongoStore({ mongooseConnection: mongoose.connection }),
 		secret: process.env.SESSION_SECRET,
@@ -34,8 +33,7 @@ function launch() {
 		}
 	})
 	)
-	app.use(passport.initialize())
-	app.use(passport.session())
+
   
 	// automatically append session to res.render
 	app.use( function( req, res, next ) {
