@@ -1,6 +1,8 @@
 <script>
 import { text } from "svelte/internal"
 
+	let idNumber = 1;
+
   const getTodos = function() {
     const p = fetch( '/read', {
       method:'GET' 
@@ -17,28 +19,37 @@ import { text } from "svelte/internal"
   const addTodo = function( e ) {
 	const todo = document.querySelector('input').value
 	const numScoops = document.getElementById("scoop").value
-	const sprinkles = document.getElementById("sprinklesBox").checked
+	const sprinklesBool = document.getElementById("sprinklesBox").checked
+	let sprinkles = "no"
+	if(sprinklesBool === true){
+		sprinkles = "yes"
+	}
+	const idTodo = idNumber
+	idNumber++
 	console.log(sprinkles)
     promise = fetch( '/add', {
       method:'POST',
-      body: JSON.stringify({ name:todo, completed:sprinkles, numScoops:numScoops }),
+      body: JSON.stringify({ name:todo, completed:sprinkles, numScoops:numScoops, id:idTodo }),
       headers: { 'Content-Type': 'application/json' }
     })
     .then( response => response.json() )
   }
 
-   const toggle = function( e ) {
-    fetch( '/change', {
+  const toggleName = function( e ) {
+	const place = e.target.getAttribute('todo')
+	const nameFound = document.getElementById(place).value
+	console.log(nameFound)
+    fetch( '/changeName', {
       method:'POST',
-      body: JSON.stringify({ name:e.target.getAttribute('todo'), completed:e.target.checked }),
+      body: JSON.stringify({ id:e.target.getAttribute('todo'), name:nameFound }),
       headers: { 'Content-Type': 'application/json' }
-    })
+	})
   }
 
   const removeOrder = function( e ) {
     fetch( '/delete', {
       method:'POST',
-      body: JSON.stringify({ name:e.target.getAttribute('todo'), completed:e.target.checked }),
+      body: JSON.stringify({ id:e.target.getAttribute('id') }),
       headers: { 'Content-Type': 'application/json' }
 	}).then( response => response.json() )
 	promise = getTodos();
@@ -79,12 +90,11 @@ import { text } from "svelte/internal"
 	</tr>
   {#each todos as todo}
 	<tr>
-		<!-- <td> {todo.name} : <input type='checkbox' todo={todo.name} checked={todo.completed} on:click{toggle}> </td> -->
-		<td><input type='text' placeholder={todo.name}></td>
+		<td><input id={todo.id} type='text' todo={todo.name} placeholder={todo.name}></td>
 		<td>{todo.numScoops}</td>
-		<td> <input type='checkbox' todo={todo.name} checked={todo.completed} on:click={toggle}></td>
+		<td>{todo.completed}</td>
 		<td on:click={removeOrder}>DELETE </td>
-		<td on:click={toggle}>UPDATE</td>
+		<td todo={todo.id} on:click={toggleName}>UPDATE</td>
 	</tr>
   {/each}
 </table>
