@@ -293,13 +293,14 @@
                               };
 
                               dueDate.add(
-                                priorityMap[item.priority] + 1,
-                                "days"
+                                priorityMap[item.priority] * 24,
+                                "Hours"
                               );
 
                               var now = moment();
                               return (
                                 <tr key={item._id}>
+                                  <td></td>
                                   <td>
                                     <textarea
                                       className="form-control"
@@ -353,19 +354,19 @@
                                       <option value="low">Low</option>
                                     </select>
                                   </td>
-                                  <td style={{ opacity: 0.8 }}>
-                                    {dueDate.diff(now, "days")} days
+                                  <td style={{ opacity: 0.7 }}>
+                                    {dueDate.diff(now, "Hours")} Hours
                                   </td>
                                   <td>
                                     <button
-                                      className="saveButton btn btn-success btn-sm btn-block"
+                                      className="saveButton btn btn-outline-success btn-sm btn-block"
                                       onClick={() => this.save(item._id)}
                                     >
                                       Save
                                     </button>
                                     <div className="spacerMini"></div>
                                     <button
-                                      className="deleteButton btn btn-danger btn-sm btn-block mt-1"
+                                      className="deleteButton btn btn-outline-danger btn-sm btn-block mt-1"
                                       onClick={() => this.delete(item._id)}
                                     >
                                       Delete
