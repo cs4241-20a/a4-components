@@ -46,7 +46,6 @@ const indexRouter = require('./routes/index')
 
 app.use('/books', bookRouter)
 app.use('/users', userRouter)
-app.use('/', indexRouter)
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`)
