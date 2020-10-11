@@ -170,9 +170,10 @@
                   <div className="alert alert-info m-5" role="alert">
                     <h1>Login or create a new account.</h1>
                     {!this.state.username && (
-                    <div className="d-flex justify-content-center">
+                    <div className="card-body">
                         <input
                         className="form-control mr-sm-2"
+                        style={{minWidth: 150, maxWidth: 200}}
                         id="username"
                         placeholder="Username"
                         value={this.state.usernameInput}
@@ -182,6 +183,7 @@
                         />
                         <input
                         className="form-control mr-sm-2"
+                        style={{minWidth: 150, maxWidth: 200}}
                         placeholder="Password"
                         type="password"
                         value={this.state.passwordInput}
@@ -191,14 +193,12 @@
                         />
                         <button
                         className="btn btn-outline-primary btn-lg m-2"
-                        style={{minWidth: 150, maxWidth: 200}}
                         onClick={this.login}
                         >
                         Login / Signup
                         </button>
                         <a
                         className="btn btn-dark btn-lg m-2"
-                        style={{minWidth: 150, maxWidth: 200}}
                         href="/auth/github"
                         >
                         Login Using Github
@@ -255,10 +255,11 @@
                         </div>
                       </div>
                     </div>
-
+                </div>
+                
                     <div className="container m-5" style={{minWidth: 800, maxWidth: 1100}}>
-                      <div className="card m-2">
-                          <h3 className="card-title">To-do List</h3>
+                      <div className="card">
+                          <h3 className="card-title m-2">To-do List</h3>
                           <h6 className="card-subtitle mb-2 text-muted">
                             View and edit all To-dos in the list below
                           </h6>
@@ -360,7 +361,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                
               )}
             </div>
           </div>
