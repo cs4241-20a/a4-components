@@ -15,4 +15,4 @@ https://a4-hunter-trautz.herokuapp.com/
 - Login with GitHub supported
 
 ## React Development
--
+- I re-wrote the client-side of my application using the React JavaScript framework. I found working with React much more pleasant than working with standalone JS because it allows me to render my HTML webpages in JavaScript code, therefore allowing me to manipulate client side data with powerful JS functions. Furthermore, having access to the this.state variable allowed me to parse as well as store user input without using querySelectors. Lastly, I noticed that my pages rendered a whole lot faster due to React's virtual DOM.
