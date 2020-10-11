@@ -56,7 +56,7 @@ passport.use(
       const client = new MongoClient(mongoURI, mongoConfig);
 
       await client.connect();
-      const collection = client.db("A3Database").collection("A3Users");
+      const collection = client.db("A3Database").collection("A4Users");
 
       const docs = await collection
         .find({ username: profile.username, github: true })
@@ -88,7 +88,7 @@ passport.use(
     const client = new MongoClient(mongoURI, mongoConfig);
 
     await client.connect();
-    const collection = client.db("A3Database").collection("A3Users");
+    const collection = client.db("A3Database").collection("A4Users");
 
     const docs = await collection.find({ username, github: false }).toArray();
 
@@ -159,7 +159,7 @@ app.post("/submit", async (req, res) => {
   const client = new MongoClient(mongoURI, mongoConfig);
 
   await client.connect();
-  const collection = client.db("A3Database").collection("A3Tasks");
+  const collection = client.db("A3Database").collection("A4Tasks");
 
   if (object.delete) {
     await collection.deleteOne({ _id: new mongo.ObjectID(object.id) });
@@ -187,7 +187,7 @@ app.get("/api/getData", async (req, res) => {
   const client = new MongoClient(mongoURI, mongoConfig);
 
   await client.connect();
-  const collection = client.db("A3Database").collection("A3Tasks");
+  const collection = client.db("A3Database").collection("A4Tasks");
 
   const docs = await collection.find({ user: req.user._id }).toArray();
 

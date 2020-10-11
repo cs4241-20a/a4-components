@@ -4,7 +4,7 @@
 <head>
     <title>CS_4241 A4</title>
     <meta charset="utf-8" />
-    <link rel='icon' type='image/x-icon' href='/favicon.ico'>
+    
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
 
@@ -12,6 +12,7 @@
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+    <link rel='icon' type='image/x-icon' href='/favicon.ico'>
 </head>
 
 <body>
@@ -256,6 +257,7 @@
                                 this.setState({ priorityValue: e.target.value })
                               }
                             >
+                              <option value="none" selected disabled hidden>Select an Option</option> 
                               <option value="high">High</option>
                               <option value="medium">Medium</option>
                               <option value="low">Low</option>
