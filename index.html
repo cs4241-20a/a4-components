@@ -167,13 +167,13 @@
             <div className="container" style={{minWidth: 700, maxWidth: 800}}>
               {!this.state.username && (
                 <div id="loginGate">
-                  <div className="alert alert-info m-5" role="alert">
+                  <div className="alert alert-info m-5 text-center" role="alert">
                     <h1>Login or create a new account.</h1>
                     {!this.state.username && (
                     <div className="card-body">
                         <div className="text-center">
                             <input
-                            className="form-control mr-sm-2 m-1"
+                            className="form-control text-center m-1"
                             style={{minWidth: 200, maxWidth: 300, justifyContent: "center", alignItems: "center"}}
                             id="username"
                             placeholder="Username"
@@ -185,7 +185,7 @@
                         </div>
                         <div className="text-center">
                             <input
-                            className="form-control mr-sm-2 m-1"
+                            className="form-control text-center m-1"
                             style={{minWidth: 200, maxWidth: 300, justifyContent: "center", alignItems: "center"}}
                             placeholder="Password"
                             type="password"
