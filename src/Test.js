@@ -16,11 +16,21 @@ export class Test extends Component {
             })
         }).then(res => console.log(res))
     }
+
+    mongoTest = () => {
+        fetch("/mongoTest", {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            credentials: "include"
+        }).then(res => res.json())
+        .then(res => console.log(res))
+    }
     render() {
         return (
             <div>
                 <h1>Test</h1>
-                <button onClick={this.login}>Login Test</button>
+                <button className="btn" onClick={this.login}>Login Test</button>
+                <button className="btn" onClick={this.mongoTest}>Mongo Test</button>
             </div>
         )
     }
