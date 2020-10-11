@@ -4,8 +4,8 @@
 <head>
     <title>CS_4241 A4</title>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
@@ -290,7 +290,7 @@
                             </thead>
                             <tbody id="items">
                               {this.state.todos.map((item, index) => {
-                                var dueDate = moment(item._createdOn);
+                                var dueDate = 1;
 
                                 const priorityMap = {
                                   high: 1,
@@ -298,12 +298,8 @@
                                   low: 7,
                                 };
 
-                                dueDate.add(
-                                  priorityMap[item.priority || "high"] + 1,
-                                  "days"
-                                );
+                                dueDate = priorityMap[item.priority || "high"];
 
-                                var now = moment();
                                 return (
                                   <tr key={item._id}>
                                     <td>
@@ -360,7 +356,7 @@
                                       </select>
                                     </td>
                                     <td style={{ opacity: 0.8 }}>
-                                      {dueDate.diff(now, "days")} days
+                                      {dueDate} days
                                     </td>
                                     <td>
                                       <button
