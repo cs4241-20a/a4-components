@@ -41,7 +41,7 @@
       }
 
       setTodosJson(json) {
-        this.setState({ todos: json, descriptionText: "", priorityValue: "high" });
+        this.setState({ todos: json, descriptionText: "", priorityValue: "" });
       }
 
       componentDidMount() {
@@ -95,7 +95,7 @@
 
       removeTodo(id) {
         const json = {
-            removeTodo: true,
+            delete: true,
             id,
           },
           body = JSON.stringify(json);
@@ -126,15 +126,16 @@
         })
           .then((response) => response.json())
           .then((json) => {
+            console.log("chickenValue", this.state.priorityValue);
             this.setTodosJson(json);
           });
       }
 
       saveChanges(id) {
-        const ticket = this.state.todos.find((t) => t._id == id);
+        const todoItem = this.state.todos.find((t) => t._id == id);
         const json = {
-            task: ticket.task,
-            priority: ticket.priority,
+            task: todoItem.task,
+            priority: todoItem.priority,
             id,
           },
           body = JSON.stringify(json);
@@ -263,7 +264,7 @@
                           </div>
                           <a
                             className="btn btn-primary"
-                            id="submitTicket"
+                            id="createTodo"
                             onClick={this.createTodo}>Create</a>
                         </div>
                       </div>
