@@ -1,7 +1,8 @@
 Assignment 4 - Components
 ===
 
-## TODO - Task Management Application
+Due: October 11th, by 11:59 PM.
+
 
 https://a4-hunter-trautz.herokuapp.com/
 
