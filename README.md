@@ -1,30 +1,16 @@
-Assignment 4 - Components
-===
+Name: Nicole Jutras
+Git Username: ncjutras
+Link to Glitch: https://a4-nicole-jutras.glitch.me/
 
-Due: October 9th, by 11:59 PM.
-
-For this assignment you will re-implement the client side portion of A3 using either React or Svelte components.
-
-This project can be implemented on any hosting service (Glitch, DigitalOcean, Heroku etc.), however, you must include all files in your GitHub repo so that the course staff can view them; these files are not available for viewing in many hosting systems.
-
-Deliverables
----
-
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements.
-3. Test your project to make sure that when someone goes to your main page on Glitch/Heroku/etc., it displays correctly.
-4. Ensure that your project has the proper naming scheme `a4-firstname-lastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below. Be sure to add *all* project files.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a4-firstname-lastname`.
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your hosting link e.g. http://a4-charlieroberts.glitch.me
-
-Include a very brief summary of your project here and what you changed / added to assignment #3. Briefly (3–4 sentences) answer the following question: did the new technology improve or hinder the development experience?
-
-Unlike previous assignments, this assignment will be solely graded on whether or not you successfully complete it. Partial credit will be generously given.
+Assignment 4:
+I made a simple to-do list with Svelte based on my A4 assignment.
+I was successful in implementing mongoDB as my database and adding items to my list
+but I had issues deleting and editing items. I have code for the modify and 
+delete functionality, but nothing I seemed to do would make them work 
+properly. From assignment 3, the edit and delete buttons no longer work,
+and the login page is not displaying. The add feature adds items reactively
+to the list. I believe the new technology (Svelte in this case) actually
+hindered my coding performance in this case. It had a different type of 
+functionality than I was intuitively used to. I believe there can be many 
+benefits from reactive programming, but I will need time to learn more
+about how to go about inmplementing it.
