@@ -174,7 +174,6 @@
                         <div className="text-center">
                             <input
                             className="form-control m-1"
-                            style={{width: 150, justifyContent: "center", alignItems: "center"}}
                             id="username"
                             placeholder="Username"
                             value={this.state.usernameInput}
@@ -186,7 +185,6 @@
                         <div className="text-center">
                             <input
                             className="form-control m-1"
-                            style={{justifyContent: "center", alignItems: "center"}}
                             placeholder="Password"
                             type="password"
                             value={this.state.passwordInput}
@@ -278,8 +276,8 @@
                             <thead>
                               <tr>
                                 <th>Description</th>
-                                <th>Priorty</th>
-                                <th>Due Date</th>
+                                <th>Priority</th>
+                                <th>Deadline</th>
                               </tr>
                             </thead>
                             <tbody id="items">
@@ -287,13 +285,13 @@
                                 var dueDate = moment(item._createdOn);
 
                                 const priorityMap = {
-                                  high: 2,
-                                  medium: 5,
-                                  low: 8,
+                                  high: 1,
+                                  medium: 3,
+                                  low: 7,
                                 };
 
                                 dueDate.add(
-                                  priorityMap[item.priority] + 1,
+                                  priorityMap[item.priority],
                                   "days"
                                 );
 
