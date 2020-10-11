@@ -155,17 +155,6 @@
           <div>
             <nav className="navbar navbar-expand-lg navbar-dark bg-secondary">
               <a className="navbar-brand" href="#"> TaskBuddy: A simple To-Do list app to keep you organized</a>
-              <button
-                className="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-                >
-                <span className="navbar-toggler-icon"></span>
-              </button>
 
               <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto"></ul>
@@ -222,7 +211,7 @@
               {!this.state.username && (
                 <div id="loginPage">
                 <div className="container p-3">
-                  <img src="https://thumbor.forbes.com/thumbor/960x0/https%3A%2F%2Fspecials-images.forbesimg.com%2Fdam%2Fimageserve%2F1092571024%2F960x0.jpg%3Ffit%3Dscale" className="mx-auto d-block" width={800} height={500}/>
+                  <img src="https://thumbor.forbes.com/thumbor/960x0/https%3A%2F%2Fspecials-images.forbesimg.com%2Fdam%2Fimageserve%2F1092571024%2F960x0.jpg%3Ffit%3Dscale" className="mx-auto d-block" width={850} height={600}/>
                 </div>
               </div>
               )}
@@ -311,14 +300,6 @@
                               var now = moment();
                               return (
                                 <tr key={item._id}>
-                                  <td
-                                    style={{
-                                      height: 50,
-                                      backgroundColor:
-                                        item.color || "transparent",
-                                    }}
-                                    className="rounded mt-1 mb-1"
-                                  ></td>
                                   <td>
                                     <textarea
                                       className="form-control"
