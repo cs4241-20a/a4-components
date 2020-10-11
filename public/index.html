@@ -15,7 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
   </head>
   <body>
-    <div className="bg-dark" id="ToDoApp"></div>
+    <div id="ToDoApp"></div>
   </body>
   <script type="text/babel">
     class TodoList extends React.Component {
@@ -152,7 +152,7 @@
 
       render() {
         return (
-          <div>
+          <div style={{backgroundColor: '#343a40'}}>
             <nav className="navbar navbar-expand-lg navbar-dark bg-secondary">
               <a className="navbar-brand" href="#"> TaskBuddy: A simple To-Do list app to keep you organized</a>
               <button
