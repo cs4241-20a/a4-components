@@ -59,11 +59,6 @@ app.post('/add', [user.auth/*, csrfProtection*/, body('name').escape(), body('da
 app.post('/login', user.login);
 app.get('/logout', user.logout);
 app.get('/isAuth', user.isAuthenticated);
-
-
-
-
-
 app.post('/reg', body('username').trim().escape(), user.reg);
 
 

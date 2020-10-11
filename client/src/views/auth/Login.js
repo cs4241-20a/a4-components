@@ -1,9 +1,7 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 
 export default function Login() {
-
-  const history = useHistory();
 
   function doLogin(e) {
     e.preventDefault();
@@ -21,7 +19,7 @@ export default function Login() {
     }).then(response => response.json())
       .then(result => {
         if (result.success) {
-          history.push('/');
+          window.location.href = "/";
         } else {
           alert(result.msg);
           document.getElementById("password").value = '';

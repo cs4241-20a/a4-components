@@ -19,6 +19,7 @@ if (window.screen.width >= 1280) {
 } else {
   customStyles = {
     content : {
+      top: '70px',
       border: '',
       padding: '',
       borderRadius: ''
@@ -47,7 +48,8 @@ export default function EditModal(props) {
     setIsOpen(false);
   }
 
-  function doEdit() {
+  function doEdit(e) {
+    e.preventDefault();
 
     const name = document.getElementById("name").value;
     const date = document.getElementById("date").value;
@@ -108,7 +110,7 @@ export default function EditModal(props) {
           <h6 className="text-gray-500 text-sm mt-3 mb-6 font-bold uppercase"></h6>
 
           <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
-            <form>
+            <form onSubmit={doEdit}>
               <div className="flex flex-wrap">
                 <div className="w-full lg:w-6/12 px-4">
                   <div className="relative w-full mb-3">
@@ -221,12 +223,8 @@ export default function EditModal(props) {
               <div className="flex flex-wrap">
                 <button
                   className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    doEdit();
-                  }}
-                >Edit
+                  type="submit"
+                  >Edit
                 </button>&nbsp;
 
                 <button
