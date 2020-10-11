@@ -22,7 +22,7 @@ export default class CreateBook extends Component {
     }
 
     componentDidMount() {
-        Axios.get('http://localhost:5000/users/users')
+        Axios.get('/users/users')
         .then(res => {
             if(res.data.length > 0) {
                 this.setState({
@@ -52,7 +52,7 @@ export default class CreateBook extends Component {
             owner: this.state.owner
         }
         console.log(book)
-        Axios.post('http://localhost:5000/books/add', book)
+        Axios.post('/books/add', book)
         .then(res => {
             if(!res.data.msg){
                 this.setState({

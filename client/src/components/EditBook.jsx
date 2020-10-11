@@ -23,7 +23,7 @@ export default class EditBook extends Component {
       }
 
       componentDidMount() {
-          axios.get('http://localhost:5000/books' + this.props.match.params.id)
+          axios.get('/books' + this.props.match.params.id)
           .then(res => {
               if(!res.data.msg) {
                 this.setState({
@@ -43,7 +43,7 @@ export default class EditBook extends Component {
               }
           })
           .catch(err => console.log(err))
-          axios.get('http://localhost:5000/users/users')
+          axios.get('/users/users')
           .then(res => {
               if(res.data.length > 0) {
                   this.setState({

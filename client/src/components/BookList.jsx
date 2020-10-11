@@ -11,7 +11,7 @@ const Book = props => (
       <td>{props.book.isbn}</td>
       <td>{props.book.hasCopy}</td>
       <td>
-        <Link to={"/edit/"+props.book._id}>edit</Link> | <a onClick={() => { props.deleteBook(props.book._id) }}>delete</a>
+        <Link to={"/edit/"+props.book._id}>edit</Link> | <a href="#" onClick={() => { props.deleteBook(props.book._id) }}>delete</a>
       </td>
     </tr>
   )
@@ -30,7 +30,7 @@ export default class BookList extends Component {
 
 
     componentDidMount() {
-        axios.get('http://localhost:5000/books/')
+        axios.get('/books/')
         .then(res => {
             if(!res.data.msg){
                 this.setState({
@@ -47,7 +47,7 @@ export default class BookList extends Component {
     }
 
     deleteBook(id) {
-        axios.delete('http://localhost:5000/books/' + id)
+        axios.delete('/books/' + id)
         .then(res => {
             if(!res.data.msg){
                 this.setState({

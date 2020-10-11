@@ -30,7 +30,7 @@ export default class Signin extends Component {
             name: this.state.name, 
             password: this.state.password
         }
-        Axios.post('http://localhost:5000/users/signin', user)
+        Axios.post('/users/signin', user)
         .then(res => {
             if(!res.data.msg){
                 this.setState({

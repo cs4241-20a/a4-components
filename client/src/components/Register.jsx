@@ -41,7 +41,7 @@ export default class Register extends Component {
                 name: this.state.name, 
                 password: this.state.password
             }
-            Axios.post('http://localhost:5000/users/register', user)
+            Axios.post('/users/register', user)
             .then(res => {
                 if(!res.data.msg){
                     this.setState({
