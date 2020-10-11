@@ -1,0 +1,7 @@
+.idea
+config.js
+node_modules
+package-lock.json
+
+client/package-lock.json
+client/node_modules
