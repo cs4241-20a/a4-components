@@ -28,7 +28,6 @@ app.use(
   })
 );
 app.use(express.json());
-app.use(express.static("image"));
 app.use(compression());
 app.use(morgan("combined"));
 app.use(passport.initialize());
