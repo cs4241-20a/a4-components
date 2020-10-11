@@ -1,30 +1,8 @@
 Assignment 4 - Components
-===
-
-Due: October 9th, by 11:59 PM.
-
-For this assignment you will re-implement the client side portion of A3 using either React or Svelte components.
-
-This project can be implemented on any hosting service (Glitch, DigitalOcean, Heroku etc.), however, you must include all files in your GitHub repo so that the course staff can view them; these files are not available for viewing in many hosting systems.
-
-Deliverables
 ---
 
-Do the following to complete this assignment:
+Malek ElShakhs - https://glitch.com/~a4-mlshax
 
-1. Implement your project with the above requirements.
-3. Test your project to make sure that when someone goes to your main page on Glitch/Heroku/etc., it displays correctly.
-4. Ensure that your project has the proper naming scheme `a4-firstname-lastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below. Be sure to add *all* project files.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a4-firstname-lastname`.
+I tried to implement my application in the same way I did for project 3, however, I had multiple difficulties with react, first, I could not use react-create-app in glitch since it would immediately fill the free disk space for glitch. Instead of working on it in glitch, I just developed it locally and used localhost to test it. The second problem I had was that when I changed from the login page to the schedule page, the login page does not go away even when using history.replace. Finally, I was able to get the project onto glitch after I completed it, however, it was using too much CPU for the free version, and constantly has to close because it is using too much memory. It eventually stopped restarting, but the code was not working the same in glitch as in the localhost, it seems like the component is rendering, but not communicating with my server.js even though this worked locally.
 
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your hosting link e.g. http://a4-charlieroberts.glitch.me
-
-Include a very brief summary of your project here and what you changed / added to assignment #3. Briefly (3–4 sentences) answer the following question: did the new technology improve or hinder the development experience?
-
-Unlike previous assignments, this assignment will be solely graded on whether or not you successfully complete it. Partial credit will be generously given.
+All in all I would definitely prefer not using react since it seems inconvenient and bloated, while not making the code any simpler.
