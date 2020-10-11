@@ -11,8 +11,8 @@
     />
     <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
   </head>
   <body>
     <div id="ToDoApp"></div>
@@ -24,47 +24,18 @@
         this.state = {
           username: null,
           tasks: [],
-          usernameInput: "",
-          passwordInput: "",
-          taskInput: "",
-          priorityInput: "",
+          userIDEntry: "",
+          pwdEntry: "",
+          todoEntry: "",
+          priorityValEntry: "",
         };
-        this.processLogin = this.processLogin.bind(this);
-        this.processData = this.processData.bind(this);
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
-        this.submit = this.submit.bind(this);
-        this.delete = this.delete.bind(this);
-        this.save = this.save.bind(this);
-      }
-
-      processData(json) {
-        this.setState({ tasks: json, taskInput: "", priorityInput: "" });
-      }
-
-      processLogin(json) {
-        console.log("user data", json);
-        if (!json._id) return;
-        this.setState({
-          username: json.username,
-          usernameInput: "",
-          passwordInput: "",
-        });
-        fetch("/api/getData")
-          .then((response) => response.json())
-          .then((json) => this.processData(json));
-      }
-
-      logout() {
-        fetch("/logout").then(() => {
-          this.setState({ username: null });
-        });
-      }
-
-      componentDidMount() {
-        fetch("/api/getUser")
-          .then((response) => response.json())
-          .then((json) => this.processLogin(json));
+        this.deliver = this.deliver.bind(this);
+        this.setLogin = this.setLogin.bind(this);
+        this.processData = this.processData.bind(this);
+        this.removeEntries = this.removeEntries.bind(this);
+        this.saveEntries = this.saveEntries.bind(this);
       }
 
       login() {
@@ -74,24 +45,70 @@
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            username: this.state.usernameInput,
-            password: this.state.passwordInput,
+            username: this.state.userIDEntry,
+            password: this.state.pwdEntry,
           }),
         })
           .then((response) => {
             if (!response.ok) {
-              throw "Invalid Username/Passwword";
+              throw "Invalid Username/Passwword combination";
             }
             return response.json();
           })
-          .then((json) => this.processLogin(json))
+          .then((json) => this.setLogin(json))
           .catch((err) => {
             console.error(err);
             alert(err);
           });
       }
 
-      delete(id) {
+      logout() {
+        fetch("/logout").then(() => {
+          this.setState({ username: null });
+        });
+      }
+
+      deliver() {
+        fetch("/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            task: this.state.todoEntry,
+            priority: this.state.priorityValEntry,
+          }),
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            this.processData(json);
+          });
+      }
+
+      setLogin(json) {
+        console.log("user data", json);
+        if (!json._id) return;
+        this.setState({
+          username: json.username,
+          userIDEntry: "",
+          pwdEntry: "",
+        });
+        fetch("/api/getData")
+          .then((response) => response.json())
+          .then((json) => this.processData(json));
+      }
+
+      processData(json) {
+        this.setState({ tasks: json, todoEntry: "", priorityValEntry: "" });
+      }
+
+      componentDidMount() {
+        fetch("/api/getUser")
+          .then((response) => response.json())
+          .then((json) => this.setLogin(json));
+      }
+
+      removeEntries(id) {
         const json = {
             delete: true,
             id,
@@ -111,28 +128,11 @@
           });
       }
 
-      submit() {
-        fetch("/submit", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            task: this.state.taskInput,
-            priority: this.state.priorityInput,
-          }),
-        })
-          .then((response) => response.json())
-          .then((json) => {
-            this.processData(json);
-          });
-      }
-
-      save(id) {
-        const ticket = this.state.tasks.find((t) => t._id == id);
+      saveEntries(id) {
+        const todo = this.state.tasks.find((t) => t._id == id);
         const json = {
-            task: ticket.task,
-            priority: ticket.priority,
+            task: todo.task,
+            priority: todo.priority,
             id,
           },
           body = JSON.stringify(json);
@@ -145,7 +145,7 @@
         })
           .then((response) => response.json())
           .then((json) => {
-            alert("Success!");
+            alert("Changes have been saved!");
             this.processData(json);
           });
       }
@@ -165,9 +165,9 @@
                     id="username"
                     placeholder="Username"
                     // .
-                    value={this.state.usernameInput}
+                    value={this.state.userIDEntry}
                     onChange={(e) =>
-                      this.setState({ usernameInput: e.target.value })
+                      this.setState({ userIDEntry: e.target.value })
                     }
                   />
                   <input
@@ -176,9 +176,9 @@
                     placeholder="Password"
                     type="password"
                     // .
-                    value={this.state.passwordInput}
+                    value={this.state.pwdEntry}
                     onChange={(e) =>
-                      this.setState({ passwordInput: e.target.value })
+                      this.setState({ pwdEntry: e.target.value })
                     }
                   />
                   <button className="btn btn-primary my-2 my-sm-0 mr-sm-2" id="loginButton" onClick={this.login}> 
@@ -233,9 +233,9 @@
                             <textarea
                               className="form-control"
                               id="task"
-                              value={this.state.taskInput}
+                              value={this.state.todoEntry}
                               onChange={(e) =>
-                                this.setState({ taskInput: e.target.value })
+                                this.setState({ todoEntry: e.target.value })
                               }
                               placeholder="Add task here..."
                             ></textarea>
@@ -245,9 +245,9 @@
                             <select 
                               id="priority" 
                               className="form-control"
-                              value={this.state.priorityInput}
+                              value={this.state.priorityValEntry}
                               onChange={(e) =>
-                                this.setState({ priorityInput: e.target.value })
+                                this.setState({ priorityValEntry: e.target.value })
                               }
                               >
                               <option value="high">High</option>
@@ -258,7 +258,7 @@
                           <a 
                             className="btn btn-outline-primary" 
                             id="addTask"
-                            onClick={this.submit}
+                            onClick={this.deliver}
                             >Add Task</a>
                         </div>
                       </div>
@@ -307,20 +307,14 @@
                                       id={`task-${item._id}`}
                                       onChange={(e) => {
                                         const text = e.target.value;
-                                        const stateSplitter = this.state.tasks.slice();
-                                        for (
-                                          var i = 0;
-                                          i < stateSplitter.length;
-                                          i++
-                                        ) {
-                                          if (
-                                            stateSplitter[i]._id == item._id
-                                          ) {
-                                            stateSplitter[i].task = text;
+                                        const sliceStates = this.state.tasks.slice();
+                                        for (var i = 0; i < sliceStates.length; i++) {
+                                          if (sliceStates[i]._id == item._id) {
+                                            sliceStates[i].task = text;
                                           }
                                         }
                                         this.setState({
-                                          tasks: stateSplitter,
+                                          tasks: sliceStates,
                                         });
                                       }}
                                       value={item.task || "Unknown Task"}
@@ -332,20 +326,14 @@
                                       value={item.priority}
                                       onChange={(e) => {
                                         const text = e.target.value;
-                                        const stateSplitter = this.state.tasks.slice();
-                                        for (
-                                          var i = 0;
-                                          i < stateSplitter.length;
-                                          i++
-                                        ) {
-                                          if (
-                                            stateSplitter[i]._id == item._id
-                                          ) {
-                                            stateSplitter[i].priority = text;
+                                        const sliceStates = this.state.tasks.slice();
+                                        for (var i = 0; i < sliceStates.length; i++) {
+                                          if (sliceStates[i]._id == item._id) {
+                                            sliceStates[i].priority = text;
                                           }
                                         }
                                         this.setState({
-                                          tasks: stateSplitter,
+                                          tasks: sliceStates,
                                         });
                                       }}
                                     >
@@ -360,16 +348,16 @@
                                   <td>
                                     <button
                                       className="saveButton btn btn-outline-success btn-sm btn-block"
-                                      onClick={() => this.save(item._id)}
+                                      onClick={() => this.saveEntries(item._id)}
                                     >
                                       Save
                                     </button>
                                     <div className="spacerMini"></div>
                                     <button
                                       className="deleteButton btn btn-outline-danger btn-sm btn-block mt-1"
-                                      onClick={() => this.delete(item._id)}
+                                      onClick={() => this.removeEntries(item._id)}
                                     >
-                                      Delete
+                                      Remove
                                     </button>
                                   </td>
                                 </tr>
