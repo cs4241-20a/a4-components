@@ -152,7 +152,7 @@
 
       render() {
         return (
-          <div style={{backgroundColor: '#343a40'}}>
+          <div>
             <nav className="navbar navbar-expand-lg navbar-dark bg-secondary">
               <a className="navbar-brand" href="#"> TaskBuddy: A simple To-Do list app to keep you organized</a>
               <button
@@ -218,7 +218,7 @@
               </div>
             </nav>
 
-            <div className="container-fluid bg-dark">
+            <div className="container-fluid bg-dark" style={{height:"100vh"}}>
               {!this.state.username && (
                 <div id="loginPage">
                 <div className="container p-3">
