@@ -7,6 +7,7 @@ const todos = [
 ]
 
 app.use( bp.json() )
+app.use('/build', express.static('public/build'))
 app.use( express.static( 'public' ) )
 
 app.get( '/read', ( req, res ) => res.json( todos ) )
