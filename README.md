@@ -1,30 +1,30 @@
-Assignment 4 - Components
-===
-
-Due: October 11th, by 11:59 PM.
-
-For this assignment you will re-implement the client side portion of A3 using either React or Svelte components.
-
-This project can be implemented on any hosting service (Glitch, DigitalOcean, Heroku etc.), however, you must include all files in your GitHub repo so that the course staff can view them; these files are not available for viewing in many hosting systems.
-
-Deliverables
+Readme
 ---
 
-Do the following to complete this assignment:
+## A4 Virtual Shopping List in React
 
-1. Implement your project with the above requirements.
-3. Test your project to make sure that when someone goes to your main page on Glitch/Heroku/etc., it displays correctly.
-4. Ensure that your project has the proper naming scheme `a4-firstname-lastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below. Be sure to add *all* project files.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a4-firstname-lastname`.
+Website link: https://a4-ryan-cirella.herokuapp.com/
 
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
+The goal of my application is to hold a list of items for a grocery store shopping list, but this time creating it with React!
 
-## Your Web Application Title
+From project 3, the page is now a single page app instead of two pages. This would eliminate any load times for users. With the use of components for the login and list page I was able to abstract a lot of the functionality of the app.
 
-your hosting link e.g. http://a4-charlieroberts.glitch.me
+Using React was a great learning experience to see how many websites are made today. Once I got the hang of how components worked, my development experience was improved. Although there were certain points where learning new things about navigation, serving pages and making specific components slowed development. Working on another React app in the future would go much faster because of what I learned.
 
-Include a very brief summary of your project here and what you changed / added to assignment #3. Briefly (3–4 sentences) answer the following question: did the new technology improve or hinder the development experience?
+Once again, here is the usage for the app.
+*Usage:*
+- To login, enter a username and password to the fields. (Already created is Username: testuser Password: 22)
+- If you do not have an account, enter a username and password and click 'Create Account'. The account will be created and you will be logged in automatically.
 
-Unlike previous assignments, this assignment will be solely graded on whether or not you successfully complete it. Partial credit will be generously given.
+- Once logged in...
+- To add an item, enter it in the input box and click "Add Item"
+- To remove an item, make sure the input box is blank and click on the item in the list
+- To edit an item, enter the new value in the input box and click on the item to edit in the list
+
+- To logout, click the Logout button and there will be a text indication showing that you are now logged out.
+
+## Technical Achievements
+- Moved the website to a React framework.
+
+### Design/Evaluation Achievements
+- Kept the css from the previous project entact on this one.
