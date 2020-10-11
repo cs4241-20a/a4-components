@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>CS_4241 A4</title>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    
+</head>
+
+<body>
+    <div id="app"></div>
+</body>
+
+<script type="text/babel">
+    class App extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          username: null,
+          todos: [],
+          descriptionText: "",
+          priorityValue: "",
+          userValue: "",
+          passValue: "",
+        };
+
+        this.executeLoginProcedure = this.executeLoginProcedure.bind(this);
+        this.removeTodo = this.removeTodo.bind(this);
+        this.saveChanges = this.saveChanges.bind(this);
+        this.setTodosJson = this.setTodosJson.bind(this);
+        this.createTodo = this.createTodo.bind(this);
+        this.login = this.login.bind(this);
+        this.logout = this.logout.bind(this);
+      }
+
+      setTodosJson(json) {
+        this.setState({ todos: json, descriptionText: "", priorityValue: "" });
+      }
+
+      componentDidMount() {
+        fetch("/api/getUser")
+          .then((response) => response.json())
+          .then((json) => this.executeLoginProcedure(json));
+      }
+
+      executeLoginProcedure(json) {
+        console.log("user data", json);
+        if (!json._id) return;
+        this.setState({
+          username: json.username,
+          userValue: "",
+          passValue: "",
+        });
+        fetch("/api/getData")
+          .then((response) => response.json())
+          .then((json) => this.setTodosJson(json));
+      }
+
+      logout() {
+        fetch("/logout").then(() => {
+          this.setState({ username: null });
+        });
+      }
+
+      login() {
+        fetch("/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: this.state.userValue,
+            password: this.state.passValue,
+          }),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw "Invalid Username/Passwword";
+            }
+            return response.json();
+          })
+          .then((json) => this.executeLoginProcedure(json))
+          .catch((err) => {
+            console.error(err);
+            alert(err);
+          });
+      }
+
+      removeTodo(id) {
+        const json = {
+            delete: true,
+            id,
+          },
+          body = JSON.stringify(json);
+
+        fetch("/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body,
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            this.setTodosJson(json);
+          });
+      }
+
+      createTodo() {
+        fetch("/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            task: this.state.descriptionText,
+            priority: this.state.priorityValue,
+          }),
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            this.setTodosJson(json);
+          });
+      }
+
+      saveChanges(id) {
+        const todoItem = this.state.todos.find((t) => t._id == id);
+        const json = {
+            task: todoItem.task,
+            priority: todoItem.priority,
+            id,
+          },
+          body = JSON.stringify(json);
+        fetch("/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body,
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            this.setTodosJson(json);
+          });
+      }
+      
+      render() {
+        return (
+          <div>
+            <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+              <a className="navbar-brand" href="#">To-do List 2.0</a>
+
+              <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul className="navbar-nav mr-auto"></ul>   
+                {this.state.username && (
+                  <div className="form-inline my-2 my-lg-0" id="profile">
+                    <button className="btn btn-light disabled my-2 my-sm-0">Hello {" "}<span id="l-username">{this.state.username}</span></button>
+                    <button className="btn btn-danger my-2 my-sm-0 ml-2" onClick={this.logout}>Logout</button>
+                  </div>
+                )}
+              </div>
+            </nav>
+
+
+            <div className="container" style={{minWidth: 700, maxWidth: 800}}>
+              {!this.state.username && (
+                <div id="loginGate">
+                  <div className="alert alert-info m-5 text-center" role="alert">
+                    <h1>Login or create a new account.</h1>
+                    {!this.state.username && (
+                    <div className="card-body">
+                        <div className="text-center">
+                            <input
+                            className="form-control m-1"
+                            id="username"
+                            placeholder="Username"
+                            value={this.state.userValue}
+                            onChange={(e) =>
+                                this.setState({ userValue: e.target.value })
+                            }
+                            />
+                        </div>
+                        <div className="text-center">
+                            <input
+                            className="form-control m-1"
+                            placeholder="Password"
+                            type="password"
+                            value={this.state.passValue}
+                            onChange={(e) =>
+                                this.setState({ passValue: e.target.value })
+                            }
+                            />
+                        </div>    
+                        <div className="text-center">
+                            <button
+                            className="btn btn-outline-primary btn-lg m-2"
+                            style={{justifyContent: "center", alignItems: "center"}}
+                            onClick={this.login}
+                            >
+                            Login / Signup
+                            </button>
+                        </div>
+                        <div className="text-center">
+                            <a
+                            className="btn btn-dark btn-lg m-2"
+                            style={{justifyContent: "center", alignItems: "center"}}
+                            href="/auth/github"
+                            >
+                            Login Using Github
+                            </a>
+                        </div>
+                    </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {this.state.username && (
+                <div className="pages" id="pages" style={{minWidth: 500, maxWidth: 1000}}>
+                  <br />
+                  <div className="container mb-2">
+                    <div className="col">
+                      <div className="card my-2">
+                        <div className="card-body">
+                          <h3 className="card-title">Create To-do</h3>
+                          <h6 className="card-subtitle mb-2 text-muted">
+                            Input the fields below and click "Create" to add a task
+                          </h6>
+                          <hr />
+                          <div className="form-group">
+                            <label>Task</label>
+                            <textarea
+                              className="form-control"
+                              id="task"
+                              value={this.state.descriptionText}
+                              onChange={(e) =>
+                                this.setState({ descriptionText: e.target.value })
+                              }
+                              placeholder="Do a kick flip"
+                            />
+                          </div>
+                          <div className="form-group">
+                            <label>Priority</label>
+                            <select
+                              id="priority"
+                              className="form-control"
+                              value={this.state.priorityValue}
+                              onChange={(e) =>
+                                this.setState({ priorityValue: e.target.value })
+                              }
+                            >
+                              <option value="high">High</option>
+                              <option value="medium">Medium</option>
+                              <option value="low">Low</option>
+                            </select>
+                          </div>
+                          <a
+                            className="btn btn-primary"
+                            id="createTodo"
+                            onClick={this.createTodo}>Create</a>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                
+                    <div className="container mb-2 mx-auto" style={{minWidth: 800, maxWidth: 900}}>
+                      <div className="container">
+                        <div className="card-body">
+                          <h3 className="card-title">To-do List</h3>
+                          <h6 className="card-subtitle mb-2 text-muted">
+                            View and edit all To-dos in the list below
+                          </h6>
+                          <table className="table table-dark">
+                            <thead>
+                              <tr>
+                                <th>Description</th>
+                                <th>Priority</th>
+                                <th>Deadline</th>
+                              </tr>
+                            </thead>
+                            <tbody id="items">
+                              {this.state.todos.map((item, index) => {
+                                var dueDate = 1;
+
+                                const priorityMap = {
+                                  high: 1,
+                                  medium: 3,
+                                  low: 7,
+                                };
+
+                                dueDate = priorityMap[item.priority || "high"];
+
+                                return (
+                                  <tr key={item._id}>
+                                    <td>
+                                      <textarea
+                                        className="form-control"
+                                        id={`task-${item._id}`}
+                                        onChange={(e) => {
+                                          const text = e.target.value;
+                                          const stateSplitter = this.state.todos.slice();
+                                          for (
+                                            var i = 0;
+                                            i < stateSplitter.length;
+                                            i++
+                                          ) {
+                                            if (
+                                              stateSplitter[i]._id == item._id
+                                            ) {
+                                              stateSplitter[i].task = text;
+                                            }
+                                          }
+                                          this.setState({
+                                            todos: stateSplitter,
+                                          });
+                                        }}
+                                        value={item.task || "Unknown Task"}
+                                      />
+                                    </td>
+                                    <td>
+                                      <select
+                                        className="form-control"
+                                        value={item.priority}
+                                        onChange={(e) => {
+                                          const text = e.target.value;
+                                          const stateSplitter = this.state.todos.slice();
+                                          for (
+                                            var i = 0;
+                                            i < stateSplitter.length;
+                                            i++
+                                          ) {
+                                            if (
+                                              stateSplitter[i]._id == item._id
+                                            ) {
+                                              stateSplitter[i].priority = text;
+                                            }
+                                          }
+                                          this.setState({
+                                            todos: stateSplitter,
+                                          });
+                                        }}
+                                      >
+                                        <option value="high">High</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="low">Low</option>
+                                      </select>
+                                    </td>
+                                    <td style={{ opacity: 0.8 }}>
+                                      {dueDate} days
+                                    </td>
+                                    <td>
+                                      <button
+                                        className="saveButton btn btn-warning btn-sm btn-block"
+                                        onClick={() => this.saveChanges(item._id)}>Save Changes</button>
+                                      <div className="spacerMini"></div>
+                                      <button
+                                        className="deleteButton btn btn-info btn-sm btn-block mt-1"onClick={() => this.removeTodo(item._id)}>Complete!</button>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                
+              )}
+            </div>
+          </div>
+        );
+      }
+    }
+
+    ReactDOM.render(<App />, document.getElementById("app"));
+  </script>
+
+
+</html>
