@@ -67,7 +67,7 @@ class Homepage extends React.Component {
   updateTask = function(e) {
     e.preventDefault();
 
-    const tempID = e.target.getAttribute("id").substring(5),
+    const tempID = e.target.getAttribute("id"),
     name = document.querySelector("#taskName"),
     task = document.querySelector("#taskDesc"),
     priority = document.querySelector("#prio"),
@@ -83,9 +83,10 @@ class Homepage extends React.Component {
         "Content-Type": "application/json"
       }
     })
-    .then(response => response.json() )
+    .then(response => response.json())
     .then(json => {
       this.getData(json);
+      console.log("Updating JSON")
       console.log(json)
     })
     return false

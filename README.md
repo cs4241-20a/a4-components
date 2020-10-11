@@ -15,4 +15,4 @@ https://a4-hunter-trautz.herokuapp.com/
 - Login with GitHub supported
 
 ## React Development
-- 
+-
