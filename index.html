@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>CS4241 Assignment 3</title>
+    <title>CS_4241 A4</title>
     <meta charset="utf-8" />
     <link rel="icon" href="data:;base64,=">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -24,35 +24,43 @@
         super(props);
         this.state = {
           username: null,
-          tickets: [],
-          usernameInput: "",
-          passwordInput: "",
-          taskInput: "",
-          priorityInput: "",
+          todos: [],
+          descriptionText: "",
+          priorityValue: "",
+          userValue: "",
+          passValue: "",
         };
-        this.processLogin = this.processLogin.bind(this);
-        this.processData = this.processData.bind(this);
+
+        this.executeLoginProcedure = this.executeLoginProcedure.bind(this);
+        this.removeTodo = this.removeTodo.bind(this);
+        this.saveChanges = this.saveChanges.bind(this);
+        this.setTodosJson = this.setTodosJson.bind(this);
+        this.createTodo = this.createTodo.bind(this);
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
-        this.submit = this.submit.bind(this);
-        this.delete = this.delete.bind(this);
-        this.save = this.save.bind(this);
       }
 
-      processData(json) {
-        this.setState({ tickets: json, taskInput: "", priorityInput: "" });
+      setTodosJson(json) {
+        this.setState({ todos: json, descriptionText: "", priorityValue: "high" });
       }
-      processLogin(json) {
+
+      componentDidMount() {
+        fetch("/api/getUser")
+          .then((response) => response.json())
+          .then((json) => this.executeLoginProcedure(json));
+      }
+
+      executeLoginProcedure(json) {
         console.log("user data", json);
         if (!json._id) return;
         this.setState({
           username: json.username,
-          usernameInput: "",
-          passwordInput: "",
+          userValue: "",
+          passValue: "",
         });
         fetch("/api/getData")
           .then((response) => response.json())
-          .then((json) => this.processData(json));
+          .then((json) => this.setTodosJson(json));
       }
 
       logout() {
@@ -61,11 +69,6 @@
         });
       }
 
-      componentDidMount() {
-        fetch("/api/getUser")
-          .then((response) => response.json())
-          .then((json) => this.processLogin(json));
-      }
       login() {
         fetch("/login", {
           method: "POST",
@@ -73,8 +76,8 @@
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            username: this.state.usernameInput,
-            password: this.state.passwordInput,
+            username: this.state.userValue,
+            password: this.state.passValue,
           }),
         })
           .then((response) => {
@@ -83,15 +86,16 @@
             }
             return response.json();
           })
-          .then((json) => this.processLogin(json))
+          .then((json) => this.executeLoginProcedure(json))
           .catch((err) => {
             console.error(err);
             alert(err);
           });
       }
-      delete(id) {
+
+      removeTodo(id) {
         const json = {
-            delete: true,
+            removeTodo: true,
             id,
           },
           body = JSON.stringify(json);
@@ -105,29 +109,29 @@
         })
           .then((response) => response.json())
           .then((json) => {
-            // do something with the reponse
-            this.processData(json);
+            this.setTodosJson(json);
           });
       }
-      submit() {
+
+      createTodo() {
         fetch("/submit", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            task: this.state.taskInput,
-            priority: this.state.priorityInput,
+            task: this.state.descriptionText,
+            priority: this.state.priorityValue,
           }),
         })
           .then((response) => response.json())
           .then((json) => {
-            // do something with the reponse
-            this.processData(json);
+            this.setTodosJson(json);
           });
       }
-      save(id) {
-        const ticket = this.state.tickets.find((t) => t._id == id);
+
+      saveChanges(id) {
+        const ticket = this.state.todos.find((t) => t._id == id);
         const json = {
             task: ticket.task,
             priority: ticket.priority,
@@ -143,9 +147,10 @@
         })
           .then((response) => response.json())
           .then((json) => {
-            this.processData(json);
+            this.setTodosJson(json);
           });
       }
+      
       render() {
         return (
           <div>
@@ -176,9 +181,9 @@
                             className="form-control m-1"
                             id="username"
                             placeholder="Username"
-                            value={this.state.usernameInput}
+                            value={this.state.userValue}
                             onChange={(e) =>
-                                this.setState({ usernameInput: e.target.value })
+                                this.setState({ userValue: e.target.value })
                             }
                             />
                         </div>
@@ -187,9 +192,9 @@
                             className="form-control m-1"
                             placeholder="Password"
                             type="password"
-                            value={this.state.passwordInput}
+                            value={this.state.passValue}
                             onChange={(e) =>
-                                this.setState({ passwordInput: e.target.value })
+                                this.setState({ passValue: e.target.value })
                             }
                             />
                         </div>    
@@ -234,9 +239,9 @@
                             <textarea
                               className="form-control"
                               id="task"
-                              value={this.state.taskInput}
+                              value={this.state.descriptionText}
                               onChange={(e) =>
-                                this.setState({ taskInput: e.target.value })
+                                this.setState({ descriptionText: e.target.value })
                               }
                               placeholder="Do a kick flip"
                             />
@@ -246,9 +251,9 @@
                             <select
                               id="priority"
                               className="form-control"
-                              value={this.state.priorityInput}
+                              value={this.state.priorityValue}
                               onChange={(e) =>
-                                this.setState({ priorityInput: e.target.value })
+                                this.setState({ priorityValue: e.target.value })
                               }
                             >
                               <option value="high">High</option>
@@ -259,7 +264,7 @@
                           <a
                             className="btn btn-primary"
                             id="submitTicket"
-                            onClick={this.submit}>Create</a>
+                            onClick={this.createTodo}>Create</a>
                         </div>
                       </div>
                     </div>
@@ -281,7 +286,7 @@
                               </tr>
                             </thead>
                             <tbody id="items">
-                              {this.state.tickets.map((item, index) => {
+                              {this.state.todos.map((item, index) => {
                                 var dueDate = moment(item._createdOn);
 
                                 const priorityMap = {
@@ -304,7 +309,7 @@
                                         id={`task-${item._id}`}
                                         onChange={(e) => {
                                           const text = e.target.value;
-                                          const stateSplitter = this.state.tickets.slice();
+                                          const stateSplitter = this.state.todos.slice();
                                           for (
                                             var i = 0;
                                             i < stateSplitter.length;
@@ -317,7 +322,7 @@
                                             }
                                           }
                                           this.setState({
-                                            tickets: stateSplitter,
+                                            todos: stateSplitter,
                                           });
                                         }}
                                         value={item.task || "Unknown Task"}
@@ -329,7 +334,7 @@
                                         value={item.priority}
                                         onChange={(e) => {
                                           const text = e.target.value;
-                                          const stateSplitter = this.state.tickets.slice();
+                                          const stateSplitter = this.state.todos.slice();
                                           for (
                                             var i = 0;
                                             i < stateSplitter.length;
@@ -342,7 +347,7 @@
                                             }
                                           }
                                           this.setState({
-                                            tickets: stateSplitter,
+                                            todos: stateSplitter,
                                           });
                                         }}
                                       >
@@ -357,10 +362,10 @@
                                     <td>
                                       <button
                                         className="saveButton btn btn-warning btn-sm btn-block"
-                                        onClick={() => this.save(item._id)}>Save Changes</button>
+                                        onClick={() => this.saveChanges(item._id)}>Save Changes</button>
                                       <div className="spacerMini"></div>
                                       <button
-                                        className="deleteButton btn btn-info btn-sm btn-block mt-1"onClick={() => this.delete(item._id)}>Complete!</button>
+                                        className="deleteButton btn btn-info btn-sm btn-block mt-1"onClick={() => this.removeTodo(item._id)}>Complete!</button>
                                     </td>
                                   </tr>
                                 );
