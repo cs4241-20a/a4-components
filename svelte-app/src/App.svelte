@@ -63,11 +63,11 @@ import { text } from "svelte/internal"
 <p>Tell me your ice cream order:</p>
 <form>
 	<label> Your Flavor:
-		<input required type='text' />
+		<input type='text' required>
 	</label>
 	<label>
           Number of Scoops
-          <input id="scoop" type="number" maxlength="100" required placeholder="Scoops!"/>
+          <input id="scoop" type="number" maxlength="100" placeholder="Scoops!"required>
     </label>
 	<label>
           Check For Sprinkles
