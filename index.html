@@ -143,8 +143,6 @@
         })
           .then((response) => response.json())
           .then((json) => {
-            // do something with the reponse
-            alert("Success!");
             this.processData(json);
           });
       }
@@ -156,40 +154,7 @@
 
               <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto"></ul>
-                {!this.state.username && (
-                  <div className="form-inline my-2 my-lg-0" id="login">
-                    <input
-                      className="form-control mr-sm-2"
-                      id="username"
-                      placeholder="Username"
-                      value={this.state.usernameInput}
-                      onChange={(e) =>
-                        this.setState({ usernameInput: e.target.value })
-                      }
-                    />
-                    <input
-                      className="form-control mr-sm-2"
-                      placeholder="Password"
-                      type="password"
-                      value={this.state.passwordInput}
-                      onChange={(e) =>
-                        this.setState({ passwordInput: e.target.value })
-                      }
-                    />
-                    <button
-                      className="btn btn-outline-success my-2 my-sm-0"
-                      onClick={this.login}
-                    >
-                      Login / Signup
-                    </button>
-                    <a
-                      className="btn btn-dark my-2 my-sm-0 ml-2"
-                      href="/auth/github"
-                    >
-                      Login Using Github
-                    </a>
-                  </div>
-                )}
+                
                 {this.state.username && (
                   <div className="form-inline my-2 my-lg-0" id="profile">
                     <button className="btn btn-light disabled my-2 my-sm-0">Hello {" "}<span id="l-username">{this.state.username}</span></button>
@@ -202,11 +167,42 @@
             <div className="container" style={{minWidth: 500, maxWidth: 800}}>
               {!this.state.username && (
                 <div id="loginGate">
-                  <div className="alert alert-danger mt-1" role="alert">
+                  <div className="alert alert-info m-5" role="alert">
                     <h1>Login or create a new account.</h1>
-                    
-                        
-
+                    {!this.state.username && (
+                    <div className="form-group">
+                        <input
+                        className="form-control mr-sm-2"
+                        id="username"
+                        placeholder="Username"
+                        value={this.state.usernameInput}
+                        onChange={(e) =>
+                            this.setState({ usernameInput: e.target.value })
+                        }
+                        />
+                        <input
+                        className="form-control mr-sm-2"
+                        placeholder="Password"
+                        type="password"
+                        value={this.state.passwordInput}
+                        onChange={(e) =>
+                            this.setState({ passwordInput: e.target.value })
+                        }
+                        />
+                        <button
+                        className="btn btn-outline-success my-2 my-sm-0"
+                        onClick={this.login}
+                        >
+                        Login / Signup
+                        </button>
+                        <a
+                        className="btn btn-dark my-2 my-sm-0 ml-2"
+                        href="/auth/github"
+                        >
+                        Login Using Github
+                        </a>
+                    </div>
+                    )}
                   </div>
                 </div>
               )}
