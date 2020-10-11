@@ -252,13 +252,13 @@
                             <select
                               id="priority"
                               className="form-control"
+
                               value={this.state.priorityValue}
                               onChange={(e) =>
                                 this.setState({ priorityValue: e.target.value })
                               }
                             >
-                              <option value="none" selected disabled hidden>Select an Option</option> 
-                              <option value="high">High</option>
+                              <option value="high" selected>High</option>
                               <option value="medium">Medium</option>
                               <option value="low">Low</option>
                             </select>
