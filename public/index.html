@@ -15,7 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
   </head>
   <body>
-    <div id="ToDoApp"></div>
+    <div className="bg-dark" id="ToDoApp"></div>
   </body>
   <script type="text/babel">
     class TodoList extends React.Component {
@@ -218,7 +218,7 @@
               </div>
             </nav>
 
-            <div className="container-fluid bg-dark my-auto">
+            <div className="container-fluid bg-dark">
               {!this.state.username && (
                 <div id="loginPage">
                 <div className="container p-3">
