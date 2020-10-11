@@ -3,7 +3,7 @@ const express  = require( 'express' ),
       bp       = require( 'body-parser')
 
 const todos = [
-  { name:'buy groceries', completed:false }
+  { name:'buy groceries', completed:true, numScoops:10 }
 ]
 
 app.use( bp.json() )
@@ -19,6 +19,7 @@ app.post( '/add', ( req,res ) => {
 app.post( '/change', function( req,res ) {
   const idx = todos.findIndex( v => v.name === req.body.name )
   todos[ idx ].completed = req.body.completed
+  todos[ idx ].numScoops = req.body.numScoops
   
   res.sendStatus( 200 )
 })

@@ -1,4 +1,6 @@
 <script>
+import { text } from "svelte/internal"
+
   const getTodos = function() {
     const p = fetch( '/read', {
       method:'GET' 
@@ -13,10 +15,13 @@
   }
   
   const addTodo = function( e ) {
-    const todo = document.querySelector('input').value
+	const todo = document.querySelector('input').value
+	const numScoops = document.getElementById("scoop").value
+	const sprinkles = document.getElementById("sprinklesBox").checked
+	console.log(sprinkles)
     promise = fetch( '/add', {
       method:'POST',
-      body: JSON.stringify({ name:todo, completed:false }),
+      body: JSON.stringify({ name:todo, completed:sprinkles, numScoops:numScoops }),
       headers: { 'Content-Type': 'application/json' }
     })
     .then( response => response.json() )
@@ -47,15 +52,15 @@
 <p>Tell me your ice cream order:</p>
 <form>
 	<label> Your Flavor:
-		<input type='text' />
+		<input required type='text' />
 	</label>
 	<label>
           Number of Scoops
-          <input type="number" maxlength="100" required placeholder="Scoops!"/>
+          <input id="scoop" type="number" maxlength="100" required placeholder="Scoops!"/>
     </label>
 	<label>
           Check For Sprinkles
-          <input name="sprinkles" type="checkbox" />
+          <input id="sprinklesBox" type="checkbox" />
     </label>
 </form>
 </div>
@@ -75,7 +80,8 @@
   {#each todos as todo}
 	<tr>
 		<!-- <td> {todo.name} : <input type='checkbox' todo={todo.name} checked={todo.completed} on:click{toggle}> </td> -->
-		<td>{todo.name} </td>
+		<td><input type='text' placeholder={todo.name}></td>
+		<td>{todo.numScoops}</td>
 		<td> <input type='checkbox' todo={todo.name} checked={todo.completed} on:click={toggle}></td>
 		<td on:click={removeOrder}>DELETE </td>
 		<td on:click={toggle}>UPDATE</td>
