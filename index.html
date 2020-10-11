@@ -164,7 +164,7 @@
             </nav>
 
 
-            <div className="container" style={{minWidth: 600, maxWidth: 800}}>
+            <div className="container" style={{minWidth: 600, maxWidth: 600}}>
               {!this.state.username && (
                 <div id="loginGate">
                   <div className="alert alert-info m-5" role="alert">
@@ -173,7 +173,7 @@
                     <div className="card-body">
                         <input
                         className="form-control mr-sm-2 m-1"
-                        style={{minWidth: 200, maxWidth: 300}}
+                        style={{minWidth: 200, maxWidth: 300, display: "flex", justifyContent: "center", alignItems: "center"}}
                         id="username"
                         placeholder="Username"
                         value={this.state.usernameInput}
@@ -183,7 +183,7 @@
                         />
                         <input
                         className="form-control mr-sm-2 m-1"
-                        style={{minWidth: 200, maxWidth: 300}}
+                        style={{minWidth: 200, maxWidth: 300, display: "flex", justifyContent: "center", alignItems: "center"}}
                         placeholder="Password"
                         type="password"
                         value={this.state.passwordInput}
@@ -193,12 +193,14 @@
                         />
                         <button
                         className="btn btn-outline-primary btn-lg m-2"
+                        style={{display: "flex", justifyContent: "center", alignItems: "center"}}
                         onClick={this.login}
                         >
                         Login / Signup
                         </button>
                         <a
                         className="btn btn-dark btn-lg m-2"
+                        style={{display: "flex", justifyContent: "center", alignItems: "center"}}
                         href="/auth/github"
                         >
                         Login Using Github
@@ -258,7 +260,7 @@
                 </div>
                 
                     <div className="container mx-auto" style={{minWidth: 800, maxWidth: 1100}}>
-                      <div className="card m-2">
+                      <div className="card-body">
                           <h3 className="card-title">To-do List</h3>
                           <h6 className="card-subtitle mb-2 text-muted">
                             View and edit all To-dos in the list below
