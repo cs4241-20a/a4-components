@@ -406,7 +406,7 @@ const modifyItem = function(request, response){
             (isNaN(item.deaths) || item.deaths < 0)){
             console.log(`Skipping modify of ${item._id}, invalid stats`);
         }else {
-            let id = new ObjectID(item.id);
+            let id = new ObjectID(item._id);
 
             let updatedObj = {
                 kills: valid(request.body.kills) ? request.body.kills : item.kills,
@@ -468,9 +468,9 @@ const deleteItem = function(request, response){
         if((isNaN(item.kills) || item.kills < 0 ) ||
            (isNaN(item.assists) || item.assists < 0) ||
            (isNaN(item.deaths) || item.deaths < 0)){
-            console.log(`Skipping deletion of ${item.id}, invalid stats`);
+            console.log(`Skipping deletion of ${item._id}, invalid stats`);
         }else {
-            ids.push(new ObjectID(item.id));
+            ids.push(new ObjectID(item._id));
             update(-1, -item.kills, -item.assists, -item.deaths);
         }
     }
@@ -608,7 +608,7 @@ const sendCSV = function(response){
 
     file.write("Kills,Assists,Deaths,K/D Ratio,A/D Ratio\n");
     getAllStats().then(function(result){
-        for(let i = 0; i < numEntries; i++){
+        for(let i = 0; i < result.length; i++){
             file.write(`${result[i]["kills"]}, ${result[i]["assists"]}, ${result[i]["deaths"]}, ${result[i]["kd_ratio"]}, ${result[i]["ad_ratio"]}\n`);
         }
         file.on("finish", function(){

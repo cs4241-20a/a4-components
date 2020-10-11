@@ -7,12 +7,12 @@ class Form extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            addKills: 0,
-            addAssists: 0,
-            addDeaths: 0,
-            modifyKills: 0,
-            modifyAssists: 0,
-            modifyDeaths: 0,
+            addKills: "",
+            addAssists: "",
+            addDeaths: "",
+            modifyKills: "",
+            modifyAssists: "",
+            modifyDeaths: "",
         }
         this.handleInput = this.handleInput.bind(this);
         this.handle_add = this.handle_add.bind(this);
@@ -132,7 +132,13 @@ class Form extends React.Component {
         }).then(response => {
               if (response.status === 200) {
                   response.json().then(results => {
-                      this.props.onDataChange(results);
+                      this.props.onDataChange({
+                          numRows: results.numRows,
+                          rows: results.rows,
+                          totals: results.totals,
+                          avgs: results.avgs,
+                          selectedRows: []
+                      });
                   });
               }
         });
@@ -147,35 +153,28 @@ class Form extends React.Component {
     handle_modify() {
         //const input = document.getElementById("modify");
         let json = {
-            "rows": [],
+            "rows": this.props.selectedRows,
             "kills": this.state.modifyKills,
             "assists": this.state.modifyAssists,
             "deaths": this.state.modifyDeaths
         }
-
-        let table = document.getElementById("results_list").getElementsByTagName("tbody")[0];
-        for(let i = 0; i < table.rows.length; i++){
-            let rowItems = table.rows[i].childNodes;
-            let checkbox = rowItems[0].childNodes[0];
-            if(checkbox.checked){
-                json.rows.push({
-                    id: checkbox.id,
-                    kills: rowItems[1].innerHTML,
-                    assists: rowItems[2].innerHTML,
-                    deaths: rowItems[3].innerHTML,
-                });
-            }
-        }
-
-        let body = json;//JSON.stringify(json);
+        let body = JSON.stringify(json);
+        console.log("body: " +body);
         fetch('/modify', {
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body
-        }).then(function (response) {
+        }).then(response => {
             if (response.status === 200) {
-                console.log("response status 200 for modify");
-                //updateResults(response);
+                response.json().then(results => {
+                    this.props.onDataChange({
+                        numRows: results.numRows,
+                        rows: results.rows,
+                        totals: results.totals,
+                        avgs: results.avgs,
+                        selectedRows: []
+                    });
+                });
             }
         });
     }
@@ -188,32 +187,24 @@ class Form extends React.Component {
      */
     handle_delete() {
         let json = {
-            "rows": []
+            "rows": this.props.selectedRows
         }
-        /*
-        let table = document.getElementById("results_list").getElementsByTagName("tbody")[0];
-        for(let i = 0; i < table.rows.length; i++){
-            let rowItems = table.rows[i].childNodes;
-            let checkbox = rowItems[0].childNodes[0];
-            if(checkbox.checked){
-                json.rows.push({
-                    "id": checkbox.id,
-                    "kills": rowItems[1].innerHTML,
-                    "assists": rowItems[2].innerHTML,
-                    "deaths": rowItems[3].innerHTML,
-                });
-            }
-        }
-        */
         let body = JSON.stringify(json);
         fetch('/delete', {
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body
-        }).then(function (response) {
+        }).then(response => {
             if (response.status === 200) {
-                console.log("response status 200 for delete");
-                //updateResults(response);
+                response.json().then(results => {
+                    this.props.onDataChange({
+                        numRows: results.numRows,
+                        rows: results.rows,
+                        totals: results.totals,
+                        avgs: results.avgs,
+                        selectedRows: []
+                    });
+                });
             }
         });
     }
