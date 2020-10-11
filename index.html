@@ -256,7 +256,6 @@
                               id="priority"
                               className="form-control"
                               value={this.state.priorityValue}
-                              defaultValue={'high'}
                               onChange={(e) =>
                                 this.setState({ priorityValue: e.target.value })
                               }
@@ -295,7 +294,7 @@
                                 var dueDate = moment(item._createdOn);
 
                                 const priorityMap = {
-                                  high: 1,
+                                  high: 2,
                                   medium: 3,
                                   low: 7,
                                 };
