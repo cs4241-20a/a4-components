@@ -173,8 +173,8 @@
                     <div className="card-body">
                         <div className="text-center">
                             <input
-                            className="form-control text-center m-1"
-                            style={{minWidth: 200, maxWidth: 300, justifyContent: "center", alignItems: "center"}}
+                            className="form-control m-1"
+                            style={{width: 150, justifyContent: "center", alignItems: "center"}}
                             id="username"
                             placeholder="Username"
                             value={this.state.usernameInput}
@@ -185,8 +185,8 @@
                         </div>
                         <div className="text-center">
                             <input
-                            className="form-control text-center m-1"
-                            style={{minWidth: 200, maxWidth: 300, justifyContent: "center", alignItems: "center"}}
+                            className="form-control m-1"
+                            style={{justifyContent: "center", alignItems: "center"}}
                             placeholder="Password"
                             type="password"
                             value={this.state.passwordInput}
@@ -220,7 +220,7 @@
               )}
 
               {this.state.username && (
-                <div className="pages" id="pages" style={{minWidth: 500, maxWidth: 800}}>
+                <div className="pages" id="pages" style={{minWidth: 500, maxWidth: 1000}}>
                   <br />
                   <div className="container mb-2">
                     <div className="col">
@@ -267,7 +267,7 @@
                     </div>
                 </div>
                 
-                    <div className="container mx-auto" style={{minWidth: 800, maxWidth: 1100}}>
+                    <div className="container mb-2 mx-auto" style={{minWidth: 800, maxWidth: 900}}>
                       <div className="container">
                         <div className="card-body">
                           <h3 className="card-title">To-do List</h3>
@@ -287,9 +287,9 @@
                                 var dueDate = moment(item._createdOn);
 
                                 const priorityMap = {
-                                  high: 1,
-                                  medium: 3,
-                                  low: 5,
+                                  high: 2,
+                                  medium: 5,
+                                  low: 8,
                                 };
 
                                 dueDate.add(
