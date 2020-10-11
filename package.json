@@ -1,0 +1,36 @@
+{
+  "name": "a4-components",
+  "description": "Assignment 4 - Components ===",
+  "author": "",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-react-app": "^3.1.2",
+    "body-parser": "^1.19.0",
+    "connect-timeout": "^1.9.0",
+    "dotenv": "^8.2.0",
+    "express": "4.17.1",
+    "moment": "^2.27.0",
+    "mongodb": "^3.6.2",
+    "morgan": "^1.10.0",
+    "passport": "^0.4.1",
+    "passport-github": "^1.1.0",
+    "response-time": "^2.3.2",
+    "serve-static": "^1.14.1"
+  },
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hctrautz/a4-components.git"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hctrautz/a4-components/issues"
+  },
+  "homepage": "https://github.com/hctrautz/a4-components#readme"
+}
