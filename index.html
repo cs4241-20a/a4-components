@@ -153,8 +153,7 @@
               <a className="navbar-brand" href="#">To-do List 2.0</a>
 
               <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul className="navbar-nav mr-auto"></ul>
-                
+                <ul className="navbar-nav mr-auto"></ul>   
                 {this.state.username && (
                   <div className="form-inline my-2 my-lg-0" id="profile">
                     <button className="btn btn-light disabled my-2 my-sm-0">Hello {" "}<span id="l-username">{this.state.username}</span></button>
@@ -164,13 +163,14 @@
               </div>
             </nav>
 
-            <div className="container" style={{minWidth: 500, maxWidth: 800}}>
+
+            <div className="container" style={{minWidth: 400, maxWidth: 600}}>
               {!this.state.username && (
                 <div id="loginGate">
                   <div className="alert alert-info m-5" role="alert">
                     <h1>Login or create a new account.</h1>
                     {!this.state.username && (
-                    <div className="form-group">
+                    <div className="d-flex justify-content-center">
                         <input
                         className="form-control mr-sm-2"
                         id="username"
@@ -190,13 +190,15 @@
                         }
                         />
                         <button
-                        className="btn btn-outline-success my-2 my-sm-0"
+                        className="btn btn-outline-primary btn-lg m-2"
+                        style={{minWidth: 150, maxWidth: 200}}
                         onClick={this.login}
                         >
                         Login / Signup
                         </button>
                         <a
-                        className="btn btn-dark my-2 my-sm-0 ml-2"
+                        className="btn btn-dark btn-lg m-2"
+                        style={{minWidth: 150, maxWidth: 200}}
                         href="/auth/github"
                         >
                         Login Using Github
@@ -206,8 +208,6 @@
                   </div>
                 </div>
               )}
-
-
 
               {this.state.username && (
                 <div className="pages" id="pages" style={{minWidth: 500, maxWidth: 800}}>
@@ -256,9 +256,9 @@
                       </div>
                     </div>
 
-                    <div className="container mb-2" style={{minWidth: 800, maxWidth: 1100}}>
-                      <div className="card my-2 mx-2">
-                          <h5 className="card-title">To-do List</h5>
+                    <div className="container m-5" style={{minWidth: 800, maxWidth: 1100}}>
+                      <div className="card m-2">
+                          <h3 className="card-title">To-do List</h3>
                           <h6 className="card-subtitle mb-2 text-muted">
                             View and edit all To-dos in the list below
                           </h6>
