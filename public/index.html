@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 4</title>
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+  </head>
+  <body>
+    <div id="ToDoApp"></div>
+  </body>
+  <script type="text/babel">
+    class TodoList extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          username: null,
+          tasks: [],
+          usernameInput: "",
+          passwordInput: "",
+          taskInput: "",
+          priorityInput: "",
+        };
+        this.processLogin = this.processLogin.bind(this);
+        this.processData = this.processData.bind(this);
+        this.login = this.login.bind(this);
+        this.logout = this.logout.bind(this);
+        this.submit = this.submit.bind(this);
+        this.delete = this.delete.bind(this);
+        this.save = this.save.bind(this);
+      }
+
+      processData(json) {
+        this.setState({ tasks: json, taskInput: "", priorityInput: "" });
+      }
+      processLogin(json) {
+        console.log("user data", json);
+        if (!json._id) return;
+        this.setState({
+          username: json.username,
+          usernameInput: "",
+          passwordInput: "",
+        });
+        fetch("/api/getData")
+          .then((response) => response.json())
+          .then((json) => this.processData(json));
+      }
+
+      logout() {
+        fetch("/logout").then(() => {
+          this.setState({ username: null });
+        });
+      }
+
+      componentDidMount() {
+        fetch("/api/getUser")
+          .then((response) => response.json())
+          .then((json) => this.processLogin(json));
+      }
+
+      login() {
+        fetch("/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: this.state.usernameInput,
+            password: this.state.passwordInput,
+          }),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw "Invalid Username/Passwword";
+            }
+            return response.json();
+          })
+          .then((json) => this.processLogin(json))
+          .catch((err) => {
+            console.error(err);
+            alert(err);
+          });
+      }
+
+      delete(id) {
+        const json = {
+            delete: true,
+            id,
+          },
+          body = JSON.stringify(json);
+
+        fetch("/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body,
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            this.processData(json);
+          });
+      }
+
+      submit() {
+        fetch("/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            task: this.state.taskInput,
+            priority: this.state.priorityInput,
+          }),
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            this.processData(json);
+          });
+      }
+
+      save(id) {
+        const ticket = this.state.tasks.find((t) => t._id == id);
+        const json = {
+            task: ticket.task,
+            priority: ticket.priority,
+            id,
+          },
+          body = JSON.stringify(json);
+        fetch("/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body,
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            alert("Success!");
+            this.processData(json);
+          });
+      }
+
+      render() {
+        return (
+          <div>
+            <nav className="navbar navbar-expand-lg navbar-dark bg-secondary">
+              <a className="navbar-brand" href="#"> TaskBuddy: A simple To-Do list app to keep you organized</a>
+              <button
+                className="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+                >
+                <span className="navbar-toggler-icon"></span>
+              </button>
+
+              <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul className="navbar-nav mr-auto"></ul>
+                {!this.state.username && (
+                  <div className="form-inline my-2 my-lg-0" id="userInfo">
+                  <input
+                    className="form-control mr-sm-2"
+                    id="username"
+                    placeholder="Username"
+                    // .
+                    value={this.state.usernameInput}
+                    onChange={(e) =>
+                      this.setState({ usernameInput: e.target.value })
+                    }
+                  />
+                  <input
+                    className="form-control mr-sm-2"
+                    id="password"
+                    placeholder="Password"
+                    type="password"
+                    // .
+                    value={this.state.passwordInput}
+                    onChange={(e) =>
+                      this.setState({ passwordInput: e.target.value })
+                    }
+                  />
+                  <button className="btn btn-primary my-2 my-sm-0 mr-sm-2" id="loginButton" onClick={this.login}> 
+                    Register / Login 
+                  </button>
+                  <a className="btn btn-outline-light my-2 my-sm-0 m1-2 mr-sm-1" href="/auth/github">
+                    Login Using Github
+                  </a>
+                </div>
+                )}
+                
+                {this.state.username && (
+                  <div
+                  className="form-inline my-2 my-lg-0"
+                  id="profile"
+                  style="display: none"
+                  >
+                  <button className="btn btn-info disabled my-2 my-sm-0 mr-sm-1">
+                    Username: <span id="loggedUsername">{this.state.username}</span>
+                  </button>
+                  <button className="btn btn-danger my-2 my-sm-0 ml-2 mr-sm-5" id="logoutButton" onClick={this.logout}>
+                    Logout
+                  </button>
+                </div>
+                )}
+
+              </div>
+            </nav>
+
+            <div className="container-fluid bg-dark">
+              {!this.state.username && (
+                <div id="loginPage">
+                <div className="container p-3">
+                  <img src="https://thumbor.forbes.com/thumbor/960x0/https%3A%2F%2Fspecials-images.forbesimg.com%2Fdam%2Fimageserve%2F1092571024%2F960x0.jpg%3Ffit%3Dscale" className="mx-auto d-block" width={200} height={200}/>
+                </div>
+              </div>
+              )}
+
+              {this.state.username && (
+                <div className="pages" id="otherPages">
+                  <br />
+                  <div className="container bg-primary mx-auto d-block p-1">
+                    <div className="col">
+                      <div className="card my-2">
+                        <div className="card-body">
+                          <h5 className="card-title">Add Task To Complete</h5>
+                          <h6 className="card-subtitle mb-2 text-muted">
+                            Be sure to complete both feilds before clicking the Add Task button
+                          </h6>
+                          <hr />
+                          <div className="form-group">
+                            <label>Task</label>
+                            <textarea
+                              className="form-control"
+                              id="task"
+                              value={this.state.taskInput}
+                              onChange={(e) =>
+                                this.setState({ taskInput: e.target.value })
+                              }
+                              placeholder="Add task here..."
+                            ></textarea>
+                          </div>
+                          <div className="form-group">
+                            <label>Priority</label>
+                            <select 
+                              id="priority" 
+                              className="form-control"
+                              value={this.state.priorityInput}
+                              onChange={(e) =>
+                                this.setState({ priorityInput: e.target.value })
+                              }
+                              >
+                              <option value="high">High</option>
+                              <option value="medium">Medium</option>
+                              <option value="low">Low</option>
+                            </select>
+                          </div>
+                          <a 
+                            className="btn btn-outline-primary" 
+                            id="addTask"
+                            onClick={this.submit}
+                            >Add Task</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="container bg-success mx-auto d-block mt-4 mb-2 p-2" width="mx-auto"> 
+                    <div className="card my-2 mx-2">
+                      <div className="card-body">
+                        <h5 className="card-title">Your Current Tasks To Complete</h5>
+                        <h6 className="card-subtitle mb-2 text-muted">
+                          Tasks can be edited directly by clicking in the task feilds below. Stay motivated to complete the tasks!
+                        </h6>
+                        <table className="table">
+                          <thead>
+                            <tr>
+                              <th></th>
+                              <th>Task</th>
+                              <th>Priority</th>
+                              <th>Time Frame To Complete</th>
+                              <th>Modify</th>
+                            </tr>
+                          </thead>
+                          <tbody id="items">
+                            {this.state.tasks.map((item, index) => {
+                              var dueDate = moment(item._createdOn);
+
+                              const priorityMap = {
+                                high: 1,
+                                medium: 3,
+                                low: 5,
+                              };
+
+                              dueDate.add(
+                                priorityMap[item.priority] + 1,
+                                "days"
+                              );
+
+                              var now = moment();
+                              return (
+                                <tr key={item._id}>
+                                  <td
+                                    style={{
+                                      height: 50,
+                                      backgroundColor:
+                                        item.color || "transparent",
+                                    }}
+                                    className="rounded mt-1 mb-1"
+                                  ></td>
+                                  <td>
+                                    <textarea
+                                      className="form-control"
+                                      id={`task-${item._id}`}
+                                      onChange={(e) => {
+                                        const text = e.target.value;
+                                        const stateSplitter = this.state.tasks.slice();
+                                        for (
+                                          var i = 0;
+                                          i < stateSplitter.length;
+                                          i++
+                                        ) {
+                                          if (
+                                            stateSplitter[i]._id == item._id
+                                          ) {
+                                            stateSplitter[i].task = text;
+                                          }
+                                        }
+                                        this.setState({
+                                          tasks: stateSplitter,
+                                        });
+                                      }}
+                                      value={item.task || "Unknown Task"}
+                                    />
+                                  </td>
+                                  <td>
+                                    <select
+                                      className="form-control"
+                                      value={item.priority}
+                                      onChange={(e) => {
+                                        const text = e.target.value;
+                                        const stateSplitter = this.state.tasks.slice();
+                                        for (
+                                          var i = 0;
+                                          i < stateSplitter.length;
+                                          i++
+                                        ) {
+                                          if (
+                                            stateSplitter[i]._id == item._id
+                                          ) {
+                                            stateSplitter[i].priority = text;
+                                          }
+                                        }
+                                        this.setState({
+                                          tasks: stateSplitter,
+                                        });
+                                      }}
+                                    >
+                                      <option value="high">High</option>
+                                      <option value="medium">Medium</option>
+                                      <option value="low">Low</option>
+                                    </select>
+                                  </td>
+                                  <td style={{ opacity: 0.8 }}>
+                                    {dueDate.diff(now, "days")} days
+                                  </td>
+                                  <td>
+                                    <button
+                                      className="saveButton btn btn-success btn-sm btn-block"
+                                      onClick={() => this.save(item._id)}
+                                    >
+                                      Save
+                                    </button>
+                                    <div className="spacerMini"></div>
+                                    <button
+                                      className="deleteButton btn btn-danger btn-sm btn-block mt-1"
+                                      onClick={() => this.delete(item._id)}
+                                    >
+                                      Delete
+                                    </button>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      }
+    }
+
+    ReactDOM.render(<TodoList />, document.getElementById("ToDoApp"));
+  </script>
+</html>
+
