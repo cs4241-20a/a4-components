@@ -164,47 +164,55 @@
             </nav>
 
 
-            <div className="container" style={{minWidth: 600, maxWidth: 600}}>
+            <div className="container" style={{minWidth: 700, maxWidth: 800}}>
               {!this.state.username && (
                 <div id="loginGate">
                   <div className="alert alert-info m-5" role="alert">
                     <h1>Login or create a new account.</h1>
                     {!this.state.username && (
                     <div className="card-body">
-                        <input
-                        className="form-control mr-sm-2 m-1"
-                        style={{minWidth: 200, maxWidth: 300, display: "flex", justifyContent: "center", alignItems: "center"}}
-                        id="username"
-                        placeholder="Username"
-                        value={this.state.usernameInput}
-                        onChange={(e) =>
-                            this.setState({ usernameInput: e.target.value })
-                        }
-                        />
-                        <input
-                        className="form-control mr-sm-2 m-1"
-                        style={{minWidth: 200, maxWidth: 300, display: "flex", justifyContent: "center", alignItems: "center"}}
-                        placeholder="Password"
-                        type="password"
-                        value={this.state.passwordInput}
-                        onChange={(e) =>
-                            this.setState({ passwordInput: e.target.value })
-                        }
-                        />
-                        <button
-                        className="btn btn-outline-primary btn-lg m-2"
-                        style={{display: "flex", justifyContent: "center", alignItems: "center"}}
-                        onClick={this.login}
-                        >
-                        Login / Signup
-                        </button>
-                        <a
-                        className="btn btn-dark btn-lg m-2"
-                        style={{display: "flex", justifyContent: "center", alignItems: "center"}}
-                        href="/auth/github"
-                        >
-                        Login Using Github
-                        </a>
+                        <div className="text-center">
+                            <input
+                            className="form-control mr-sm-2 m-1"
+                            style={{minWidth: 200, maxWidth: 300, justifyContent: "center", alignItems: "center"}}
+                            id="username"
+                            placeholder="Username"
+                            value={this.state.usernameInput}
+                            onChange={(e) =>
+                                this.setState({ usernameInput: e.target.value })
+                            }
+                            />
+                        </div>
+                        <div className="text-center">
+                            <input
+                            className="form-control mr-sm-2 m-1"
+                            style={{minWidth: 200, maxWidth: 300, justifyContent: "center", alignItems: "center"}}
+                            placeholder="Password"
+                            type="password"
+                            value={this.state.passwordInput}
+                            onChange={(e) =>
+                                this.setState({ passwordInput: e.target.value })
+                            }
+                            />
+                        </div>    
+                        <div className="text-center">
+                            <button
+                            className="btn btn-outline-primary btn-lg m-2"
+                            style={{justifyContent: "center", alignItems: "center"}}
+                            onClick={this.login}
+                            >
+                            Login / Signup
+                            </button>
+                        </div>
+                        <div className="text-center">
+                            <a
+                            className="btn btn-dark btn-lg m-2"
+                            style={{justifyContent: "center", alignItems: "center"}}
+                            href="/auth/github"
+                            >
+                            Login Using Github
+                            </a>
+                        </div>
                     </div>
                     )}
                   </div>
@@ -260,7 +268,8 @@
                 </div>
                 
                     <div className="container mx-auto" style={{minWidth: 800, maxWidth: 1100}}>
-                      <div className="card-body">
+                      <div className="container">
+                        <div className="card-body">
                           <h3 className="card-title">To-do List</h3>
                           <h6 className="card-subtitle mb-2 text-muted">
                             View and edit all To-dos in the list below
@@ -360,6 +369,7 @@
                               })}
                             </tbody>
                           </table>
+                        </div>
                       </div>
                     </div>
                   </div>
