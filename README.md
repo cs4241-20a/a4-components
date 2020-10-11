@@ -1,30 +1,8 @@
-Assignment 4 - Components
-===
+## Assignment 4 - Components
 
-Due: October 11th, by 11:59 PM.
+Website: https://a4-aditya-malik.herokuapp.com/
 
-For this assignment you will re-implement the client side portion of A3 using either React or Svelte components.
+TaskBuddy is a To-do list that allows users to organize their schedules by adding tasks they need to complete, along with a priority of when to complete it by. The app then provides users with an estimate of the amount of the time they have left to work on the task, based on the priority. 
 
-This project can be implemented on any hosting service (Glitch, DigitalOcean, Heroku etc.), however, you must include all files in your GitHub repo so that the course staff can view them; these files are not available for viewing in many hosting systems.
-
-Deliverables
----
-
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements.
-3. Test your project to make sure that when someone goes to your main page on Glitch/Heroku/etc., it displays correctly.
-4. Ensure that your project has the proper naming scheme `a4-firstname-lastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below. Be sure to add *all* project files.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a4-firstname-lastname`.
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your hosting link e.g. http://a4-charlieroberts.glitch.me
-
-Include a very brief summary of your project here and what you changed / added to assignment #3. Briefly (3–4 sentences) answer the following question: did the new technology improve or hinder the development experience?
-
-Unlike previous assignments, this assignment will be solely graded on whether or not you successfully complete it. Partial credit will be generously given.
+### Changes from A3 and additions 
+For assignment A4, I recreated and built upon my ToDo application from A3 using React. The project is implemented using hosting service, Heroku. All the changes for this project were made to the index HTML file. The login and home pages were altered to use React components. Overall, I had a positive experience with using React and definitely realised its potential to make development quick and easy. However, since I had to go back to my assignment A3 and recreate it with React, there were a lot of small syntax changes that made the process tedious and took adjusting. Looking back, starting the project using React would have definitely sped up the development process and made it much cleaner and simple. A great example of simplification with React, was the ability to add an onClick listener for buttons right next to them in the HTML, instead of in a seperate Window.onLoad function. 
