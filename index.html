@@ -164,7 +164,7 @@
             </nav>
 
 
-            <div className="container" style={{minWidth: 400, maxWidth: 600}}>
+            <div className="container" style={{minWidth: 600, maxWidth: 800}}>
               {!this.state.username && (
                 <div id="loginGate">
                   <div className="alert alert-info m-5" role="alert">
@@ -172,8 +172,8 @@
                     {!this.state.username && (
                     <div className="card-body">
                         <input
-                        className="form-control mr-sm-2"
-                        style={{minWidth: 150, maxWidth: 200}}
+                        className="form-control mr-sm-2 m-1"
+                        style={{minWidth: 200, maxWidth: 300}}
                         id="username"
                         placeholder="Username"
                         value={this.state.usernameInput}
@@ -182,8 +182,8 @@
                         }
                         />
                         <input
-                        className="form-control mr-sm-2"
-                        style={{minWidth: 150, maxWidth: 200}}
+                        className="form-control mr-sm-2 m-1"
+                        style={{minWidth: 200, maxWidth: 300}}
                         placeholder="Password"
                         type="password"
                         value={this.state.passwordInput}
@@ -257,9 +257,9 @@
                     </div>
                 </div>
                 
-                    <div className="container m-5" style={{minWidth: 800, maxWidth: 1100}}>
-                      <div className="card">
-                          <h3 className="card-title m-2">To-do List</h3>
+                    <div className="container mx-auto" style={{minWidth: 800, maxWidth: 1100}}>
+                      <div className="card m-2">
+                          <h3 className="card-title">To-do List</h3>
                           <h6 className="card-subtitle mb-2 text-muted">
                             View and edit all To-dos in the list below
                           </h6>
