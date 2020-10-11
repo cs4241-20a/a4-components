@@ -20,5 +20,7 @@
     "express": "^4.17.1",
     "milligram": "^1.4.1",
     "sirv-cli": "^1.0.0"
+  },"engines": {
+    "node": "12.x"
   }
 }
