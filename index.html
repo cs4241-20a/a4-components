@@ -260,17 +260,15 @@
                       </div>
                     </div>
 
-                    <div className="container bg-success mx-auto d-block mt-4 mb-2 p-2" style={{minWidth: 800, maxWidth: 1100}}>
+                    <div className="container mb-2" style={{minWidth: 800, maxWidth: 1100}}>
                       <div className="card my-2 mx-2">
-                        <div className="container mb-2" style={{minWidth: 600, maxWidth: 800}}>
                           <h5 className="card-title">To-do List</h5>
                           <h6 className="card-subtitle mb-2 text-muted">
                             View and edit all To-dos in the list below
                           </h6>
-                          <table className="table">
+                          <table className="table table-dark">
                             <thead>
                               <tr>
-                                <th></th>
                                 <th>Description</th>
                                 <th>Priorty</th>
                                 <th>Due Date</th>
@@ -294,14 +292,6 @@
                                 var now = moment();
                                 return (
                                   <tr key={item._id}>
-                                    <td
-                                      style={{
-                                        height: 50,
-                                        backgroundColor:
-                                          item.color || "transparent",
-                                      }}
-                                      className="rounded mt-1 mb-1"
-                                    ></td>
                                     <td>
                                       <textarea
                                         className="form-control"
@@ -360,25 +350,17 @@
                                     </td>
                                     <td>
                                       <button
-                                        className="saveButton btn btn-success btn-sm btn-block"
-                                        onClick={() => this.save(item._id)}
-                                      >
-                                        Save
-                                      </button>
+                                        className="saveButton btn btn-warning btn-sm btn-block"
+                                        onClick={() => this.save(item._id)}>Save Changes</button>
                                       <div className="spacerMini"></div>
                                       <button
-                                        className="deleteButton btn btn-danger btn-sm btn-block mt-1"
-                                        onClick={() => this.delete(item._id)}
-                                      >
-                                        Delete
-                                      </button>
+                                        className="deleteButton btn btn-info btn-sm btn-block mt-1"onClick={() => this.delete(item._id)}>Complete!</button>
                                     </td>
                                   </tr>
                                 );
                               })}
                             </tbody>
                           </table>
-                        </div>
                       </div>
                     </div>
                   </div>
