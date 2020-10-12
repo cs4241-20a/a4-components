@@ -8,10 +8,10 @@ import { text } from "svelte/internal"
       method:'GET' 
     })
     .then( response => response.json() )
-    .then( json => {
-      console.log(json)
+    .then( dreams => {
+      console.log(dreams)
       console.log(hello)
-      return json 
+      return dreams 
     })
     
     return p
