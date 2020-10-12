@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "rollup -c",
-    "start": "rollup -c && node server.js"
+    "start": "node server.js"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^14.0.0",
