@@ -8,9 +8,9 @@ import { text } from "svelte/internal"
       method:'GET' 
     })
     .then( response => response.json() )
-    .then( dreams => {
+    .then( json => {
       //console.log(dreams)
-      return dreams 
+      return json 
     })
     
     return p
@@ -24,11 +24,9 @@ import { text } from "svelte/internal"
 	if(sprinklesBool === true){
 		sprinkles1 = "yes"
 	}
-	const idTodo = idNumber
-	idNumber++
     promise = fetch( '/add', {
       method:'POST',
-      body: JSON.stringify({ dream:todo, sprinkles:sprinkles1, scoops:numScoops, id:idTodo }),
+      body: JSON.stringify({ dream:todo, sprinkles:sprinkles1, scoops:numScoops }),
       headers: { 'Content-Type': 'application/json' }
     })
     .then( response => response.json() )
@@ -94,7 +92,7 @@ import { text } from "svelte/internal"
 	</tr>
   {#each dreams as todo}
 	<tr>
-		<td><input id={todo.id} type='text' todo={todo.dream} placeholder={todo.dream}></td>
+		<td><input id={dreams._id} type='text' todo={todo.dream} placeholder={todo.dream}></td>
 		<td>{todo.scoops}</td>
 		<td>{todo.sprinkles}</td>
 		<td on:click={removeOrder}>DELETE </td>
