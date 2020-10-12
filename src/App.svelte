@@ -10,9 +10,10 @@ import { text } from "svelte/internal"
     .then( response => response.json() )
     .then( json => {
       console.log(json)
+      console.log(hello)
       return json 
     })
- 
+    
     return p
   }
   
@@ -56,6 +57,7 @@ import { text } from "svelte/internal"
   }
 
   let promise = getTodos()
+
 </script>
 
 <div class="container">

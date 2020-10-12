@@ -125,7 +125,7 @@ app.use( express.static( 'public' ) )
 
 /* get all dreams on initial load */
 app.get("/read", (request, response) => {
-  collection.find({ user: userID }).toArray((err, docs) => {
+  collection.find().toArray((err, docs) => {
     if (err) {
       // if an error happens
       response.send("Error in GET req.");
