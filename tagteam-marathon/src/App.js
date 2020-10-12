@@ -143,70 +143,136 @@ function CompletedRuns(props) {
 }
 
 function CompletedRunEntry(props) {
-  return (
-    <tr>
-      <td>
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu-${i}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Actions
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                <button class="dropdown-item" type="button" onClick={
-                  () => {
-                    fetch ('/delete-run', {
-                        method: 'POST',
-                        body: JSON.stringify({id: props.run._id}),
-                        headers: {
-                            "Content-Type": "application/json"
-                        }
-                    }).then(function handleDeleteRunResponse(response) {
-                        if (response.status === 200) {  // OK
-                            console.log(`Successfully deleted run.`);
-                            props.changeLoggedIn(false);
-                        } else {
-                            console.error(`Failed to delete run.
-                            Error: ${response.message}`);
-                        }
-                    });
-                  }
-                }>Delete Run</button>
-                <button class="dropdown-item" type="button" onclick="prepareEdit(${i + 1}, '${data[i]._id}')">Edit Run</button>
-                <button class="dropdown-item" type="button" onClick={
-                  () => alert(props.run.notes ? props.run.notes : 'No notes exist for this run')
-                  }>View Notes</button>
-                <button class="dropdown-item" type="button" onClick={
-                  () => {
-                    let newNotes = prompt("Edit Run Notes", props.run.notes ? props.run.notes : "");
-                    if(newNotes) {
-                      let runToSend = {...props.run};
-                      runToSend.notes = newNotes;
-                      
-                      fetch('/edit-run', {
+  let [editing, setEditing] = useState(false);
+  let [name, setname] = useState(null);
+  let [location, setlocation] = useState(null);
+  let [distance, setdistance] = useState(null);
+  let [time, settime] = useState(null);
+
+  if (!editing) {
+    return (
+      <tr>
+        <td>
+          <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu-${i}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Actions
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                  <button class="dropdown-item" type="button" onClick={
+                    () => {
+                      fetch ('/delete-run', {
                           method: 'POST',
-                          body: JSON.stringify({run: runToSend, id: props.run._id}),
+                          body: JSON.stringify({id: props.run._id}),
                           headers: {
                               "Content-Type": "application/json"
                           }
-                      }).then(function handleEditRunResponse(response) {
+                      }).then(function handleDeleteRunResponse(response) {
                           if (response.status === 200) {  // OK
-                              console.log(`Successfully edited run to ${JSON.stringify(runToSend)}`);
-                              props.changeLoggedIn(false);  // Refresh the tables
+                              console.log(`Successfully deleted run.`);
+                              props.changeLoggedIn(false);
                           } else {
-                              console.error(`Failed to edit run to ${JSON.stringify(runToSend)}
+                              console.error(`Failed to delete run.
                               Error: ${response.message}`);
                           }
                       });
                     }
-                  }
-                }>Edit Notes</button>
-            </div>
-        </div>
+                  }>Delete Run</button>
+                  <button class="dropdown-item" type="button" onClick={() => setEditing(true)}>Edit Run</button>
+                  <button class="dropdown-item" type="button" onClick={
+                    () => alert(props.run.notes ? props.run.notes : 'No notes exist for this run')
+                    }>View Notes</button>
+                  <button class="dropdown-item" type="button" onClick={
+                    () => {
+                      let newNotes = prompt("Edit Run Notes", props.run.notes ? props.run.notes : "");
+                      if(newNotes) {
+                        let runToSend = {
+                          name: props.run.name,
+                          location: props.run.location,
+                          distance: props.run.distance,
+                          time: props.run.time,
+                          notes: newNotes
+                        };
+                        
+                        fetch('/edit-run', {
+                            method: 'POST',
+                            body: JSON.stringify({run: runToSend, id: props.run._id}),
+                            headers: {
+                                "Content-Type": "application/json"
+                            }
+                        }).then(function handleEditRunResponse(response) {
+                            if (response.status === 200) {  // OK
+                                console.log(`Successfully edited run to ${JSON.stringify(runToSend)}`);
+                                props.changeLoggedIn(false);  // Refresh the tables
+                            } else {
+                                console.error(`Failed to edit run to ${JSON.stringify(runToSend)}
+                                Error: ${response.message}`);
+                            }
+                        });
+                      }
+                    }
+                  }>Edit Notes</button>
+              </div>
+          </div>
+        </td>
+        <td>{ props.run.name }</td>
+        <td>{ props.run.location }</td>
+        <td>{ props.run.distance }</td>
+        <td>{ props.run.time }</td>
+        <td>{ (props.run.distance * 60 / props.run.time).toFixed(2) }</td>
+      </tr>
+    );
+  }
+
+  return (
+    <tr>
+      <td>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu-${index}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Actions
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+              <button class="dropdown-item" type="button" onClick={
+                () => {
+                  fetch('/edit-run', {
+                      method: 'POST',
+                      body: JSON.stringify({run: {
+                        name: name,
+                        location: location,
+                        distance: distance,
+                        time: time,
+                        notes: props.run.notes
+                      }, id: props.run._id}),
+                      headers: {
+                          "Content-Type": "application/json"
+                      }
+                  }).then(function handleEditRunResponse(response) {
+                      if (response.status === 200) {  // OK
+                          console.log(`Successfully edited run to ${JSON.stringify(runToSend)}`);
+                          revertEdit();
+                          loadData();  // Refresh the tables
+                      } else {
+                          console.error(`Failed to edit run to ${JSON.stringify(runToSend)}
+                          Error: ${response.message}`);
+                      }
+                  });
+                }
+              }>Submit Edits</button>
+              <button class="dropdown-item" type="button" onClick={() => setEditing(false)}>Cancel Edits</button>
+          </div>
+        </div>`;
       </td>
-      <td>{ props.run.name }</td>
-      <td>{ props.run.location }</td>
-      <td>{ props.run.distance }</td>
-      <td>{ props.run.time }</td>
-      <td>{ (props.run.distance * 60 / props.run.time).toFixed(2) }</td>
+      <td>
+        <input class="form-control" type="text" id="input-name-edit" value={name} onChange={(e)=>{setname(e.target.value)}} placeholder={name}/>
+      </td>
+      <td>
+        <input class="form-control" type="text" id="input-location-edit" value={location} onChange={(e)=>{setlocation(e.target.value)}} placeholder={location}/>
+      </td>
+      <td>
+        <input class="form-control" type="number" id="input-distance-edit" value={distance} onChange={(e)=>{setdistance(e.target.value)}} placeholder={distance}/>
+      </td>
+      <td>
+        <input class="form-control" type="number" id="input-time-edit" value={time} onChange={(e)=>{settime(e.target.value)}} placeholder={time}/>
+      </td>
     </tr>
   );
 }
