@@ -115,13 +115,8 @@ app.post("/add", (req, res) => {
       if (arr.some((row) => row.route === req.body.route)) {
         console.log("sending not adding :/");
       } else {
-<<<<<<< HEAD
         dataCollection.insertOne(fromClient).then((result) => {
-          console.log(result.ops[0]);
-=======
-        dataCollection.insertOne(fromClient).then(result => {
           //console.log(result.ops[0]);
->>>>>>> glitch
           dataCollection
             .find({ username: fromClient.username })
             .toArray()

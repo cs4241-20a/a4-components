@@ -1,9 +1,7 @@
 <script>
-  	import { fly } from 'svelte/transition';
-  import { expoOut } from 'svelte/easing';
-  
-  
-  
+  import { fly } from "svelte/transition";
+  import { expoOut } from "svelte/easing";
+
   let name = "";
   let inputRoute = "";
   let inputDistance = "";
@@ -154,7 +152,7 @@
     </button>
   </div>
   <hr />
-    <table class="pure-table" >
+  <table class="pure-table">
     <thead>
       <tr>
         <th>Route</th>
@@ -166,17 +164,25 @@
     <tbody>
       {#each tableData as row}
         {#if tableData}
-        <tr >
-          <td transition:fly="{{ x: 2000, duration: 2000, easing:expoOut}}">{row.route}</td>
-          <td transition:fly="{{ x: 2000, duration: 2000, easing:expoOut }}">{row.time}</td>
-          <td transition:fly="{{ x: 2000, duration: 2000, easing:expoOut }}">{row.distance}</td>
-          <td transition:fly="{{ x: 2000, duration: 2000, easing:expoOut }}">{row.fitness}</td>
-        </tr>
-      {/if}
+          <tr>
+            <td transition:fly={{ x: 2000, duration: 2000, easing: expoOut }}>
+              {row.route}
+            </td>
+            <td transition:fly={{ x: 2000, duration: 2000, easing: expoOut }}>
+              {row.time}
+            </td>
+            <td transition:fly={{ x: 2000, duration: 2000, easing: expoOut }}>
+              {row.distance}
+            </td>
+            <td transition:fly={{ x: 2000, duration: 2000, easing: expoOut }}>
+              {row.fitness}
+            </td>
+          </tr>
+        {/if}
       {/each}
     </tbody>
   </table>
-  
+
   <p />
   <button
     id="logout-button"
