@@ -139,10 +139,10 @@ app.get("/read", (request, response) => {
   });
 });
 
-app.post( '/add', ( req,res ) => {
-  todos.push( req.body )
-  res.json( todos )
-})
+// app.post( '/add', ( req,res ) => {
+//   todos.push( req.body )
+//   res.json( todos )
+// })
 
 app.post("/add", bodyparser.json(), function(req, res) {
   req.body.user = userID;
