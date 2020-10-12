@@ -166,11 +166,12 @@ app.post( '/delete', function( req,res ) {
   res.json( todos )
 })
 
-// app.post("/delete", bodyparser.json(), function(req, res) {
-//   console.log("body: ", req.body);
-//   collection
-//     .deleteOne({ _id: mongodb.ObjectID(req.body.id) })
-//     .then(result => res.json(result));
-// });
+app.post("/delete", bp.json(), function(req, res) {
+  console.log("body: ", req.body);
+  collection
+    .deleteOne({ _id: mongodb.ObjectID(req.body.id) })
+    .then(result => res.json(result));
+});
+
 
 // app.listen(process.env.PORT || 5000)
