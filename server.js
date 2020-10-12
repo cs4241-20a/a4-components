@@ -115,8 +115,13 @@ app.post("/add", (req, res) => {
       if (arr.some((row) => row.route === req.body.route)) {
         console.log("sending not adding :/");
       } else {
+<<<<<<< HEAD
         dataCollection.insertOne(fromClient).then((result) => {
           console.log(result.ops[0]);
+=======
+        dataCollection.insertOne(fromClient).then(result => {
+          //console.log(result.ops[0]);
+>>>>>>> glitch
           dataCollection
             .find({ username: fromClient.username })
             .toArray()
@@ -191,7 +196,7 @@ app.post("/delete", (req, res) => {
 });
 
 app.post("/load", (req, res) => {
-  console.log("send event");
+  //console.log("send event");
   let fromClient = req.body;
   fromClient.username = req.session.login;
   dataCollection
@@ -199,7 +204,7 @@ app.post("/load", (req, res) => {
     .toArray()
     .then((r) => {
       res.json(r);
-      console.log(r);
+      //console.log(r);
     }); //send table
 });
 

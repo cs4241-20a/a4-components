@@ -4,7 +4,7 @@ body {
 }
 
 hr {
-  background-color: #E6979F;
+  color: #E6979F;
 }
 
 .pure-button.button-add,
@@ -15,27 +15,14 @@ hr {
   color: white;
   border-radius: 4px;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  margin-bottom: 10px;
 }
 
-.pure-button.button-add {
-  background: rgb(28, 184, 65);
+.pure-button.my-button {
+  background: #508099;
+  color:#FEFEFE
 }
 
-.pure-button.button-delete {
-  background: rgb(202, 60, 60);
-}
-
-.pure-button.button-update {
-  background: rgb(223, 117, 20);
-}
-
-.pure-button.button-clear {
-  background: rgb(66, 184, 221);
-}
-
-.pure-button.button-logout {
-  background: rgb(132, 105, 170);
-}
 
 h1,
 body,
@@ -48,10 +35,12 @@ table,
 thead,
 tbody,
 tr,
-tb {
+th,
+td {
   margin-left: auto;
   margin-right: auto;
-  background-color: #508099;
+  background-color: #81C4E6;
+  color: #5C5B42;
 }
 
 button {

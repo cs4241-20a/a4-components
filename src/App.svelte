@@ -1,4 +1,9 @@
 <script>
+  	import { fly } from 'svelte/transition';
+  import { expoOut } from 'svelte/easing';
+  
+  
+  
   let name = "";
   let inputRoute = "";
   let inputDistance = "";
@@ -27,7 +32,7 @@
       .then((response) => response.json())
       .then((json) => {
         tableData = json;
-        username = tableData[0].username;
+        name = tableData[0].username.toUpperCase();
         console.log(tableData);
       });
   }
@@ -99,7 +104,7 @@
 </script>
 
 <main>
-  <h1>{name} Training Log</h1>
+  <h1>{name} TRAINING LOG</h1>
   <hr />
 
   <form id="input" class="pure-form pure-form-aligned">
@@ -125,31 +130,31 @@
   <div class="pure-controls">
     <button
       id="add-button"
-      class="pure-button button-add"
+      class="pure-button my-button"
       on:click|preventDefault={btn_add}>
       Add
     </button>
     <button
       id="update-button"
-      class="pure-button button-update"
+      class="pure-button my-button"
       on:click|preventDefault={btn_update}>
       Update
     </button>
     <button
       id="delete-button"
-      class="pure-button button-delete"
+      class="pure-button my-button"
       on:click|preventDefault={btn_delete}>
       Delete
     </button>
     <button
       id="clear-button"
-      class="pure-button button-clear"
+      class="pure-button my-button"
       on:click|preventDefault={btn_clear}>
       Clear
     </button>
   </div>
   <hr />
-  <table class="pure-table">
+    <table class="pure-table" >
     <thead>
       <tr>
         <th>Route</th>
@@ -160,19 +165,22 @@
     </thead>
     <tbody>
       {#each tableData as row}
-        <tr>
-          <td>{row.route}</td>
-          <td>{row.time}</td>
-          <td>{row.distance}</td>
-          <td>{row.fitness}</td>
+        {#if tableData}
+        <tr >
+          <td transition:fly="{{ x: 2000, duration: 2000, easing:expoOut}}">{row.route}</td>
+          <td transition:fly="{{ x: 2000, duration: 2000, easing:expoOut }}">{row.time}</td>
+          <td transition:fly="{{ x: 2000, duration: 2000, easing:expoOut }}">{row.distance}</td>
+          <td transition:fly="{{ x: 2000, duration: 2000, easing:expoOut }}">{row.fitness}</td>
         </tr>
+      {/if}
       {/each}
     </tbody>
   </table>
+  
   <p />
   <button
     id="logout-button"
-    class="pure-button button-logout"
+    class="pure-button my-button"
     on:click|preventDefault={() => window.location.replace('/logout')}>
     Logout
   </button>
