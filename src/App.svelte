@@ -119,8 +119,7 @@ import { text } from "svelte/internal"
 {/await}  
 
 <h2>hey there, here's all our other orders</h2>
-<p>This table is for the "Results" requirement for the full dataset in the server, and would not be in the final application (not very useful).
-</p>
+
 {#await promise2 then dreams}
 <main>
 <table>
