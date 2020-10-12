@@ -4,23 +4,11 @@
   let inputDistance= ""
   let inputTime= ""
   let tableData = []
-
-  function initTable(){
-
-  fetch("/load", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    }
-  })
-    .then(response => response.json())
-    .then(json => tableData=json); //load when recieve data
-  }
-
+  sendAndRecieve("/load")
+  
   function sendAndRecieve(action){
     console.log(action);
-  let json = {
+    let json = {
       route: inputRoute,
       time: inputTime,
       distance: inputDistance,
@@ -37,7 +25,10 @@
     body
   })
     .then(response => response.json())
-    .then(json => tableData = json);//reactivity!!!!
+    .then(json=>{
+    tableData = json
+    console.log(tableData)
+  })
   }
   
   function btn_add(){
@@ -93,7 +84,7 @@
     alert("Please input the route");
     return false;
   }
-  if (!tableData.some(row => row.route === inputRoute.value)) {
+  if (!tableData.some(row => row.route === inputRoute)) {
     alert("That route does not exist");
     return false;
   }
@@ -102,8 +93,9 @@
   }
   function btn_clear(){
     inputRoute = "";
-  inputTime = "";
-  inputDistance = "";
+    inputTime = "";
+    inputDistance = "";
+    console.log(tableData)
   }
 </script>
 
@@ -161,7 +153,7 @@
               <td>{row.route}</td>
               <td>{row.time}</td>
               <td>{row.distance}</td>
-              <td>{row.fintess}</td>
+              <td>{row.fitness}</td>
             </tr>
           {/each}
         </tbody>

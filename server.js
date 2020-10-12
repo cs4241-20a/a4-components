@@ -1,16 +1,70 @@
 //server script
-require("dotenv").config();
 const express = require("express"),
   bp = require("body-parser"),
   compression = require("compression"),
+  passport = require("passport"),
+  GitHubStrategy = require("passport-github").Strategy,
+  cookieParser = require("cookie-parser"),
+  session = require("express-session"),
   mongodb = require("mongodb"),
   app = express(); //start app
 
-
 app.use(bp.json());
-app.use( express.static( 'public' ) )
-app.use(compression())
+app.use(express.static("public"));
 
+//**********OAuth**********
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(cookieParser());
+app.use(
+  session({
+    secret: process.env.COOKIE_SECRET,
+    saveUninitialized: true,
+    resave: true
+  })
+);
+
+passport.serializeUser(function(user, cb) {
+  cb(null, user);
+});
+
+passport.deserializeUser(function(obj, cb) {
+  cb(null, obj);
+});
+
+passport.use(
+  new GitHubStrategy(
+    {
+      clientID: process.env.GITHUB_CLIENT,
+      clientSecret: process.env.GITHUB_SECRET,
+      callbackURL: "https://a4-afsimoneau.glitch.me/auth/github/callback"
+    },
+    async function(accessToken, refreshToken, profile, cb) {
+      return cb(null, profile);
+    }
+  )
+);
+
+app.get("/auth/github", passport.authenticate("github"));
+
+app.get(
+  "/auth/github/callback",
+  passport.authenticate("github", { failureRedirect: "/" }),
+  function(req, res) {
+    req.session.login = req.user.username;
+    res.redirect("/home");
+  }
+);
+
+app.get("/error", (req, res) => res.send("Login failed"));
+
+app.get("/logout", (request, response) => {
+  request.session.destroy();
+  response.redirect("/");
+});
+
+//**********OAuth**********
 
 //----------MONGO----------
 let connection = null;
@@ -39,14 +93,14 @@ client.connect().then(__connection => {
   dataCollection = connection.db("UserData").collection("data");
 });
 
-app.use((req, res, next) => {
-  if (connection !== null) {
-    next();
-  } else {
-    res.status(503).send();
-    console.log("503"); //no database
-  }
-});
+// app.use((req, res, next) => {
+//   if (connection !== null) {
+//     next();
+//   } else {
+//     res.status(503).send();
+//     console.log("503"); //no database
+//   }
+// });
 
 //----------MONGO----------
 
@@ -136,18 +190,33 @@ app.post("/delete", (req, res) => {
     });
 });
 
-app.post("/load", (req, res) => sendTable(req, res));
-
-const sendTable = function(req, res) {
+app.post("/load", (req, res) => {
+  console.log("send event");
   let fromClient = req.body;
   fromClient.username = req.session.login;
   dataCollection
     .find({ username: fromClient.username })
     .toArray()
-    .then(r => res.json(r)); //send table
-};
+    .then(r => {
+      res.json(r);
+      console.log(r);
+    }); //send table
+});
 
+//----------POST METHODS----------
 
-const listener = app.listen(process.env.PORT, function () {
+app.get("/home", (req, res) => {
+  if (req.session.login) {
+    res.sendFile(__dirname + "/public/home.html"); //send login page on default
+    console.log("home page event"); //log as page event when we send default page
+  }
+});
+
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/public/login.html");
+  console.log("login page event");
+});
+
+const listener = app.listen(process.env.PORT, function() {
   console.log(`Your app is listening on port ${listener.address().port}`);
 });
