@@ -8,9 +8,9 @@ import { text } from "svelte/internal"
       method:'GET' 
     })
     .then( response => response.json() )
-    .then( json => {
+    .then( dreams => {
       //console.log(dreams)
-      return json 
+      return dreams 
     })
     
     return p
@@ -81,7 +81,7 @@ import { text } from "svelte/internal"
 <p>If you would like to change the flavor of ice cream you ordered, please click in the flavor cell, type your new flavor, and click UPDATE.</p>
 <p>If you would like to delete your order, please select DELETE.</p>
   
-{#await promise then json}
+{#await promise then dreams}
 <main>
 <table>
 	<tr>
@@ -91,7 +91,7 @@ import { text } from "svelte/internal"
 		<td></td>
 		<td></td>
 	</tr>
-  {#each json.dreams as todo}
+  {#each dreams as todo}
 	<tr>
 		<td><input id={todo._id} type='text' todo={todo.dream} placeholder={todo.dream}></td>
 		<td>{todo.scoops}</td>
