@@ -164,12 +164,14 @@ app.post( '/move', async function(req, res) {
 
     target = target[0]
     other=other[0]
+    /*
     console.log("target:", target)
     console.log("other:", other)
+    */
     if(other !== undefined && target !== undefined){
-        console.log("not null")
+     //   console.log("not null")
         if(target.num === other.num) {
-            console.log("same init")
+      //      console.log("same init")
             await collection.updateOne(
                 { _id: mongodb.ObjectID(posteddata.id)},
                 { $set:{order: parseInt(other.order)}}
