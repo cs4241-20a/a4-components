@@ -1,30 +1,7 @@
-Assignment 4 - Components
-===
+## React Bill Tracker
 
-Due: October 9th, by 11:59 PM.
+For this iteration of my application I used create-react-app to make a new project, and then rewrote the front-end code using React. I used React components to create each of my three pages, as well as reusable elements such as buttons and headers. I transitioned my Bootstrap styling from a3 by using the react-strap library, and experimented with many tables before settling on Material-UI's 'Enhanced Table' to use in my home page. 
 
-For this assignment you will re-implement the client side portion of A3 using either React or Svelte components.
+I had a lot of issues with this project, especially compared to previous assignments. Converting my code to components was very easy, but I struggled when it came to passing data between functional, class, child, and parent components, converting my HTML-manipulation-heavy code for editing table information to JSX, and most of all hosting my project on Glitch. Although I put a lot of time in effort into hosting on either Glitch or Heroku, I could not manage to run on app on either with both a running front-end or back-end, despite countless tutorials and starter-projects. Therefore, to the grader I ask if you need to test my code, to please clone my repository and run my app using 'yarn start', which should start both the front and back end. I am terribly sorry for the inconvenience. I want to stress that my project is complete, I just could not upload it to a hosting site. If you would like to look at my non-working page on glitch, here is the link: https://a4-molly-wirtz-.glitch.me/. I also could not reimplement my GitHub OAuth, so please use my application using my signup/login functionality. 
 
-This project can be implemented on any hosting service (Glitch, DigitalOcean, Heroku etc.), however, you must include all files in your GitHub repo so that the course staff can view them; these files are not available for viewing in many hosting systems.
-
-Deliverables
----
-
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements.
-3. Test your project to make sure that when someone goes to your main page on Glitch/Heroku/etc., it displays correctly.
-4. Ensure that your project has the proper naming scheme `a4-firstname-lastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below. Be sure to add *all* project files.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a4-firstname-lastname`.
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your hosting link e.g. http://a4-charlieroberts.glitch.me
-
-Include a very brief summary of your project here and what you changed / added to assignment #3. Briefly (3–4 sentences) answer the following question: did the new technology improve or hinder the development experience?
-
-Unlike previous assignments, this assignment will be solely graded on whether or not you successfully complete it. Partial credit will be generously given.
+In my experience the new technology DEFINITELY hindered the development process. Although I could see parts of React that could be useful (like the Router and reusable components), in the end learning an entire front-end framework to redo 3 week’s worth of work was overwhelming. However, I am glad I was able to learn it so that I can now apply it to other projects in the future.
