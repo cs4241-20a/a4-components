@@ -22,9 +22,9 @@
     "express": "latest",
     "mongodb": "latest",
     "npm-run-all": "latest",
-    "passport":"latest",
-    "passport-github":"latest",
-    "cookie-parser":"latest",
-    "express-session":"latest"
+    "passport": "latest",
+    "passport-github": "latest",
+    "cookie-parser": "latest",
+    "express-session": "latest"
   }
 }

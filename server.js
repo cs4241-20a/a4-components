@@ -21,15 +21,15 @@ app.use(
   session({
     secret: process.env.COOKIE_SECRET,
     saveUninitialized: true,
-    resave: true
+    resave: true,
   })
 );
 
-passport.serializeUser(function(user, cb) {
+passport.serializeUser(function (user, cb) {
   cb(null, user);
 });
 
-passport.deserializeUser(function(obj, cb) {
+passport.deserializeUser(function (obj, cb) {
   cb(null, obj);
 });
 
@@ -38,9 +38,9 @@ passport.use(
     {
       clientID: process.env.GITHUB_CLIENT,
       clientSecret: process.env.GITHUB_SECRET,
-      callbackURL: "https://a4-afsimoneau.glitch.me/auth/github/callback"
+      callbackURL: "https://a4-afsimoneau.glitch.me/auth/github/callback",
     },
-    async function(accessToken, refreshToken, profile, cb) {
+    async function (accessToken, refreshToken, profile, cb) {
       return cb(null, profile);
     }
   )
@@ -51,7 +51,7 @@ app.get("/auth/github", passport.authenticate("github"));
 app.get(
   "/auth/github/callback",
   passport.authenticate("github", { failureRedirect: "/" }),
-  function(req, res) {
+  function (req, res) {
     req.session.login = req.user.username;
     res.redirect("/home");
   }
@@ -83,10 +83,10 @@ const uri =
 
 const client = new mongodb.MongoClient(uri, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
 });
 
-client.connect().then(__connection => {
+client.connect().then((__connection) => {
   // store reference to collection
   connection = __connection;
   UserData = connection.db("UserData");
@@ -111,16 +111,16 @@ app.post("/add", (req, res) => {
   dataCollection
     .find({ username: fromClient.username })
     .toArray()
-    .then(arr => {
-      if (arr.some(row => row.route === req.body.route)) {
+    .then((arr) => {
+      if (arr.some((row) => row.route === req.body.route)) {
         console.log("sending not adding :/");
       } else {
-        dataCollection.insertOne(fromClient).then(result => {
+        dataCollection.insertOne(fromClient).then((result) => {
           console.log(result.ops[0]);
           dataCollection
             .find({ username: fromClient.username })
             .toArray()
-            .then(r => res.json(r)); //send table
+            .then((r) => res.json(r)); //send table
         });
       }
     });
@@ -132,8 +132,8 @@ app.post("/update", (req, res) => {
   dataCollection
     .find({ username: fromClient.username })
     .toArray()
-    .then(arr => {
-      if (!arr.some(row => row.route === req.body.route)) {
+    .then((arr) => {
+      if (!arr.some((row) => row.route === req.body.route)) {
         console.log("nothing to delete :/");
       } else {
         dataCollection
@@ -141,23 +141,23 @@ app.post("/update", (req, res) => {
             {
               //going to delete something
               _id: mongodb.ObjectID(
-                arr.find(record => record.route === req.body.route)._id //find the first record in array and get id
-              )
+                arr.find((record) => record.route === req.body.route)._id //find the first record in array and get id
+              ),
             },
             {
               $set: {
                 //set multiple fields
                 time: req.body.time,
                 distance: req.body.distance,
-                fitness: req.body.fitness
-              }
+                fitness: req.body.fitness,
+              },
             }
           )
-          .then(result => {
+          .then((result) => {
             dataCollection
               .find({ username: fromClient.username })
               .toArray()
-              .then(r => res.json(r)); //send updated table
+              .then((r) => res.json(r)); //send updated table
           });
       }
     });
@@ -169,22 +169,22 @@ app.post("/delete", (req, res) => {
   dataCollection
     .find({ username: fromClient.username })
     .toArray()
-    .then(arr => {
-      if (!arr.some(row => row.route === req.body.route)) {
+    .then((arr) => {
+      if (!arr.some((row) => row.route === req.body.route)) {
         console.log("nothing to delete :/");
       } else {
         dataCollection
           .deleteOne({
             //going to delete something
             _id: mongodb.ObjectID(
-              arr.find(record => record.route === req.body.route)._id //find the first record in array and get id
-            )
+              arr.find((record) => record.route === req.body.route)._id //find the first record in array and get id
+            ),
           })
-          .then(result => {
+          .then((result) => {
             dataCollection
               .find({ username: fromClient.username })
               .toArray()
-              .then(r => res.json(r)); //send table
+              .then((r) => res.json(r)); //send table
           });
       }
     });
@@ -197,7 +197,7 @@ app.post("/load", (req, res) => {
   dataCollection
     .find({ username: fromClient.username })
     .toArray()
-    .then(r => {
+    .then((r) => {
       res.json(r);
       console.log(r);
     }); //send table
@@ -217,6 +217,6 @@ app.get("/", (req, res) => {
   console.log("login page event");
 });
 
-const listener = app.listen(process.env.PORT, function() {
+const listener = app.listen(process.env.PORT, function () {
   console.log(`Your app is listening on port ${listener.address().port}`);
 });
