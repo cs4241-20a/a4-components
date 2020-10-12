@@ -118,9 +118,9 @@ const todos = [
 
 
 //changes 1
-const listener = app.listen(process.env.PORT ||3000 , () => {
-  console.log("Your app is listening on port " + listener.address().port);
-});
+// const listener = app.listen(process.env.PORT ||3000 , () => {
+//   console.log("Your app is listening on port " + listener.address().port);
+// });
 
 // const mongodb = require("mongodb");
 // const MongoClient = mongodb.MongoClient;
@@ -172,17 +172,17 @@ app.post( '/changeName', function( req,res ) {
   res.sendStatus( 200 )
 
 })
-// app.post( '/delete', function( req,res ) {
-//   const idx = todos.findIndex( v => v.id === req.body.id )
-//   todos.splice(idx, 1)
-//   res.json( todos )
-// })
+app.post( '/delete', function( req,res ) {
+  const idx = todos.findIndex( v => v.id === req.body.id )
+  todos.splice(idx, 1)
+  res.json( todos )
+})
 
-app.post("/delete", bodyparser.json(), function(req, res) {
-  console.log("body: ", req.body);
-  collection
-    .deleteOne({ _id: mongodb.ObjectID(req.body.id) })
-    .then(result => res.json(result));
-});
+// app.post("/delete", bodyparser.json(), function(req, res) {
+//   console.log("body: ", req.body);
+//   collection
+//     .deleteOne({ _id: mongodb.ObjectID(req.body.id) })
+//     .then(result => res.json(result));
+// });
 
-// app.listen(process.env.PORT || 5000)
+app.listen(process.env.PORT || 5000)
