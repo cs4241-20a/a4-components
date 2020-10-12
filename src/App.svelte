@@ -74,9 +74,12 @@ import { text } from "svelte/internal"
           <input id="sprinklesBox" type="checkbox" />
     </label>
 </form>
-</div>
 <button on:click={addTodo}>add order</button>
 
+</div>
+
+<p>If you would like to change the flavor of ice cream you ordered, please click in the flavor cell, type your new flavor, and click UPDATE.</p>
+<p>If you would like to delete your order, please select DELETE.</p>
   
 {#await promise then todos}
 <main>
