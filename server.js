@@ -11,50 +11,17 @@ const todos = [
 const passport = require('passport');
 
 // /*compression additions */
-// var compression = require('compression')
-// // compress all responses
-// app.use(compression())
+var compression = require('compression')
+// compress all responses
+app.use(compression())
 // /*end of compression additions */
 
 // /*morgan additions */
 // app.use(require('morgan')('combined'));
 // /* end of morgan additions */
 
-// /* LOCAL AUTH*/
-// // var LocalStrategy = require('passport-local').Strategy;
-
-// // passport.use(new LocalStrategy(
-// //     function(username, password, cb) {
-// //       collection.users.findByUsername(username, function(err, user) {
-// //         if (err) { return cb(err); }
-// //         if (!user) { return cb(null, false); }
-// //         if (user.password != password) { return cb(null, false); }
-// //         return cb(null, user);
-// //       });
-// //     }));
-
-// // passport.serializeUser(function(user, done) {
-// // 	done(null, user.id);
-// // });
-
-// // passport.deserializeUser(function(id, done) {
-// // 	User.loadOne({ _id: id }).then(function(user) {
-// //         done(null, user);
-// //     }).catch(function(err) {
-// //         done(err, null);
-// //     });
-// // });
-
-// // app.post('/login', 
-// //   passport.authenticate('local', { failureRedirect: '/login' }),
-// //   function(req, res) {
-// //     res.redirect('/');
-// //   });
-
 app.listen(process.env.PORT || 5000)
 
-
-// /*LOCAL AUTH END */
 const GitHubStrategy = require('passport-github').Strategy;
 
 passport.use(new GitHubStrategy({
@@ -119,19 +86,19 @@ app.get('/return',
 //   console.log("Your app is listening on port " + listener.address().port);
 // });
 
-// const mongodb = require("mongodb");
-// const MongoClient = mongodb.MongoClient;
+const mongodb = require("mongodb");
+const MongoClient = mongodb.MongoClient;
 
-// DBPASSWORD = "9PYnye8sGzxBISC4"
-// // const uri = `mongodb+srv://test-user:${process.env.DBPASSWORD}@cluster0.ys3tz.mongodb.net/<dbname>?retryWrites=true&w=majority`;
-// const uri = `mongodb+srv://test-user:9PYnye8sGzxBISC4@cluster0.ys3tz.mongodb.net/datatest?retryWrites=true&w=majority`;
+DBPASSWORD = "9PYnye8sGzxBISC4"
+// const uri = `mongodb+srv://test-user:${process.env.DBPASSWORD}@cluster0.ys3tz.mongodb.net/<dbname>?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://test-user:9PYnye8sGzxBISC4@cluster0.ys3tz.mongodb.net/datatest?retryWrites=true&w=majority`;
 
-// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-// let collection = null;
-// client.connect(err => {
-//   collection = client.db("datatest").collection("test");
-// });
+let collection = null;
+client.connect(err => {
+  collection = client.db("datatest").collection("test");
+});
 
 //end of changes 1
 
