@@ -139,11 +139,21 @@ app.get("/read", (request, response) => {
   });
 });
 
-app.post( '/add', ( req,res ) => {
-  todos.push( req.body )
-  res.json( todos )
-})
+// app.post( '/add', ( req,res ) => {
+//   todos.push( req.body )
+//   res.json( todos )
+// })
 
+app.post("/add", bodyparser.json(), function(req, res) {
+  console.log("body: ", req.body);
+  req.body.user = userID;
+  console.log("body: ", req.body);
+
+  collection.insertOne(req.body).then(dbresponse => {
+    res.json(dbresponse.ops[0]);
+    console.log(dbresponse.ops[0]);
+  });
+});
 
 app.post( '/changeName', function( req,res ) {
   const idx = todos.findIndex( v => v.id == req.body.id )
