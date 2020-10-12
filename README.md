@@ -1,1 +1,5 @@
+## List of Enemies
 
+your hosting link e.g. http://a4-charlieroberts.glitch.me
+
+This was similar to the A3 project I did, having a login system that allows you to then edit a list of names. The new technology hindered my development experience because I was not as comfortable with it and was not able to translate some of the tricks that I used for assignment 3 over to it. My login system seemed to just fail in the svelte app as it seemed the person would get logged out upon trying to add anyone to the list. The list population I had for A3 was not working here as I did not seem to be able to use it. and despite me following the same formula for querying the server as I did for the login, adding did not seem to be having any effect. I see the potential for this to be useful, and I noticed at times having an easier time doing things here than my previous project. but I did get hindered a bit by some of the differences, such that I ended up running out of time to fix all the issues that arose and I did not expect.
