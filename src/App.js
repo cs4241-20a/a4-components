@@ -6,16 +6,12 @@ import TagsInput from "react-tagsinput";
 class AddRecipe extends React.Component {
   constructor(props) {
     super(props);
-    if (this.props.updateRecipe === undefined) {
-      this.state = {
-        name: "",
-        type: "",
-        time: "",
-        ingredients: [],
-        directions: "",
-        updating: false
-      };
-    } else {
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.submit = this.submit.bind(this);
+    this.update = this.update.bind(this);
+    this.reset = this.reset.bind(this);
+    console.log(this.props);
+    if (this.props.updateRecipe.hasOwnProperty("name")) {
       this.state = {
         name: this.props.updateRecipe.name,
         type: this.props.updateRecipe.type,
@@ -24,6 +20,32 @@ class AddRecipe extends React.Component {
         directions: this.props.updateRecipe.directions,
         updating: true
       };
+    } else {
+      this.state = {
+        name: "",
+        type: "appetizer",
+        time: "",
+        ingredients: [],
+        directions: "",
+        updating: false
+      };
+    }
+  }
+
+  componentDidUpdate(prev) {
+    if (
+      this.props.updateRecipe.hasOwnProperty("name") &&
+      prev.updateRecipe.name !== this.props.updateRecipe.name
+    ) {
+      this.setState({
+        id: this.props.updateRecipe._id,
+        name: this.props.updateRecipe.name,
+        type: this.props.updateRecipe.type,
+        time: this.props.updateRecipe.time,
+        ingredients: this.props.updateRecipe.ingredients,
+        directions: this.props.updateRecipe.directions,
+        updating: true
+      });
     }
   }
 
@@ -37,7 +59,61 @@ class AddRecipe extends React.Component {
     });
   }
 
-  submit() {}
+  handleChange(ingredients) {
+    this.setState({ ingredients });
+  }
+
+  reset() {
+    this.setState({
+      id: "",
+      name: "",
+      type: "appetizer",
+      time: "",
+      ingredients: [],
+      directions: "",
+      updating: false
+    });
+    this.props.refreshList();
+  }
+
+  submit(e) {
+    e.preventDefault();
+    fetch("/api/add", {
+      method: "POST",
+      body: JSON.stringify({
+        name: this.state.name,
+        type: this.state.type,
+        time: this.state.time,
+        ingredients: this.state.ingredients,
+        directions: this.state.directions
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(r => r.json())
+      .then(this.reset);
+  }
+
+  update(e) {
+    e.preventDefault();
+    fetch("/api/update", {
+      method: "POST",
+      body: JSON.stringify({
+        id: this.state.id,
+        name: this.state.name,
+        type: this.state.type,
+        time: this.state.time,
+        ingredients: this.state.ingredients,
+        directions: this.state.directions
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(r => r.json())
+      .then(this.reset);
+  }
 
   render() {
     let buttonText = "Submit";
@@ -65,11 +141,12 @@ class AddRecipe extends React.Component {
               id="typeInput"
               name="type"
               className="form-control"
-              name="type"
               value={this.state.type}
               onChange={this.handleInputChange}
             >
-              <option value="appetizer">Appetizer</option>
+              <option value="appetizer" defaultValue>
+                Appetizer
+              </option>
               <option value="entree">Entree</option>
               <option value="side">Side</option>
               <option value="dessert">Dessert</option>
@@ -91,7 +168,7 @@ class AddRecipe extends React.Component {
             <TagsInput
               name="ingredients"
               value={this.state.ingredients}
-              onChange={this.handleInputChange}
+              onChange={this.handleChange.bind(this)}
             />
             <small className="form-text text-muted">
               Press tab after each ingredient
@@ -107,14 +184,26 @@ class AddRecipe extends React.Component {
               onChange={this.handleInputChange}
             ></textarea>
           </div>
-          <button
-            id="submit"
-            type="submit"
-            className="btn btn-primary"
-            onClick={this.submit}
-          >
-            {buttonText}
-          </button>
+          {this.state.updating || (
+            <button
+              id="submit"
+              type="submit"
+              className="btn btn-primary"
+              onClick={this.submit}
+            >
+              Submit
+            </button>
+          )}
+          {this.state.updating && (
+            <button
+              id="update"
+              type="submit"
+              className="btn btn-primary"
+              onClick={this.update}
+            >
+              Update
+            </button>
+          )}
         </form>
       </div>
     );
@@ -124,62 +213,121 @@ class AddRecipe extends React.Component {
 class ExistingRecipes extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
+    this.delete = this.delete.bind(this)
+    this.state = { selectedRecipe: {} };
+  }
+
+  handleSelect(event) {
+    let value = event.target.value;
+    this.setState({ selectedRecipe: this.props.recipes[value] });
+  }
+
+  delete() {
+    console.log(this.state.selectedRecipe)
+    fetch("/api/delete", {
+      method: "POST",
+      body: JSON.stringify({
+        id: this.state.selectedRecipe._id
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(r => r.json())
+      .then(this.reset);
   }
 
   render() {
+    let recipeDisplay;
+    if (this.state.selectedRecipe.name) {
+      recipeDisplay = (
+        <div id="recipedisplay">
+          <h2 id="name">{this.state.selectedRecipe.name}</h2>
+          <h3>Cook Time</h3>
+          <p id="cooktime">{this.state.selectedRecipe.time}</p>
+          <h3 id="ingredients">Ingredients</h3>
+          <ul>
+            {this.state.selectedRecipe.ingredients.map(i => (
+              <li>{i}</li>
+            ))}
+          </ul>
+          <h3>Directions</h3>
+          <p id="directions">{this.state.selectedRecipe.directions}</p>
+        </div>
+      );
+    }
     return (
       <div id="existingrecipes">
         <h1>View Recipe</h1>
-        <select name="selectrecipe">
-          <option value="default" disabled selected>
+        <select
+          name="selectrecipe"
+          value={this.state.selectedRecipe._id}
+          onChange={this.handleSelect.bind(this)}
+        >
+          <option value="def" disabled>
             Select recipe
           </option>
           <optgroup name="appetizer" label="Appetizers">
             {Object.values(this.props.recipes)
-              .filter(e => e.type == "appetizer")
-              .map((val, _) => {
-                return <option value={val}></option>;
+              .filter(v => v.type === "appetizer")
+              .map(v => {
+                return (
+                  <option key={v._id} value={v._id}>
+                    {v.name}
+                  </option>
+                );
               })}
           </optgroup>
           <optgroup name="entree" label="Entrees">
             {Object.values(this.props.recipes)
-              .filter(e => e.type == "entree")
-              .map((val, _) => {
-                return <option value={val}></option>;
+              .filter(v => v.type === "entree")
+              .map(v => {
+                return (
+                  <option key={v._id} value={v._id}>
+                    {v.name}
+                  </option>
+                );
               })}
           </optgroup>
           <optgroup name="side" label="Sides">
             {Object.values(this.props.recipes)
-              .filter(e => e.type == "side")
-              .map((val, _) => {
-                return <option value={val}></option>;
+              .filter(v => v.type === "side")
+              .map(v => {
+                return (
+                  <option key={v._id} value={v._id}>
+                    {v.name}
+                  </option>
+                );
               })}
           </optgroup>
           <optgroup name="dessert" label="Desserts">
             {Object.values(this.props.recipes)
-              .filter(e => e.type == "dessert")
-              .map((val, _) => {
-                return <option value={val}></option>;
+              .filter(v => v.type === "dessert")
+              .map(v => {
+                return (
+                  <option key={v._id} value={v._id}>
+                    {v.name}
+                  </option>
+                );
               })}
           </optgroup>
         </select>
-        <button id="edit" onClick="editRecipe()">
-          Edit
-        </button>
-        <button id="delete" onClick="deleteRecipe()">
-          Delete
-        </button>
-
-        <div id="recipedisplay">
-          <h2 id="name"></h2>
-          <h3>Cook Time</h3>
-          <p id="cooktime"></p>
-          <h3 id="ingredients">Ingredients</h3>
-          <ul></ul>
-          <h3>Directions</h3>
-          <p id="directions"></p>
-        </div>
+        {this.state.selectedRecipe.name && (
+          <button
+            id="edit"
+            onClick={() =>
+              this.props.editRecipeHandler(this.state.selectedRecipe)
+            }
+          >
+            Edit
+          </button>
+        )}
+        {this.state.selectedRecipe.name && (
+          <button id="delete" onClick={this.delete}>
+            Delete
+          </button>
+        )}
+        {recipeDisplay}
       </div>
     );
   }
@@ -188,14 +336,33 @@ class ExistingRecipes extends React.Component {
 class Main extends React.Component {
   constructor(props) {
     super(props);
+    this.refreshList = this.refreshList.bind(this);
     this.state = {
       loggedIn: false,
-      recipes: {}
+      recipes: {},
+      editingRecipe: {}
     };
   }
 
   authorize() {
     window.location.href = "/auth";
+  }
+
+  editRecipe(recipe) {
+    this.setState({ editingRecipe: recipe });
+    console.log(this.state);
+  }
+
+  refreshList() {
+    fetch("/api/recipes")
+      .then(res => res.json())
+      .then(json => {
+        let newRecipes = {};
+        json.forEach(e => {
+          newRecipes[e._id] = e;
+        });
+        this.setState({ recipes: newRecipes });
+      });
   }
 
   componentDidMount() {
@@ -204,18 +371,7 @@ class Main extends React.Component {
       .then(data => {
         if (data.loggedIn) {
           this.setState({ loggedIn: true });
-          fetch("/recipes", {
-            method: "GET"
-          })
-            .then(res => res.json())
-            .then(json => {
-              let newRecipes = {};
-              json.forEach(e => {
-                newRecipes[e._id] = e;
-              });
-              console.log(newRecipes);
-              this.setState({ recipes: newRecipes });
-            });
+          this.refreshList();
         }
       });
   }
@@ -227,8 +383,14 @@ class Main extends React.Component {
           <div id="logImg">
             <img src="images/book.png" className="book" />
           </div>
-          <AddRecipe />
-          <ExistingRecipes recipes={this.state.recipes} />
+          <AddRecipe
+            refreshList={this.refreshList}
+            updateRecipe={this.state.editingRecipe}
+          />
+          <ExistingRecipes
+            editRecipeHandler={this.editRecipe.bind(this)}
+            recipes={this.state.recipes}
+          />
         </div>
       );
     } else {
@@ -237,7 +399,7 @@ class Main extends React.Component {
           <div id="logImg">
             <img
               src="https://cdn.glitch.com/e208d6db-20d5-4b5c-8157-015c7735f289%2Flogin.png?v=1601341817635"
-              alt="book image"
+              alt="book"
             />
           </div>
           <div className="inner">

@@ -55,13 +55,8 @@ label {
 }
 
 #recipedisplay {
-    visibility: hidden;
     padding-top: 20px;
     width: 500px;
-}
-
-#edit , #delete , #update {
-    visibility: hidden;
 }
 
 ul {

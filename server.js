@@ -125,15 +125,6 @@ app.get("/main", isUserAuthenticated, (req, res) => {
   res.sendFile(__dirname + "public/public/main.html");
 });
 
-app.post("/api/add", bodyParser.json(), (request, response) => {
-  collection
-    .insertOne(Object.assign({}, request.body, { user: request.user.id }))
-    .then(dbresponse => {
-      console.log(dbresponse);
-      response.json(dbresponse.ops[0]);
-    });
-});
-
 app.get("/api/recipes", (req, res) => {
   if (collection !== null) {
     // get array and pass to res.json
@@ -145,6 +136,16 @@ app.get("/api/recipes", (req, res) => {
   } else {
     res.json({Error: "No Collection"})
   }
+});
+
+
+app.post("/api/add", bodyParser.json(), (request, response) => {
+  collection
+    .insertOne(Object.assign({}, request.body, { user: request.user.id }))
+    .then(dbresponse => {
+      console.log(dbresponse);
+      response.json(dbresponse.ops[0]);
+    });
 });
 
 app.post("/api/update", bodyParser.json(), (req, res) => {
