@@ -144,16 +144,14 @@ app.post( '/add', ( req,res ) => {
   res.json( todos )
 })
 
-// app.post("/add", bodyparser.json(), function(req, res) {
-//   console.log("body: ", req.body);
-//   req.body.user = userID;
-//   console.log("body: ", req.body);
+app.post("/add", bodyparser.json(), function(req, res) {
+  req.body.user = userID;
 
-//   collection.insertOne(req.body).then(dbresponse => {
-//     res.json(dbresponse.ops[0]);
-//     console.log(dbresponse.ops[0]);
-//   });
-// });
+  collection.insertOne(req.body).then(dbresponse => {
+    res.json(dbresponse.ops[0]);
+    console.log(dbresponse.ops[0]);
+  });
+});
 
 app.post( '/changeName', function( req,res ) {
   const idx = todos.findIndex( v => v.id == req.body.id )
