@@ -8,7 +8,7 @@ const todos = [
 
 //changes 2
 /* PASSPORT ADDITIONS */
-// const passport = require('passport');
+const passport = require('passport');
 
 // /*compression additions */
 // var compression = require('compression')
