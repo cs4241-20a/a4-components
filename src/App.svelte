@@ -34,7 +34,7 @@ import { text } from "svelte/internal"
   }
 
   const toggleName = function( e ) {
-	const place = e.target.getAttribute('todo')
+	const place = e.target.getAttribute('todo') + "name"
 	const nameFound = document.getElementById(place).value
 	console.log(nameFound)
     fetch( '/changeName', {
@@ -93,7 +93,7 @@ import { text } from "svelte/internal"
 	</tr>
   {#each dreams as todo}
 	<tr>
-		<td><input id={todo._id} type='text' todo={todo.dream} placeholder={todo.dream}></td>
+		<td><input id="{todo._id}name" type='text' todo={todo.dream} placeholder={todo.dream}></td>
 		<td>{todo.scoops}</td>
 		<td>{todo.sprinkles}</td>
 		<td id={todo._id} on:click={removeOrder}>DELETE </td>
