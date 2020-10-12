@@ -32,7 +32,7 @@ import { text } from "svelte/internal"
       headers: { 'Content-Type': 'application/json' }
     })
     .then( response => response.json() )
-    getTodos()
+    promise = getTodos()
   }
 
   const toggleName = function( e ) {
