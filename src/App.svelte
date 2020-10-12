@@ -131,7 +131,7 @@ import { text } from "svelte/internal"
 	</tr>
   {#each dreams as todo}
 	<tr>
-		<td>todo={todo.dream}</td>
+		<td>{todo.dream}</td>
 		<td>{todo.scoops}</td>
 		<td>{todo.sprinkles}</td>
 	</tr>
