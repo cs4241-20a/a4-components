@@ -61,9 +61,9 @@ const todos = [
 const GitHubStrategy = require('passport-github').Strategy;
 
 passport.use(new GitHubStrategy({
-    clientID: "688884ca4b9f79df989c",
-    clientSecret: "99992c13b5dc0c95d2d30aff167d632066c4b28f",
-    callbackURL: "https://a3-ahjicha.herokuapp.com/return"
+    clientID: "cbec862a05635fb23d9d",
+    clientSecret: "63089da72d4340bd55a34dbaa1843829759ca66a",
+    callbackURL: "https://a4-ahjicha.herokuapp.com/return"
   },
   function(accessToken, refreshToken, profile, cb) {
       console.log(profile)
