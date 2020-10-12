@@ -34,7 +34,7 @@ import { text } from "svelte/internal"
   }
 
   const toggleName = function( e ) {
-	const place = e.target.getAttribute('todo') + "name"
+	const place = e.target.getAttribute('todo')
 	const nameFound = document.getElementById(place).value
 	console.log(nameFound)
     fetch( '/changeName', {
@@ -45,10 +45,10 @@ import { text } from "svelte/internal"
   }
 
   const removeOrder = function( e ) {
-    console.log(e.target.getAttribute('id'))
+    console.log(e.target.getAttribute('todo'))
     fetch( '/delete', {
       method:'POST',
-      body: JSON.stringify({ id:e.target.getAttribute('id') }),
+      body: JSON.stringify({ id:e.target.getAttribute('todo') }),
       headers: { 'Content-Type': 'application/json' }
 	}).then( response => response.json() )
 	promise = getTodos();
@@ -93,10 +93,10 @@ import { text } from "svelte/internal"
 	</tr>
   {#each dreams as todo}
 	<tr>
-		<td><input id="{todo._id}name" type='text' todo={todo.dream} placeholder={todo.dream}></td>
+		<td><input id={todo._id} type='text' todo={todo.dream} placeholder={todo.dream}></td>
 		<td>{todo.scoops}</td>
 		<td>{todo.sprinkles}</td>
-		<td id={todo._id} on:click={removeOrder}>DELETE </td>
+		<td todo={todo._id} on:click={removeOrder}>DELETE </td>
 		<td todo={todo._id} on:click={toggleName}>UPDATE</td>
 	</tr>
   {/each}
