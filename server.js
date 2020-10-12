@@ -36,7 +36,6 @@ client.connect(err => {
 // https://expressjs.com/en/starter/static-files.html
 app.use(express.static("public"));
 
-
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
 // app.use( helmet({
@@ -64,7 +63,7 @@ passport.use(
     {
       clientID: process.env.clientID,
       clientSecret: process.env.clientSecret,
-      callbackURL: "https://a3-carlypereira.glitch.me/auth/github/"
+      callbackURL: "https://carlypereira-a4-components.glitch.me/auth/github/"
     },
     (accessToken, refreshToken, profile, done) => {
       done(null, profile); // passes the profile data to serializeUser
@@ -87,13 +86,14 @@ function isUserAuthenticated(req, res, next) {
   if (req.user) {
     next();
   } else {
-    res.send("You must login!");
+    req.user = "";
+    next();
   }
 }
 
 // passport.authenticate middleware is used here to authenticate the request
 app.get(
-  "/auth/", cors(),
+  "/auth/",
   passport.authenticate("github", {
     scope: ["profile"] // Used to specify the required data
   }));
@@ -104,10 +104,15 @@ app.get("/auth/github/", passport.authenticate("github"), (req, res) => {
 });
 
 // Logout route
-app.get("/logout", (req, res) => {
+app.get("/api/logout", (req, res) => {
   req.logout();
   res.redirect("/");
 });
+
+app.get("/api/isLoggedIn", isUserAuthenticated, (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.end(JSON.stringify({ loggedIn: req.user != ""}));
+})
 
 // https://expressjs.com/en/starter/basic-routing.html
 app.get("/", (request, response) => {
@@ -120,7 +125,7 @@ app.get("/main", isUserAuthenticated, (req, res) => {
   res.sendFile(__dirname + "public/public/main.html");
 });
 
-app.post("/add", bodyParser.json(), (request, response) => {
+app.post("/api/add", bodyParser.json(), (request, response) => {
   collection
     .insertOne(Object.assign({}, request.body, { user: request.user.id }))
     .then(dbresponse => {
@@ -129,17 +134,20 @@ app.post("/add", bodyParser.json(), (request, response) => {
     });
 });
 
-app.get("/recipes", (req, res) => {
+app.get("/api/recipes", (req, res) => {
   if (collection !== null) {
     // get array and pass to res.json
     collection
       .find({ user: req.user.id })
       .toArray()
       .then(result => res.json(result));
+    console.log("Returning some json...")
+  } else {
+    res.json({Error: "No Collection"})
   }
 });
 
-app.post("/update", bodyParser.json(), (req, res) => {
+app.post("/api/update", bodyParser.json(), (req, res) => {
   console.log(req.body);
   collection
     .updateOne(
@@ -157,7 +165,7 @@ app.post("/update", bodyParser.json(), (req, res) => {
     .then(result => res.json(result));
 });
 
-app.post("/delete", bodyParser.json(), (request, response) => {
+app.post("/api/delete", bodyParser.json(), (request, response) => {
   collection
     .deleteOne({
       _id: mongodb.ObjectID(request.body.id),
@@ -167,6 +175,6 @@ app.post("/delete", bodyParser.json(), (request, response) => {
 });
 
 // listen for requests :)
-const listener = app.listen(process.env.PORT || 5000, () => {
+const listener = app.listen(3001, () => {
   console.log("Your app is listening on port " + listener.address().port);
 });

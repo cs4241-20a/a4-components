@@ -7,7 +7,11 @@
   "description": "A simple Node app built on Express, instantly up and running.",
   "main": "server.js",
   "scripts": {
-    "start": "concurrently \"react-scripts start\" \"node server.js\"",
+    "start": "npm run development",
+    "development": "NODE_ENV=development concurrently --kill-others \"npm run client\" \"npm run server\"",
+    "production": "npm run build && NODE_ENV=production npm run server",
+    "client": "react-scripts start",
+    "server": "node server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -28,12 +32,13 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.3",
     "react-tagsinput": "^3.19.0",
-    "serve-favicon": "^2.5.0"
+    "serve-favicon": "^2.5.0",
+    "concurrently": "^5.3.0"
   },
   "engines": {
     "node": "12.x"
   },
-  "proxy": "http://localhost:5000",
+  "proxy_": "http://localhost:5000",
   "repository": {
     "url": "https://glitch.com/edit/#!/hello-express"
   },
