@@ -160,7 +160,7 @@ app.post("/add", bp.json(), function(req, res) {
 //   res.sendStatus( 200 )
 // })
 
-app.post("/changeName", bodyparser.json(), function(req, res) {
+app.post("/changeName", bp.json(), function(req, res) {
   // console.log("body: ", req.body);
   collection
     .updateOne(
