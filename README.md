@@ -21,10 +21,9 @@ Do the following to complete this assignment:
 Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
 ---
 
-## Your Web Application Title
+## Self Hosted Recipe Book
+your hosting link e.g. https://carlypereira-a4-components.glitch.me
 
-your hosting link e.g. http://a4-charlieroberts.glitch.me
-
-Include a very brief summary of your project here and what you changed / added to assignment #3. Briefly (3–4 sentences) answer the following question: did the new technology improve or hinder the development experience?
-
-Unlike previous assignments, this assignment will be solely graded on whether or not you successfully complete it. Partial credit will be generously given.
+In this iteration I added React framework to my project. React made it easier to dynamically show the data, however integrating it with glitch proved very tough,
+and I ran into issues that I didn't have when I was using javascript, such as CORS issues, and proxy issues since there needed to be two servers running on the
+backend.
