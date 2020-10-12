@@ -2,6 +2,11 @@ import React from 'react';
 import {Redirect} from "react-router-dom";
 
 let authSuccess = false;
+
+/**
+ * Component for displaying and handling the different login options for users.
+ * Equivalent to index.html from A3 (i.e the login screen).
+ */
 class LoginButton extends React.Component {
     constructor(props){
         super(props);
@@ -13,13 +18,14 @@ class LoginButton extends React.Component {
         this.handleLogin = this.handleLogin.bind(this);
     }
     
+    /**
+     * Handles input for the username and password fields, updating their corresponding 
+     * state variables appropriately.
+     */
     handleInput(inputEvent) {
-        console.log("inputEvent name: " +inputEvent.target.name);
-        console.log("inputEvent value: " +inputEvent.target.value);
         this.setState({
             [inputEvent.target.name]: inputEvent.target.value,
         });
-        console.log("state changed to:" + JSON.stringify(this.state));
     }
     
     render(){
@@ -42,8 +48,8 @@ class LoginButton extends React.Component {
                                 <label className="label" htmlFor="username_input">Username</label>
                             </div>
                             <div className="field-body">
-                                <input name="username" className="field-body input is-inline" type="text" id="username_input"
-                                  onChange={this.handleInput}/>
+                                  <input name="username" className="field-body input is-inline" type="text" id="username_input"
+                                    onChange={this.handleInput}/>
                             </div>
                         </div>
                         <div className="field is-horizontal">
@@ -67,10 +73,9 @@ class LoginButton extends React.Component {
      * given username and password.
      */
     handleLogin(){
-        console.log("trying to sign in with username: " +this.state.username +", password: " +this.state.password);
         let json = {
-            "username": this.state.username,//"Joseph",//usernameField.value,
-            "password": this.state.password//"ginger0304"//passwordField.value
+            "username": this.state.username,
+            "password": this.state.password
         }
         let body = JSON.stringify(json);
         fetch("/signin", {

@@ -1,9 +1,10 @@
 import React from 'react';
 import './StatTable.css';
 
+/**
+ * Component for displaying the current list of game stats for the current user.
+ */
 class StatTable extends React.Component {
-    selectedRows = [];
-
     constructor(props) {
         super(props);
         this.state = {
@@ -15,10 +16,17 @@ class StatTable extends React.Component {
         this.toggleCheck = this.toggleCheck.bind(this);
     }
 
+    /**
+     * As soon as this component is set up (i.e. a user has logged in), get the
+     * current stats for that user.
+     */
     componentDidMount() {
         this.getResults();
     }
 
+    /**
+     * Get the current stats for the current user.
+     */
     getResults(){
         fetch( '/results', {
             method:'GET'
@@ -59,6 +67,9 @@ class StatTable extends React.Component {
             )
     }
 
+    /**
+     * Update the table body with the current list of game stats for the current user.
+     */
     fillTable(){
         return this.props.rows.map((value, index) => {
             return <tr key={value._id}>
@@ -72,10 +83,16 @@ class StatTable extends React.Component {
         });
     }
 
+    /**
+     * Called everytime the user toggles a checkbox. Adds or remove the toggled
+     * item from the list of stats to be affected by the next batch modification
+     * / deletion.
+     */
     toggleCheck(inputEvent){
+        let selectedRows = this.props.selectedRows;//Get currently selected rows
         if(inputEvent.target.checked){
             let row = this.props.rows[inputEvent.target.id];
-            this.selectedRows.push({
+            selectedRows.push({
                 _id: row._id,
                 kills: row.kills,
                 assists: row.assists,
@@ -83,14 +100,15 @@ class StatTable extends React.Component {
             });
             console.log("Added: " +inputEvent.target);
         }else{
-            this.selectedRows.slice(this.selectedRows.indexOf(inputEvent.target), 1);
+            selectedRows.slice(selectedRows.indexOf(inputEvent.target), 1);
             console.log("Removing: " +inputEvent.target);
         }
+        //Update with new set of selected rows
         this.props.onDataRetrieved({
             numRows: this.props.numRows,
             rows: this.props.rows,
-            selectedRows: this.selectedRows
-        })
+            selectedRows: selectedRows
+        });
     }
 }
 

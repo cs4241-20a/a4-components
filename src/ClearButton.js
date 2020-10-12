@@ -1,5 +1,8 @@
 import React from 'react';
 
+/**
+ * Button to clear all the stats for the current user. 
+ */
 class ClearButton extends React.Component {
     constructor(props) {
         super(props);

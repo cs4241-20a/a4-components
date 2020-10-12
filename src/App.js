@@ -1,8 +1,11 @@
 import React from 'react';
-//import ReactDOM from "react-dom";
 import Columns from "./Columns"
 import * as serviceWorker from './serviceWorker';
 
+/**
+ * Top level component for the application once a user has logged in.
+ * Equivalent to app.html in A3.
+ */
 class App extends React.Component {
     render() {
         return(
@@ -11,12 +14,6 @@ class App extends React.Component {
                 <Columns/>
             </React.StrictMode>
         )
-    }
-
-    componentDidMount() {
-        /*fetch( '/results', {
-            method:'GET'
-        }).then(response => this.updateResults(response));*/
     }
 
     /**
@@ -84,7 +81,4 @@ class App extends React.Component {
 }
 
 export default App;
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();

@@ -1,6 +1,10 @@
 import React from 'react';
 import './RunningStatTable.css';
 
+/**
+ * Component for displaying the running totals and averages of kills, assists and deaths 
+ * for the the current user.
+ */
 class RunningStatTable extends React.Component {
     constructor(props) {
         super(props);
@@ -26,6 +30,9 @@ class RunningStatTable extends React.Component {
         );
     }
 
+    /**
+     * Update the table body with the current totals and averages
+     */
     fillRunningStatTable(){
         return ([
                 <tr key={1}>
@@ -44,7 +51,7 @@ class RunningStatTable extends React.Component {
                     <td className="has-text-centered" id="avg_deaths">{this.props.avgs.deaths}</td>
                 </tr>
         ]);
-  }
+    }
 }
 
 export default RunningStatTable;

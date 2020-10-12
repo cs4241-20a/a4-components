@@ -3,6 +3,10 @@ import './Form.css';
 
 //Official React documentation taught me how to handle handle inputs:
 //https://reactjs.org/docs/forms.html
+
+/**
+ * Component for forms to add, modify and delete stats for the current user.
+ */
 class Form extends React.Component {
     constructor(props) {
         super(props);
@@ -20,6 +24,10 @@ class Form extends React.Component {
         this.handle_delete = this.handle_delete.bind(this);
     }
 
+    /**
+     * Handle the input for the add and modify forms, updating the 
+     * corresponding state variables appropriately
+     */
     handleInput(inputEvent) {
         this.setState({
             [inputEvent.target.name]: inputEvent.target.value,

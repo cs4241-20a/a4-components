@@ -167,18 +167,13 @@ const getUserDbInfo = function(username){
             if (results[0].length !== 4) {
                 console.log("Found unexpected number of totals on server startup: " + results[0].length);
             } else {
-                totalKills = results[0][0].amount;
-                totalAssists = results[0][1].amount;
-                totalDeaths = results[0][2].amount;
-                numEntries = results[0][3].amount;
+                getTotalsFromResults(results[0]);
                 totalsLoaded = true;
             }
             if (results[1].length !== 3) {
                 console.log("Found unexpected number of averages on server startup: " + results[1].length);
             } else {
-                avgKills = results[1][0].amount;
-                avgAssists = results[1][1].amount;
-                avgDeaths = results[1][2].amount;
+                getAvgsFromResults(results[1])
                 avgsLoaded = true;
             }
             if(totalsLoaded && avgsLoaded){
@@ -188,6 +183,50 @@ const getUserDbInfo = function(username){
             }
         });
     });
+}
+
+/**
+ * Extract the total kills, assists and deaths from the list of totals
+ * returned from the database and stored them in totalKills, totalAssists,
+ * totalDeaths and numEntries. Order of elements in list of totals is
+ * not guaranteed, so this function makes sure that totalKills contained
+ * the total amount of kills, etc.
+ *
+ * @param totals the list of totals for the current user
+ */
+const getTotalsFromResults = function(totals){
+    for(let i = 0; i < 4; i ++){
+        if(totals[i].type === "kills"){
+            totalKills = totals[i].amount;
+        }else if(totals[i].type === "assists"){
+            totalAssists = totals[i].amount;
+        }else if(totals[i].type === "deaths"){
+            totalDeaths = totals[i].amount;
+        }else if(totals[i].type === "entries"){
+            numEntries = totals[i].amount;
+        }
+    }
+}
+
+/**
+ * Extract the average kills, assists and deaths from the list of averages
+ * returned from the database and stored them in avgKills, avgAssists,
+ * and avgDeaths. Order of elements in list of totals is not guaranteed,
+ * so this function makes sure that avgKills contained the average amount
+ * of kills, etc.
+ *
+ * @param avgs the list of averages for the current user
+ */
+const getAvgsFromResults = function(avgs){
+    for(let i = 0; i < 3; i ++){
+        if(avgs[i].type === "kills"){
+            avgKills = avgs[i].amount;
+        }else if(avgs[i].type === "assists"){
+            avgAssists = avgs[i].amount;
+        }else if(avgs[i].type === "deaths"){
+            avgDeaths = avgs[i].amount;
+        }
+    }
 }
 
 /**

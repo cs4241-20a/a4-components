@@ -1,6 +1,9 @@
 import React from 'react';
 import './CSVButton.css';
 
+/*
+ * Button to download table stats as a CSV file.
+ */
 class CSVButton extends React.Component {
   render(){
     return (
@@ -8,7 +11,6 @@ class CSVButton extends React.Component {
     );
   }
 }
-
 
 /**
  * Downloads all of the current user's stats from the database as a CSV
@@ -35,8 +37,7 @@ function handle_csv(){
         method:'GET'
     }).then(function(response){
         return response.blob()
-    })
-        .then(function(blob) {
+    }).then(function(blob) {
             let a = document.createElement("a");
             a.href = window.URL.createObjectURL(blob);
             a.download = "stats.csv";
