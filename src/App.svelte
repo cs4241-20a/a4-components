@@ -81,7 +81,7 @@ import { text } from "svelte/internal"
 <p>If you would like to change the flavor of ice cream you ordered, please click in the flavor cell, type your new flavor, and click UPDATE.</p>
 <p>If you would like to delete your order, please select DELETE.</p>
   
-{#await promise then dreams}
+{#await promise then json}
 <main>
 <table>
 	<tr>
@@ -91,12 +91,12 @@ import { text } from "svelte/internal"
 		<td></td>
 		<td></td>
 	</tr>
-  {#each dreams as todo}
+  {#each json.dreams as todo}
 	<tr>
-		<td><input id={dreams._id} type='text' todo={todo.dream} placeholder={todo.dream}></td>
+		<td><input id={todo._id} type='text' todo={todo.dream} placeholder={todo.dream}></td>
 		<td>{todo.scoops}</td>
 		<td>{todo.sprinkles}</td>
-		<td id={dreams._id} on:click={removeOrder}>DELETE </td>
+		<td id={todo._id} on:click={removeOrder}>DELETE </td>
 		<td todo={todo.id} on:click={toggleName}>UPDATE</td>
 	</tr>
   {/each}
