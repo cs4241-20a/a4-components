@@ -9,8 +9,7 @@ import { text } from "svelte/internal"
     })
     .then( response => response.json() )
     .then( dreams => {
-      console.log(dreams)
-      console.log(hello)
+      //console.log(dreams)
       return dreams 
     })
     
