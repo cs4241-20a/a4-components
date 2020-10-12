@@ -15,6 +15,19 @@ import { text } from "svelte/internal"
     
     return p
   }
+
+  const getOtherTodos = function() {
+    const p = fetch( '/read2', {
+      method:'GET' 
+    })
+    .then( response => response.json() )
+    .then( dreams => {
+      //console.log(dreams)
+      return dreams 
+    })
+    
+    return p
+  }
   
   const addTodo = function( e ) {
 	const todo = document.querySelector('input').value
@@ -55,6 +68,7 @@ import { text } from "svelte/internal"
   }
 
   let promise = getTodos()
+  let promise2 = getOtherTodos()
 
 </script>
 
@@ -98,6 +112,28 @@ import { text } from "svelte/internal"
 		<td>{todo.sprinkles}</td>
 		<td todo={todo._id} on:click={removeOrder}>DELETE </td>
 		<td todo={todo._id} on:click={toggleName}>UPDATE</td>
+	</tr>
+  {/each}
+</table>
+</main>
+{/await}  
+
+<h2>hey there, here's all our other orders</h2>
+<p>This table is for the "Results" requirement for the full dataset in the server, and would not be in the final application (not very useful).
+</p>
+{#await promise2 then dreams}
+<main>
+<table>
+	<tr>
+		<td>What did you get?</td>
+		<td>How Many Scoops?</td>
+		<td>Any Sprinkles?</td>
+	</tr>
+  {#each dreams as todo}
+	<tr>
+		<td>todo={todo.dream}</td>
+		<td>{todo.scoops}</td>
+		<td>{todo.sprinkles}</td>
 	</tr>
   {/each}
 </table>

@@ -125,7 +125,7 @@ app.use( express.static( 'public' ) )
 
 /* get all dreams on initial load */
 app.get("/read", (request, response) => {
-  collection.find().toArray((err, docs) => {
+  collection.find({ user: userID }).toArray((err, docs) => {
     if (err) {
       // if an error happens
       response.send("Error in GET req.");
@@ -139,6 +139,20 @@ app.get("/read", (request, response) => {
   });
 });
 
+app.get("/read2", (request, response) => {
+  collection.find({user: {$ne: userID} }).toArray((err, docs) => {
+    if (err) {
+      // if an error happens
+      response.send("Error in GET req.");
+    } else if (docs.length == 0){
+        response.send("new user");
+    } else {
+      // if all works
+      console.log(docs);
+      response.send(JSON.stringify(docs)); // send back all users found with the matching username
+    }
+  });
+});
 // app.post( '/add', ( req,res ) => {
 //   todos.push( req.body )
 //   res.json( todos )
