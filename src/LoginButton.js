@@ -1,13 +1,29 @@
 import React from 'react';
-import {Redirect} from "react-router";
+import {Redirect} from "react-router-dom";
 
 let authSuccess = false;
-
-//Old button: <button onClick={() => {this.handle_github_login(this)}}>Login</button>
-
 class LoginButton extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            username: "",
+            password: "",
+        }
+        this.handleInput = this.handleInput.bind(this);
+        this.handleLogin = this.handleLogin.bind(this);
+    }
+    
+    handleInput(inputEvent) {
+        console.log("inputEvent name: " +inputEvent.target.name);
+        console.log("inputEvent value: " +inputEvent.target.value);
+        this.setState({
+            [inputEvent.target.name]: inputEvent.target.value,
+        });
+        console.log("state changed to:" + JSON.stringify(this.state));
+    }
+    
     render(){
-        if(authSuccess === true){
+       if(authSuccess === true){
             return (
                 <Redirect to="/app"/>
             );
@@ -16,8 +32,8 @@ class LoginButton extends React.Component {
                 <div className="column is-one-third">
                     <div className="box is-border has-background-info-light is-rounded">
                         <h1 className="title">Login with Github</h1>
-                        <a href="http://localhost:5000/auth/github/callback">Login</a>
-
+                        <a href="https://a4-joe-swetz.glitch.me/auth/github/callback">Login</a>
+                        
                         <br/><br/><strong>OR</strong><br/><br/>
 
                         <h1 className="title">Sign in with FPS Stat Calculator account:</h1>
@@ -26,7 +42,8 @@ class LoginButton extends React.Component {
                                 <label className="label" htmlFor="username_input">Username</label>
                             </div>
                             <div className="field-body">
-                                <input className="field-body input is-inline" type="text" id="username_input"/>
+                                <input name="username" className="field-body input is-inline" type="text" id="username_input"
+                                  onChange={this.handleInput}/>
                             </div>
                         </div>
                         <div className="field is-horizontal">
@@ -34,57 +51,38 @@ class LoginButton extends React.Component {
                                 <label className="label" htmlFor="password_input">Password</label>
                             </div>
                             <div className="field-body">
-                                <input className="field-body input is-inline" type="text" id="password_input"/>
+                                <input name="password" className="field-body input is-inline" type="text" id="password_input"
+                                  onChange={this.handleInput}/>
                             </div>
                         </div>
-                        <button className="clear_button button is-primary" onClick={() => {this.handle_login(this)}}>Login</button>
+                        <button className="clear_button button is-primary" onClick={this.handleLogin}>Login</button>
                     </div>
                 </div>
             );
         }
     }
-    /*
-    handle_github_login(component){
-        fetch("/auth/github/callback", {
-            method: "GET",
-            headers: {"Content-Type": "application/json"},
-        }).then(function(response){
-            console.log(response);
-            if(response.headers.get("statusCode") === "302") {
-                console.log("redirecting")
-                githubLogin = true;
-                window.location = response.location;
-                redirectURL = response.location;
-                component.forceUpdate();
-            }
-        }).catch(function(error){
-            console.log("Error: "+error);
-        });
-    }
-    */
-
+    
     /**
      * Send a /signin API HTTP request to log into the application with the
      * given username and password.
      */
-    handle_login(component){
-        //let usernameField = document.getElementById("username_input");
-        //let passwordField = document.getElementById("password_input");
+    handleLogin(){
+        console.log("trying to sign in with username: " +this.state.username +", password: " +this.state.password);
         let json = {
-            "username": "Joseph",//usernameField.value,
-            "password": "ginger0304"//passwordField.value
+            "username": this.state.username,//"Joseph",//usernameField.value,
+            "password": this.state.password//"ginger0304"//passwordField.value
         }
         let body = JSON.stringify(json);
         fetch("/signin", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body
-        }).then(function(response){
+        }).then(response => {
             if(response.headers.get("new") === "true"){
                 alert("User did not exist, so a new account was created with given username and password");
             }
             authSuccess = true;
-            component.forceUpdate();
+            this.forceUpdate();
         });
     }
 }

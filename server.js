@@ -8,13 +8,13 @@ const fs   = require("fs"),
       passport = require("passport"),
       bodyParser = require("body-parser"),
       morganLogger = require("morgan"),
-      port = process.env.ServerPort || 5000;
+      port = process.env.ServerPort || 3000;
 
 app.listen(port);
 
 /////////////////// Middleware Initialization /////////////////////////
-//Automatically send out contents of public folder
-app.use(express.static("./public"));
+//Automatically send out all compiled code
+app.use(express.static("./build"));
 
 //Set up logging of incoming requests
 let logfile = fs.createWriteStream("serverRequests.log");
@@ -34,7 +34,7 @@ let GitHubStrategy = require('passport-github').Strategy;
 passport.use("github", new GitHubStrategy({
         clientID: process.env.clientID,
         clientSecret: process.env.clientSecret,
-        callbackURL: process.env.callbackURL
+        callbackURL: process.env.callbackURL,
     },
     function(accessToken, refreshToken, profile, cb) {
         console.log("profile: " +profile);
@@ -53,20 +53,20 @@ app.get('/auth/github/callback', passport.authenticate('github'),
     }
 );
 
-//let newUser = false;//used to indicate whether or not to alert client of new account
+let newUser = false;//used to indicate whether or not to alert client of new account
 app.post("/app", function(request, response){
     response.status(200);
+});
+
+app.get("/app", function(request, response){
     //The "new" header will tell the client whether or not they need to
     //display a new message to the user that a new account was created.
-    //response.redirect('/app');
-    /*response.sendFile("./public/app.html", {root: "./", headers:{"new": newUser}}, function(error){
-        if(error){
-            console.log("Error occurred sending app.html: " +error);
-        }else{
-            console.log("app.html sent");
-        }
-        newUser = false;
-    });*/
+    response.status(200).sendFile("build/index.html", {root: "./", headers: {"new": newUser}}, function(error){
+      if(error){
+          console.log("Error occurred sending ./build/index.html: " +error);
+      }
+      newUser = false;
+    });
 });
 
 //Route for signing into the application with a username and password
@@ -116,7 +116,7 @@ const handleUser = function(username, isGithub, password, response){
             }else{//User does not exist
                 console.log("New user: " +username +" signing in.");
                 addNewDbUser(user).then(function(results){
-                    //newUser = true;
+                    newUser = true;
                     response.redirect(process.env.ServerRedirectURL);
                     response.statusCode = 201;
                 });
@@ -136,6 +136,7 @@ client.connect(err => {
         console.log("error connecting to database: " +err);
     }else{
         console.log("Database connected");
+        console.log("Using url: " +process.env.callbackURL);
     }
 });
 

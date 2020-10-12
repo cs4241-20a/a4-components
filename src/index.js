@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import {BrowserRouter, Switch} from "react-router-dom";
-import {Route} from "react-router";
+import {BrowserRouter, Switch, Route} from "react-router-dom";
+//import {Route} from "react-router";
 import App from "./App";
 import LoginButton from "./LoginButton";
 
