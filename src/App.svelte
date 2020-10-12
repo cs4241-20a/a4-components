@@ -29,7 +29,7 @@ import { text } from "svelte/internal"
 	console.log(sprinkles)
     promise = fetch( '/add', {
       method:'POST',
-      body: JSON.stringify({ dream:todo, sprinkles:sprinkles1, scoops:numScoops, id:idTodo }),
+      body: JSON.stringify({ name:todo, sprinkles:sprinkles1, scoops:numScoops, id:idTodo }),
       headers: { 'Content-Type': 'application/json' }
     })
     .then( response => response.json() )
