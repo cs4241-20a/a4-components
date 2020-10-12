@@ -6,11 +6,13 @@ const morgan = require('morgan')
 const path = require('path')
 const favicon = require('serve-favicon')
 const mime = require('mime')
+require('dotenv').config();
 
 
 const mongodb = require('mongodb')
 const MongoClient = require('mongodb').MongoClient;
 const { ssl_op_ephemeral_rsa } = require("constants")
+console.log("PASSWORD:", process.env.MONGOPASSWORD)
 const uri = `mongodb+srv://rfdolan:${process.env.MONGOPASSWORD}@cluster0.jpq6i.mongodb.net/${process.env.DBNAME}?retrywrites=true&w=majority`;
 const client = new MongoClient( uri, {usenewurlparser: true, useunifiedtopology: true})
 
@@ -32,10 +34,6 @@ client.connect()
   .then(/* console.log */)
 
 
-// automatically deliver all files in the public folder
-app.use( express.static('public/images'))
-app.use( express.static('public/js'))
-app.use( express.static('public/css'))
 
 // get json when appropriate
 app.use( bodyparser.json())
@@ -57,6 +55,7 @@ app.use( (req, res, next) => {
         res.status( 503 ).send()
     }
 })
+
 
 /*
 // get request for login / starting screen
