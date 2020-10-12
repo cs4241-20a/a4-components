@@ -20,16 +20,16 @@ import { text } from "svelte/internal"
 	const todo = document.querySelector('input').value
 	const numScoops = document.getElementById("scoop").value
 	const sprinklesBool = document.getElementById("sprinklesBox").checked
-	let sprinkles = "no"
+	let sprinkles1 = "no"
 	if(sprinklesBool === true){
-		sprinkles = "yes"
+		sprinkles1 = "yes"
 	}
 	const idTodo = idNumber
 	idNumber++
 	console.log(sprinkles)
     promise = fetch( '/add', {
       method:'POST',
-      body: JSON.stringify({ name:todo, completed:sprinkles, numScoops:numScoops, id:idTodo }),
+      body: JSON.stringify({ name:todo, sprinkles:sprinkles1, scoops:numScoops, id:idTodo }),
       headers: { 'Content-Type': 'application/json' }
     })
     .then( response => response.json() )
@@ -95,8 +95,8 @@ import { text } from "svelte/internal"
   {#each dreams as todo}
 	<tr>
 		<td><input id={todo.id} type='text' todo={todo.dream} placeholder={todo.dream}></td>
-		<td>{todo.numScoops}</td>
-		<td>{todo.completed}</td>
+		<td>{todo.scoops}</td>
+		<td>{todo.sprinkles}</td>
 		<td on:click={removeOrder}>DELETE </td>
 		<td todo={todo.id} on:click={toggleName}>UPDATE</td>
 	</tr>
