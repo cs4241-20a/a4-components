@@ -39,7 +39,7 @@ import { text } from "svelte/internal"
 	console.log(nameFound)
     fetch( '/changeName', {
       method:'POST',
-      body: JSON.stringify({ id:e.target.getAttribute('todo'), name:nameFound }),
+      body: JSON.stringify({ id:e.target.getAttribute('todo'), dream:nameFound }),
       headers: { 'Content-Type': 'application/json' }
 	})
   }
@@ -97,7 +97,7 @@ import { text } from "svelte/internal"
 		<td>{todo.scoops}</td>
 		<td>{todo.sprinkles}</td>
 		<td id={todo._id} on:click={removeOrder}>DELETE </td>
-		<td todo={todo.id} on:click={toggleName}>UPDATE</td>
+		<td todo={todo._id} on:click={toggleName}>UPDATE</td>
 	</tr>
   {/each}
 </table>

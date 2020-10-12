@@ -153,13 +153,24 @@ app.post("/add", bp.json(), function(req, res) {
   });
 });
 
-app.post( '/changeName', function( req,res ) {
-  const idx = todos.findIndex( v => v.id == req.body.id )
-  todos[ idx ].name = req.body.name
+// app.post( '/changeName', function( req,res ) {
+//   const idx = todos.findIndex( v => v.id == req.body.id )
+//   todos[ idx ].name = req.body.name
   
-  res.sendStatus( 200 )
+//   res.sendStatus( 200 )
+// })
 
-})
+app.post("/changeName", bodyparser.json(), function(req, res) {
+  // console.log("body: ", req.body);
+  collection
+    .updateOne(
+      { _id: mongodb.ObjectID(req.body.id) },
+      { $set: { dream: req.body.dream } }
+    )
+    .then(result => res.json(result));
+  // console.log("json", res);
+});
+
 // app.post( '/delete', function( req,res ) {
 //   const idx = todos.findIndex( v => v.id === req.body.id )
 //   todos.splice(idx, 1)
