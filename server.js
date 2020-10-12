@@ -144,7 +144,7 @@ app.get("/read", (request, response) => {
 //   res.json( todos )
 // })
 
-app.post("/add", bodyparser.json(), function(req, res) {
+app.post("/add", bp.json(), function(req, res) {
   req.body.user = userID;
 
   collection.insertOne(req.body).then(dbresponse => {
