@@ -57,6 +57,9 @@ const todos = [
 // //     res.redirect('/');
 // //   });
 
+app.listen(process.env.PORT || 5000)
+
+
 // /*LOCAL AUTH END */
 const GitHubStrategy = require('passport-github').Strategy;
 
@@ -185,4 +188,4 @@ app.post( '/delete', function( req,res ) {
 //     .then(result => res.json(result));
 // });
 
-app.listen(process.env.PORT || 5000)
+// app.listen(process.env.PORT || 5000)
