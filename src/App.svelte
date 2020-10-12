@@ -49,7 +49,7 @@ import { text } from "svelte/internal"
   const removeOrder = function( e ) {
     fetch( '/delete', {
       method:'POST',
-      body: JSON.stringify({ id:e.target.getAttribute('id') }),
+      body: JSON.stringify({ id:e.target._id }),
       headers: { 'Content-Type': 'application/json' }
 	}).then( response => response.json() )
 	promise = getTodos();
