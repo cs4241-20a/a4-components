@@ -33,7 +33,7 @@ class LoginForm extends React.Component {
   handleClick = (e) => {
     e.preventDefault();
     if(this.state.input_username.trim() === '' || this.state.input_password.trim() === '') {
-      alert("Please enter both a username and password.")
+      window.alert("Please enter both a username and password.")
       return false
     }
 

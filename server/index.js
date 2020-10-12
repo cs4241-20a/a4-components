@@ -155,26 +155,31 @@ app.post( '/move', async function(req, res) {
 })
 
 app.post( '/login',  async function(req, res)  {
+    /*
     if(currentuser !== "") {
         res.sendStatus(200)
         return res.end()
     }
+    */
     let userdata = req.body
     let username = userdata.userName
     let password = userdata.password
 
     usercollection = await client.db('webware').collection('users')
-    const user = await usercollection.find({username}).toArray()
+    const user = await usercollection.find({userName:username}).toArray()
     // user does not exist, create them
     if(user.length === 0) {
         await usercollection.insertOne(userdata)
         currentuser = username
+        //console.log("USER DID NTO EXIST",username)
         res.sendStatus(200)
     // user exists, check password
     } else {
+        /*
         console.log("existing user:",username)
         console.log("inputted password:", password)
         console.log("existing password:",user[0].password)
+        */
         if(user[0].password === password) {
             currentuser = username
             res.sendStatus(200)
