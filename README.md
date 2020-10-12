@@ -14,6 +14,9 @@ to figure out the mundane aspects of the assignment. That being said, I think if
 React now it would be a much better experience. The flexibility of the components makes it easy to insert and swap out
 piece of a UI and the ability to track state and props helps for components to communicate to one another.
 
+Once again, you and login with your Github account, use the test account (username: Test, password: test), or make your own
+account by entering in a new username and password.
+
 Finally, I wanted to note a bug that I am aware of. When you select multiple rows and click to modify, those checkboxes
 stay checked, but the rows are no longer selected. So to modify that row again, you would need to uncheck the row, and then
 check it again. It's not a big deal, and I could have fixed it if I had more time, but I figured it was best to ensure
