@@ -10,12 +10,6 @@ const todos = [
 /* PASSPORT ADDITIONS */
 // const passport = require('passport');
 
-// /*favicon addtions */
-// var favicon = require('serve-favicon')
-// var path = require('path')
-// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
-// /* end of favicon additions */
-
 // /*compression additions */
 // var compression = require('compression')
 // // compress all responses
