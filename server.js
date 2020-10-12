@@ -160,11 +160,11 @@ app.post( '/changeName', function( req,res ) {
   res.sendStatus( 200 )
 
 })
-app.post( '/delete', function( req,res ) {
-  const idx = todos.findIndex( v => v.id === req.body.id )
-  todos.splice(idx, 1)
-  res.json( todos )
-})
+// app.post( '/delete', function( req,res ) {
+//   const idx = todos.findIndex( v => v.id === req.body.id )
+//   todos.splice(idx, 1)
+//   res.json( todos )
+// })
 
 app.post("/delete", bp.json(), function(req, res) {
   console.log("body: ", req.body);
