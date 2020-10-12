@@ -151,7 +151,7 @@ function CompletedRunEntry(props) {
                 Actions
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                <button class="dropdown-item" type="button" onclick={
+                <button class="dropdown-item" type="button" onClick={
                   () => {
                     fetch ('/delete-run', {
                         method: 'POST',
