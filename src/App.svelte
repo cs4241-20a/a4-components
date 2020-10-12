@@ -44,7 +44,6 @@ import { text } from "svelte/internal"
     })
     .then( response => response.json() )
     promise = getTodos();
-    return promise;
   }
 
   const toggleName = function( e ) {
