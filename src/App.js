@@ -4,6 +4,7 @@ import './App.css';
 import FontAwesome from 'react-fontawesome'
 import 'font-awesome/css/font-awesome.min.css';
 import { LOADIPHLPAPI } from 'dns';
+import P from 'pino';
 
 class CreatureForm extends React.Component {
   render() {
@@ -11,6 +12,77 @@ class CreatureForm extends React.Component {
       <h1>Form</h1>
     )
   }
+
+}
+
+class LoginForm extends React.Component {
+  constructor(props) {
+    super( props)
+    this.state = {
+      input_password:"",
+      input_username:"",
+    }
+  }
+
+  handleChange = (e) => {
+    this.setState({
+        [e.target.name]: e.target.value
+    })
+  }
+
+  handleClick = (e) => {
+    e.preventDefault();
+    if(this.state.input_username.trim() === '' || this.state.input_password.trim() === '') {
+      alert("Please enter both a username and password.")
+      return false
+    }
+
+
+    const json = {userName: this.state.input_username, password: this.state.input_password},
+    body = JSON.stringify(json)
+
+    fetch('/login', {
+        method:'POST',
+        body,
+        headers: {
+            "Content-Type":"application/json"
+        }
+    })
+    .then((res) =>{
+      if(res.status === 200 || res.status === 206) {
+        // make visible
+        this.props.loginCallback()
+
+      }
+      else {
+        alert("Password incorrect,  please try again.")
+      }})
+
+  }
+
+  
+
+  render() {
+    return(
+      <div>
+        <h1>Login - Ray's Initiative Tracker</h1>
+        <p>
+          If you try to login without an account, one will be created for you on initial login.
+        </p>
+        <p>
+            (*Please do not use personal passwords, they are stored as plaintext*)
+        </p>
+        <form class="loginElements">
+          <input type='text' name='input_username' placeholder='Username' onChange={e => this.handleChange(e)} />
+          <input type='password' name='input_password' placeholder='Password' onChange={e => this.handleChange(e)} />
+          <button id='loginBtn' onClick={e => this.handleClick(e)}>Login</button>
+        </form>
+      </div>
+    )
+  }
+
+
+
 
 }
 
@@ -101,6 +173,8 @@ class App extends React.Component {
     this.checkbox = React.createRef();
     this.initbonusBox = React.createRef();
     this.initiativeBox = React.createRef();
+    this.appBox = React.createRef();
+    this.loginBox = React.createRef();
     this.state = {
       creatures: [],
       input_name: '',
@@ -131,7 +205,6 @@ class App extends React.Component {
       var bonus = this.initbonusBox.current
       var init = this.initiativeBox.current
       if(e.target.checked === true) {
-
           init.style.display = "none"
           bonus.style.display = "block"
       } else {
@@ -158,10 +231,10 @@ class App extends React.Component {
 
     var init;
     if(this.checkbox.current.checked) {
-      console.log("SHOULD ROLL")
+      //console.log("SHOULD ROLL")
         init = parseInt(this.state.input_initiative) + this.getRandomInt(20)
     } else {
-      console.log("SHOULD NOT ROLL")
+      //console.log("SHOULD NOT ROLL")
         init = parseInt(this.state.input_initiative)
     }
 
@@ -180,7 +253,7 @@ class App extends React.Component {
     .then( resjson => this.processJSON(resjson))
   }
   processJSON = (json) => {
-    console.log(json)
+    //console.log(json)
     // set state
     this.setState({
         input_name: '',
@@ -195,10 +268,22 @@ class App extends React.Component {
     return Math.floor(Math.random() * Math.floor(max)) + 1
   }
 
+  login = () => {
+    this.loginBox.current.style.display = "none";
+    this.appBox.current.style.display = "grid";
+    this.load()
+
+  }
+
   render() {
     return (
+      <div>
+        <div ref={this.loginBox} style={{diaplay: "block"}}>
+          <LoginForm   loginCallback={this.login} />
+        </div>
 
-      <div className="appcontainer">
+      <div className="appcontainer" ref={this.appBox} style={{display:"none"}}>
+        
         <h1>Raymond's Initiative Tracker</h1>
         <p id="note">Note: up/down arrows are only for resolving ties.</p>
         <form >
@@ -243,6 +328,7 @@ class App extends React.Component {
             ac={creature.ac} getAllCallback={this.updateCreatures} />)}
           </tbody>
         </table>
+      </div>
       </div>
     );
   }

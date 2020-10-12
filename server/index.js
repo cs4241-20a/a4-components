@@ -12,12 +12,11 @@ require('dotenv').config();
 const mongodb = require('mongodb')
 const MongoClient = require('mongodb').MongoClient;
 const { ssl_op_ephemeral_rsa } = require("constants")
-console.log("PASSWORD:", process.env.MONGOPASSWORD)
 const uri = `mongodb+srv://rfdolan:${process.env.MONGOPASSWORD}@cluster0.jpq6i.mongodb.net/${process.env.DBNAME}?retrywrites=true&w=majority`;
 const client = new MongoClient( uri, {usenewurlparser: true, useunifiedtopology: true})
 
 let collection = null
-let currentuser = "ray"
+let currentuser = ""
 let isgithubuser = false
 
 client.connect()
@@ -57,38 +56,6 @@ app.use( (req, res, next) => {
 })
 
 
-/*
-// get request for login / starting screen
-app.get('/', (req, res) => {
-    if(currentuser !== "") {
-        console.log("user:",currentuser)
-        res.sendfile(path.join(__dirname,'public/index.html'));
-    } else {
-        res.sendfile(path.join(__dirname,'public/login.html'))
-    }
-});
-
-// if the user is not logged in, send a 403 and lock them out of accessing the page
-app.get('/index.html', function (req, res){
-  if(currentuser === ""){
-    res.sendfile(path.join(__dirname,'public/login.html'));
-  }
-  else {
-    res.sendfile(path.join(__dirname,'public/index.html'))
-  }
-})
-
-// get request to check if a user is logged in
-// send a 500 if not so that the user is sent back to the login screen
-app.get('/loggedin', function (req, res){
-  if(currentuser == ""){
-    res.sendstatus(500)
-  }
-  else{
-    res.sendstatus(200)
-  }
-})
-*/
 
 // get everything
 app.get( '/appdata', (req, res) =>{
@@ -189,11 +156,11 @@ app.post( '/move', async function(req, res) {
 
 app.post( '/login',  async function(req, res)  {
     if(currentuser !== "") {
-        res.sendstatus(200)
+        res.sendStatus(200)
         return res.end()
     }
     let userdata = req.body
-    let username = userdata.username
+    let username = userdata.userName
     let password = userdata.password
 
     usercollection = await client.db('webware').collection('users')
@@ -202,15 +169,18 @@ app.post( '/login',  async function(req, res)  {
     if(user.length === 0) {
         await usercollection.insertOne(userdata)
         currentuser = username
-        res.sendstatus(200)
+        res.sendStatus(200)
     // user exists, check password
     } else {
+        console.log("existing user:",username)
+        console.log("inputted password:", password)
+        console.log("existing password:",user[0].password)
         if(user[0].password === password) {
             currentuser = username
-            res.sendstatus(200)
+            res.sendStatus(200)
         } else {
             currentuser = ""
-            res.sendstatus(500)
+            res.sendStatus(500)
         }
     }
 })
