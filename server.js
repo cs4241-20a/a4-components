@@ -87,7 +87,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', 
-(req, res) => res.sendFile('/public/auth.html', { root : __dirname, user: req.user}),
+(req, res) => res.sendFile('/auth.html', { root : __dirname, user: req.user}),
 require('connect-ensure-login').ensureLoggedIn(),
 );
 
