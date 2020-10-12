@@ -26,7 +26,6 @@ import { text } from "svelte/internal"
 	}
 	const idTodo = idNumber
 	idNumber++
-	console.log(sprinkles)
     promise = fetch( '/add', {
       method:'POST',
       body: JSON.stringify({ dream:todo, sprinkles:sprinkles1, scoops:numScoops, id:idTodo }),
