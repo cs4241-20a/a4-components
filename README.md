@@ -1,30 +1,21 @@
-Assignment 4 - Components
-===
+## Simple To-Do Page
 
-Due: October 11th, by 11:59 PM.
+[https://a4-brad-cosma.glitch.me/](https://a4-brad-cosma.glitch.me/)
 
-For this assignment you will re-implement the client side portion of A3 using either React or Svelte components.
+You can use this account to test the site:
 
-This project can be implemented on any hosting service (Glitch, DigitalOcean, Heroku etc.), however, you must include all files in your GitHub repo so that the course staff can view them; these files are not available for viewing in many hosting systems.
+Username: test
 
-Deliverables
----
+Password: test
 
-Do the following to complete this assignment:
+This app is still a generic todo list, with a simple style. You can only add, edit
+and delete. No looking back, get that task over with and move on!
 
-1. Implement your project with the above requirements.
-3. Test your project to make sure that when someone goes to your main page on Glitch/Heroku/etc., it displays correctly.
-4. Ensure that your project has the proper naming scheme `a4-firstname-lastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below. Be sure to add *all* project files.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a4-firstname-lastname`.
+**Changes from A3**:
+The app now uses React for its main page instead of the more cumbersome simple js/jquerry/html
+from before. The use of react initially was very confusing, setting it up didn't go as planned
+and it took a while to figure out what exactly I needed to do to even start using it. It turned
+out to be very simple, thanks to React's official "Add React to a Website" tutorial. In the end,
+I can see clearly how using react makes desiging and maintaining interfaces much easier thanks to 
+its modularity and ability to contain each thing in its own file.
 
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your hosting link e.g. http://a4-charlieroberts.glitch.me
-
-Include a very brief summary of your project here and what you changed / added to assignment #3. Briefly (3–4 sentences) answer the following question: did the new technology improve or hinder the development experience?
-
-Unlike previous assignments, this assignment will be solely graded on whether or not you successfully complete it. Partial credit will be generously given.
