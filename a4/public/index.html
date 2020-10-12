@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>CS_4241 A4</title>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+</head>
+
+<body>
+    <div id="app"></div>
+</body>
+
+<script type="text/babel">
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            name: '',
+            subject: '',
+            date: '',
+            homeworks: []
+        }
+
+        this.submit = this.submit.bind(this)
+        this.deleteHmwk = this.deleteHmwk(this)
+        this.editHmwk = this.editHmwk(this)
+    }
+
+    componentDidMount() {
+        fetch('/data')
+          .then(response => response.json())
+          .then(json => {
+            this.setState({ homeworks: json })
+          })
+    }
+
+    submit(e) {
+        e.preventDefault()
+
+        const json = {
+              name: this.state.name,
+              subject: this.state.subject,
+              date: this.state.date
+        }
+
+        const body = JSON.stringify(json)
+
+        fetch('/submit', {
+         method: 'POST',
+         body,
+         headers: {
+           "Content-Type": "application/json"
+         }
+       })
+       .then(response => response.json())
+
+        fetch('/data')
+          .then(response => response.json())
+          .then(json => {
+            this.setState({ homeworks: json })
+          })
+
+        this.setState({ name: '' })
+        this.setState({ subject: '' })
+        this.setState({ date: '' })
+
+        return false
+    }
+
+    deleteItem(e, id) {
+        const json = { id: id }
+        const body = JSON.stringify(json)
+
+        fetch('/delete', {
+          method: 'POST',
+          body,
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+        .then(response => response.json())
+
+        fetch('/data')
+        .then(response => response.json())
+        .then(json => {
+          this.setState({ homeworks: json })
+        })
+
+        alert("Deleted homework")
+
+    }
+
+    editHmwk(e, id) {
+        const json = {
+          name: document.getElementById(`name-${id}`).innerHTML,
+          subject: document.getElementById(`subject-${id}`).innerHTML,
+          date:document.getElementById(`date-${id}`).innerHTML,
+          id: id
+        }
+
+        const body = JSON.stringify(json)
+
+        fetch('/update', {
+          method: 'POST',
+          body,
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+        .then(response => response.json())
+        .then(json => {
+          console.log(json)
+        })
+
+        fetch('/data')
+          .then(response => response.json())
+          .then(json => {
+            console.log(json)
+            this.setState({ homeworks: json })
+          })
+
+        alert("Edited Homework")
+    }
+
+    render() {
+
+        return (
+            <div>
+                <div class="text-center">
+                  <h1 class="display-2">
+                    Homework To-Do List
+                  </h1>
+
+                  <h3 >
+                    Add a Homework
+                  </h3>
+                </div>
+
+                <div class="container p-4">
+            <form name="homeworkForm" onsubmit="return false">
+                <div class="form-group row">
+                    <label for="HmwkName" class="col-sm-2 col-form-label">Homework Name</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="name" placeholder="Read pages 1-10" value={this.state.name} onChange={val => { this.setState({ name: val.target.value }) }}>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="SubjectType" class="col-sm-2 col-form-label">Subject</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="subject" placeholder="Math" value={this.state.subject} onChange={val => { this.setState({ subject: val.target.value }) }}>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="DueDate" class="col-sm-2 col-form-label">Due Date</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="date" placeholder="10/02/2020" value={this.state.date} onChange={val => { this.setState({ date: val.target.value }) }}>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button id="addButton" class = "btn btn-success" onclick="addhmwk()">Add</button>
+                </div>
+            </form>
+          </div>
+
+        </div>
+
+        <div class="container p-4">
+            <div class="d-flex flex-column">
+              <table id="mainTable" class="table table-dark">
+                <thead>
+                  <th scope="col">Name</th>
+                  <th scope="col">Subject</th>
+                  <th scope="col">Due Date</th>
+                </thead>
+                <tbody>
+                {this.state.homeworks.map((homework) =>
+                  <tr key={homework._id}>
+                    <td contentEditable="true" suppressContentEditableWarning="true" id={`name-${homework._id}`} onInput={ val => { this.setState({ name: val.target.value })}}>{homework.name}</td>
+                    <td contentEditable="true" suppressContentEditableWarning="true" id={`subject-${homework._id}`} onChange={val => { this.setState({ subject: val.target.value })}} >{homework.subject}</td>
+                    <td contentEditable="true" suppressContentEditableWarning="true" id={`date-${homework._id}`} onChange={val => { this.setState({ date: val.target.value })}}>{homework.date}</td>
+                    <td>
+                      <button className="del-btn" onClick={(e) => this.deleteItem(e, homework._id)}>Delete</button>
+                    </td>
+                    <td>
+                      <button className="edit-btn" onClick={(e) => this.saveItem(e, homework._id)}>Edit</button>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+              </table>
+            </div>
+        </div>);
+
+    }
+
+}
+
+ReactDOM.render(<App />, document.getElementById("app"));
+</script>
+
+</html>
+
+
