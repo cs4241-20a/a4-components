@@ -209,6 +209,9 @@ app.get("/home", (req, res) => {
   if (req.session.login) {
     res.sendFile(__dirname + "/public/home.html"); //send login page on default
     console.log("home page event"); //log as page event when we send default page
+  } else {
+    res.sendFile(__dirname + "/public/login.html");
+    console.log("unauthorized login attempt");
   }
 });
 
