@@ -65,7 +65,8 @@ import { text } from "svelte/internal"
       body: JSON.stringify({ id:e.target.getAttribute('todo') }),
       headers: { 'Content-Type': 'application/json' }
 	}).then( response => response.json() )
-	promise = getTodos();
+  promise = getTodos();
+  return promise;
   }
 
   let promise = getTodos()
