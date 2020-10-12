@@ -1,30 +1,5 @@
-Assignment 4 - Components
-===
+## Golf Club Tracker v3
 
-Due: October 11th, by 11:59 PM.
+http://a4-matt-tolbert.glitch.me
 
-For this assignment you will re-implement the client side portion of A3 using either React or Svelte components.
-
-This project can be implemented on any hosting service (Glitch, DigitalOcean, Heroku etc.), however, you must include all files in your GitHub repo so that the course staff can view them; these files are not available for viewing in many hosting systems.
-
-Deliverables
----
-
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements.
-3. Test your project to make sure that when someone goes to your main page on Glitch/Heroku/etc., it displays correctly.
-4. Ensure that your project has the proper naming scheme `a4-firstname-lastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below. Be sure to add *all* project files.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a4-firstname-lastname`.
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your hosting link e.g. http://a4-charlieroberts.glitch.me
-
-Include a very brief summary of your project here and what you changed / added to assignment #3. Briefly (3–4 sentences) answer the following question: did the new technology improve or hinder the development experience?
-
-Unlike previous assignments, this assignment will be solely graded on whether or not you successfully complete it. Partial credit will be generously given.
+I changed this slightly from assignment 3 in that I removed the automatic sorting of golf clubs by distance and the local list. I removed this local list in order to be able to most effectively take advantage of Svelte's ability to automatically update a list from a promise. I found that using Svelte severely hindered me as using multiple pages became much more complex than it is using server issued redirects. Furthermore, the code to update nodes currently adds a new item upon submission instead of editing the current one (despite the endpoint handling this logic being nearly identical to last week). The add and delete functionality works perfectly, despite some weird issues with the page sometimes needing to be refreshed. Overall, I felt that it was extremely complex to try to rework working code into Svelte rather than starting from scratch and building around its perks rather than trying to redesign existing code to fit with it. Given the vague nature of the assignment, I feel that I did successfully implement and experiment thoroughly with Svelte and I look forward to using it more in the future.
