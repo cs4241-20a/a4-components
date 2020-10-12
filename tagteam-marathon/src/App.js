@@ -151,7 +151,25 @@ function CompletedRunEntry(props) {
                 Actions
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                <button class="dropdown-item" type="button" onclick="deleteRun('${data[i]._id}', ${i})">Delete Run</button>
+                <button class="dropdown-item" type="button" onclick={
+                  () => {
+                    fetch ('/delete-run', {
+                        method: 'POST',
+                        body: JSON.stringify({id: props.run._id}),
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    }).then(function handleDeleteRunResponse(response) {
+                        if (response.status === 200) {  // OK
+                            console.log(`Successfully deleted run.`);
+                            props.changeLoggedIn(false);
+                        } else {
+                            console.error(`Failed to delete run.
+                            Error: ${response.message}`);
+                        }
+                    });
+                  }
+                }>Delete Run</button>
                 <button class="dropdown-item" type="button" onclick="prepareEdit(${i + 1}, '${data[i]._id}')">Edit Run</button>
                 <button class="dropdown-item" type="button" onClick={
                   () => alert(props.run.notes ? props.run.notes : 'No notes exist for this run')
