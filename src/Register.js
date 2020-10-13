@@ -5,6 +5,7 @@ export class Register extends Component {
     username: null,
     password: null,
     email: null,
+    name: null
   };
   handleChange = (event) => {
     this.setState({

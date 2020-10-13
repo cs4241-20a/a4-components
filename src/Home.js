@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-
+import Upload from "./Upload";
+import Demo from "./Demo";
+import Songs from "./Songs"
 export class Home extends Component {
     login = () => {
         fetch("/authStatus", {
@@ -11,10 +13,15 @@ export class Home extends Component {
     }
     render() {
         return (
-            <div>
-                <h1>Home</h1>
+            <main className="container mainFooterSticky">
+                <header>
+                    <h2 className="pageHeader">Home</h2>
+                </header>                    
                 <button className="btn" onClick={this.login}>Auth?</button>
-            </div>
+                <Upload />
+                <Demo />
+                <Songs />
+            </main>
         )
     }
 }

@@ -11,6 +11,19 @@ const header = { "Content-Type": "application/json" };
 const ObjectId = require("mongodb").ObjectId;
 const MongoClient = require("mongodb").MongoClient;
 const bcrypt = require("bcrypt")
+const fs = require('fs')
+const multer = require("multer")
+const { spawn } = require("child_process")
+const storage = multer.diskStorage({
+  destination: function(req, file, done){
+    done(null, 'temp/')
+  },
+  filename: function(req, file, done){
+    console.log(file.originalname)
+    done(null, Date.now() + path.extname(file.originalname))
+  }
+})
+const upload = multer({storage: storage})
 const mongoUri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@a3.xvhzl.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(mongoUri, {
   useNewUrlParser: true,
@@ -21,10 +34,10 @@ client.connect();
 app.set("trust proxy", 1);
 app.use(bodyParser.json({ limit: "50mb" }));
 
-const userReg = (username, password, email) => {
+const userReg = (username, password, email, name) => {
   return new Promise((resolve, reject) => {
     console.log(username, password, email);
-    if (!username || !password || !email) {
+    if (!username || !password || !email || !name) {
       resolve({
         error: "Missing Fields",
       });
@@ -58,6 +71,8 @@ const userReg = (username, password, email) => {
                     username,
                     email,
                     password: hash,
+                    name,
+                    songs: []
                   };
 
                   collection
@@ -171,7 +186,7 @@ passport.use(
     password,
     done
   ) {
-    userReg(username, password, req.body.email)
+    userReg(username, password, req.body.email, req.body.name)
       .then((result) => {
         if (result.error) {
           done(
@@ -292,7 +307,7 @@ app.post("/login", function (req, res, next) {
 });
 
 app.post("/register", (req, res, next) => {
-  if (!req.body.password || !req.body.username || !req.body.email) {
+  if (!req.body.password || !req.body.username || !req.body.email || !req.body.name) {
     res.writeHead(400, { header });
     res.end(
       JSON.stringify({
@@ -355,27 +370,105 @@ app.post("/logout", (req, res) => {
   res.writeHead(200);
   res.end(JSON.stringify({ Success: "Logout" }));
 });
-// app.post("/mongoTest", (req, res) => {
-//   console.log(client.isConnected())
-//   const updateDoc = {
-//     $set: {
-//       songs: []
-//     }
-//   };
-//   const filter = {_id: ObjectId("5f7105f7852d373f99790820")}
-//   client
-//     .db(process.env.DB_NAME)
-//     .collection(process.env.DB_COLLECTION)
-//     .updateMany({}, updateDoc)
-//     .then(res => {
-//       console.log(res.matchedCount, res.modifiedCount)
-//     })
-//     // .updateOne(filter, updateDoc).then((res) => {
-//     //   console.log(res.ops[0])
-//     // })
-//   res.writeHead(200, { header })
-//   res.end(JSON.stringify({success: "yes"}))
-// })
+
+app.get("/songs", (req,res) => {
+  if(req.user){
+    const collection = client
+      .db(process.env.DB_NAME)
+      .collection(process.env.DB_COLLECTION);
+      collection.findOne({ _id: ObjectId(req.user._id)}).then(result => {
+        if(!!result){
+          res.writeHead(200, { header })
+          res.end(JSON.stringify({
+            songs: result.songs
+          }))
+        }
+        else {
+          res.writeHead(403, { header })
+          res.end(JSON.stringify({error: "No Such User Exists"}));
+        }
+      })
+  }
+  else {
+    res.writeHead(403, { header })
+    res.end(JSON.stringify({error: "You are not logged in"}));
+  }
+})
+
+app.post("/uploadXML", upload.single('xmlFile'), (req, res) => {
+  if(req.user){
+    if(req.file.path){
+      parseXML(req.file.path).then((result) => {
+        fs.unlink(req.file.path, (err) => {
+          if(err){
+            console.log(err)
+            res.writeHead(500)
+            res.end(JSON.stringify({
+              error: err
+            }))
+          }
+          else {
+              const collection = client
+              .db(process.env.DB_NAME)
+              .collection(process.env.DB_COLLECTION);
+    
+              collection.updateOne({ _id: ObjectId(req.user._id) }, {
+                $push: {
+                  songs: {
+                    songName: req.body.songName,
+                    abcString: result
+                  }
+                }
+              }).then((success) => {
+                res.writeHead(200)
+                res.end(JSON.stringify({
+                  Success: "File Uploaded",
+                  abcString: result
+                }))
+              })
+            
+          }
+        })
+        
+      })
+      .catch((err) => {
+        fs.unlink(req.file.path, (error) => {
+          if(error){
+            console.log(error)
+          }
+          res.writeHead(500)
+          res.end(JSON.stringify({
+            error: err
+          }))
+        })
+      })
+    }
+    else {
+      res.writeHead(400, { header })
+      res.end(JSON.stringify({error: "Bad File"}));
+    }
+  }
+  else {
+    res.writeHead(403, { header })
+    res.end(JSON.stringify({error: "You are not logged in"}));
+  }
+})
+// Running a python script in the console
+
+const parseXML = (filePath) => {
+  let xmlParseResult = '';
+  return new Promise((resolve) => {
+    const python = spawn('python3', ['./lib/xml2abc.py', filePath])
+    python.stdout.on('data', function(data) {
+      console.log("success")
+        xmlParseResult += data.toString()
+    })
+    python.on('close', (code) => {
+      const final = xmlParseResult.trim()
+      resolve(final)
+    })
+  })
+}
 
 app.get('/authStatus', (req, res) => {
   res.writeHead(200, {
