@@ -7,6 +7,7 @@ const todos = [
 ]
 
 //changes 2
+
 /* PASSPORT ADDITIONS */
 const passport = require('passport');
 
