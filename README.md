@@ -10,7 +10,7 @@ Since I had already flexed my creative-coding muscles when creating the first an
 I decided to instead learn Svelte and re-create **simcar 2** from the ground up. To be honest I'm 
 regretting not creating the original version with Svelte, because it is very helpful. From the creation of
 seperate components in different files that can be "plugged into" a central app, to `if()` statements appearing
-directly in the `html`, Svelte (and I'm assuming React) provides more abstractions that I thought were possible.
+directly in the `html`, Svelte (and I'm assuming React) provides more abstractions than I thought were possible.
 
 Using rollup was weird, and getting Heroku to not uninstall my dependencies because I had placed them in devDependencies
 by mistake, while entirely my fault, was frustrating. 
